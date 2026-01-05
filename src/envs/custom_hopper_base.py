@@ -25,7 +25,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             "depth_array",
             "rgbd_tuple",
         ],
-        "render_fps": 24,
+        "render_fps": 125,
     }
 
     def __init__(
@@ -84,7 +84,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         self.domain = domain
 
         if xml_file == "hopper.xml":
-             xml_file = os.path.join(os.path.dirname(__file__), "./data/hopper.xml")
+             xml_file = os.path.join(os.path.dirname(__file__), "../../data/hopper.xml")
 
         MujocoEnv.__init__(
             self,
@@ -165,9 +165,31 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         """Initialize Automatic Domain Randomization"""
         # TODO: Implement ADR initialization
         # ADR adapts ranges based on performance
-        self.adr_ranges = {}
+        self.adr_ranges = {
+                'thigh': (1.0, 1.0),
+                'leg': (1.0, 1.0),
+                'foot': (1.0, 1.0),
+        }
+        
+        self.adr_delta = 0.05  # expands by 5%
+        
+        # Maximum permitted limits
+        self.adr_limits = {
+            'thigh': [0.5, 1.5],
+            'leg':   [0.5, 1.5],
+            'foot':  [0.5, 1.5],
+        }
+        
+        #if avg performance > threshold, expand it
+        # TODO: CRITICAL - TUNING PPO
+        # Al momento è 0.01 per debuggare velocemente (espande subito).
+        # Per il training vero con PPO, impostalo a 0.7 o 0.8.
+        # Significa: espandi solo se l'agente ottiene il 70-80% della reward massima.
+        self.adr_threshold = 0.01  
+        
+        #accumulate avg reward
         self.adr_performance_buffer = []
-        pass
+    
     
     def _init_simopt(self):
         """Initialize Simulation Optimization"""
@@ -310,33 +332,75 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         # Start with original masses
         new_masses = np.copy(self.original_masses)
         
+        ablate = self.dr_params.get('ablate', {
+        'randomize_thigh': True,
+        'randomize_leg': True,
+        'randomize_foot': True,
+        })
         # Don't randomize torso mass (index 0), keep it as is
         # Randomize thigh mass (index 1)
-        thigh_multiplier = np.random.uniform(*self.udr_ranges['thigh'])
-        new_masses[1] = self.original_masses[1] * thigh_multiplier
-        
-        # Randomize leg mass (index 2)
-        leg_multiplier = np.random.uniform(*self.udr_ranges['leg'])
-        new_masses[2] = self.original_masses[2] * leg_multiplier
-        
-        # Randomize foot mass (index 3)
-        foot_multiplier = np.random.uniform(*self.udr_ranges['foot'])
-        new_masses[3] = self.original_masses[3] * foot_multiplier
+        if ablate.get('randomize_thigh', True):
+            thigh_multiplier = self.np_random.uniform(*self.udr_ranges['thigh'])
+            new_masses[1] = self.original_masses[1] * thigh_multiplier
+     
+        if ablate.get('randomize_leg', True):
+            # Randomize leg mass (index 2)
+            leg_multiplier = self.np_random.uniform(*self.udr_ranges['leg'])
+            new_masses[2] = self.original_masses[2] * leg_multiplier
+            
+        if ablate.get('randomize_foot', True):
+            # Randomize foot mass (index 3)
+            foot_multiplier = self.np_random.uniform(*self.udr_ranges['foot'])
+            new_masses[3] = self.original_masses[3] * foot_multiplier
         
         return new_masses
     
     def _sample_adr(self):
         """Sample parameters using Automatic Domain Randomization"""
-        # TODO: Implement ADR sampling logic
         # ADR adjusts ranges based on agent performance
         new_masses = np.copy(self.original_masses)
-        # Placeholder: return original masses for now
+        
+        thigh_multiplier = self.np_random.uniform(*self.adr_ranges['thigh'])
+        new_masses[1] = self.original_masses[1] * thigh_multiplier
+        
+        leg_multiplier = self.np_random.uniform(*self.adr_ranges['leg'])
+        new_masses[2] = self.original_masses[2] * leg_multiplier
+        
+        foot_multiplier = self.np_random.uniform(*self.adr_ranges['foot'])
+        new_masses[3] = self.original_masses[3] * foot_multiplier
+        
         return new_masses
+    
+    def update_adr_ranges(self, performance):
+        """Update ADR ranges based on agent performance
+        
+        TODO: CRITICAL - NORMALIZATION CHECK
+        Quando chiami questa funzione dal training loop (PPO), assicurati che
+        l'argomento 'performance' sia normalizzato tra 0 e 1!
+        
+        Args:
+            performance: float, normalized performance (0-1) or reward
+        """
+        for key in self.adr_ranges:
+            lower, upper = self.adr_ranges[key]
+            limit_lower, limit_upper = self.adr_limits[key]
+            
+            if performance > self.adr_threshold:
+                # Agent doing well → expand range (more difficult)
+                new_lower = max(lower - self.adr_delta, limit_lower)
+                new_upper = min(upper + self.adr_delta, limit_upper)
+            else:
+                # Agent struggling → shrink range (easier)
+                new_lower = min(lower + self.adr_delta, 1.0)
+                new_upper = max(upper - self.adr_delta, 1.0)
+            
+            self.adr_ranges[key] = (new_lower, new_upper)
     
     def _sample_simopt(self):
         """Sample parameters using Simulation Optimization"""
         # TODO: Implement SimOpt sampling logic
         new_masses = np.copy(self.original_masses)
+        
         # Placeholder: return original masses for now
         return new_masses
     
