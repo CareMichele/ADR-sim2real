@@ -22,6 +22,7 @@ from adr_wrapper import ADRWrapper
 from utils.plotting import plot_training_history, plot_all_ranges
 
 from envs import custom_hopper
+from envs import custom_ant
 # ============================================================================
 # ENVIRONMENT CONFIGURATIONS (Universal - può supportare qualsiasi env)
 # ============================================================================
@@ -30,15 +31,11 @@ ENV_CONFIGS = {
     'hopper': {
         'env_id': 'CustomHopper-source-v0',
         'target_performance': 1666.0,
-        'baseline_performance': 724.0,
-        'max_episode_steps': 500,
     },
     # Puoi aggiungere altri environment qui in futuro
     'ant': {
         'env_id': 'CustomAnt-source-v0',
-        'target_performance': 3000.0,
-        'baseline_performance': 1200.0,
-        'max_episode_steps': 1000,
+        'target_performance': 3000.0, #TODO capire se va bene 3000 facendo training target -> target
     },
 }
 
@@ -49,8 +46,8 @@ ENV_CONFIGS = {
 ADR_VARIANTS = {
     'vanilla': {
         'description': 'Symmetric expansion/contraction (baseline)',
-        'delta': 0.05,
-        'threshold_pct': 0.75,
+        'delta': 0.05, #Di quanto adr allarga il range 
+        'threshold_pct': 0.75, #Percentuale rispetto a target performance oltre il quale adr allarga range
         'boundary_sampling': False,
         'progressive': False,
     },
@@ -58,18 +55,18 @@ ADR_VARIANTS = {
         'description': 'Boundary sampling (50% at extremes)',
         'delta': 0.05,
         'threshold_pct': 0.75,
-        'boundary_sampling': True,
-        'boundary_prob': 0.5,
+        'boundary_sampling': True, #Al posto che scegliere valore a caso dentro il range, spesso sceglie i bordi 
+        'boundary_prob': 0.5, #Per il 50% delle volte dammi caso peggiore (bordo del range)
         'progressive': False,
     },
     'progressive': {
         'description': 'Progressive curriculum (increasing threshold)',
         'delta': 0.05,
-        'threshold_schedule': [0.60, 0.70, 0.80],
+        'threshold_schedule': [0.60, 0.70, 0.80], #Come prima ma la th aumenta progressivamente
         'boundary_sampling': False,
         'progressive': True,
     },
-    'selective': {
+    'selective': {# in caso in cui vogliamo testare un parametro specifico 
         'description': 'Only randomize critical parameters (thigh)',
         'delta': 0.05,
         'threshold_pct': 0.75,
@@ -82,47 +79,36 @@ ADR_VARIANTS = {
 # ============================================================================
 # CONFIGURATION (Universal Settings)
 # ============================================================================
-
-# Seleziona quale environment usare
-ENVIRONMENT = 'hopper'  # Cambia questo per usare altri environment
-
-VARIANT = 'vanilla'    #quale variante usare
-ADR_UPDATE_FREQ = 5000  #ogni quanti step aggiorna i range ADR
-TOTAL_TIMESTEPS = 1000000
-
-PPO_LEARNING_RATE = 3e-4
-PPO_BATCH_SIZE = 64
-PPO_N_EPOCHS = 10
-PPO_VERBOSE = 1
-
-# Carica la config per l'environment selezionato
-ENV_CONFIG = ENV_CONFIGS[ENVIRONMENT]
-TARGET_TARGET_PERFORMANCE = ENV_CONFIG['target_performance']
-SOURCE_TARGET_BASELINE = ENV_CONFIG['baseline_performance']
-
-# Directory structure: logs for history, checkpoints for models, imgs for plots
-LOG_DIR = Path(f"./logs/{ENVIRONMENT}_adr_{VARIANT}")
-LOG_DIR.mkdir(parents=True, exist_ok=True)
-
-CHECKPOINT_DIR = Path(f"./checkpoints/{ENVIRONMENT}_adr_{VARIANT}")
-CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
-
-PLOT_DIR = Path(f"./imgs/{ENVIRONMENT}_adr_{VARIANT}")
-PLOT_DIR.mkdir(parents=True, exist_ok=True)
-
-# ============================================================================
 # TRAINING FUNCTION (Universal)
 # ============================================================================
 
-def train_adr_variant(variant_name, environment='hopper', delta_override=None):
+def train_adr_variant(variant_name, environment='hopper', total_timesteps=1000000, 
+                      update_freq=5000):
     """
     Allena ADR con la variante specificata su qualsiasi environment.
     
     Args:
         variant_name: Nome della variante ADR ('vanilla', 'boundary', ecc.)
         environment: Nome dell'environment ('hopper', 'walker', ecc.)
-        delta_override: Se specificato, sovrascrive il valore delta della variante
+        total_timesteps: Numero totale di timesteps per il training
+        update_freq: Frequenza di aggiornamento ADR (ogni quanti step)
     """
+    
+    # PPO hyperparameters (locali)
+    ppo_learning_rate = 3e-4
+    ppo_batch_size = 64
+    ppo_n_epochs = 10
+    ppo_verbose = 1
+    
+    # Setup directories
+    log_dir = Path(f"./logs/{environment}_adr_{variant_name}")
+    log_dir.mkdir(parents=True, exist_ok=True)
+    
+    checkpoint_dir = Path(f"./checkpoints/{environment}_adr_{variant_name}")
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    
+    plot_dir = Path(f"./imgs/{environment}_adr_{variant_name}")
+    plot_dir.mkdir(parents=True, exist_ok=True)
     
     env_config = ENV_CONFIGS[environment]
     
@@ -138,11 +124,6 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
     # Clone variant config to avoid modifying the global dictionary
     variant_config = ADR_VARIANTS[variant_name].copy()
     
-    # Override delta if specified
-    if delta_override is not None:
-        original_delta = variant_config.get('delta', 'N/A')
-        variant_config['delta'] = delta_override
-        print(f"[INFO] Overriding delta: {original_delta} → {delta_override}")
     adr_manager = ADRManager(
         variant_config, 
         env_config['target_performance'],
@@ -154,7 +135,7 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
     print(f"  Delta: {adr_manager.delta}")
     print(f"  Threshold iniziale: {adr_manager.threshold:.1f}")
     print(f"  Target Performance: {env_config['target_performance']:.1f}")
-    print(f"  Update Frequency: {ADR_UPDATE_FREQ} steps")
+    print(f"  Update Frequency: {update_freq} steps")
     print(f"  Parameters to randomize: {adr_manager.params_to_randomize}\n")
     
     env_train = ADRWrapper(env_train, adr_manager) 
@@ -163,25 +144,25 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
     model = PPO(
         "MlpPolicy",
         env_train,
-        learning_rate=PPO_LEARNING_RATE,
-        batch_size=PPO_BATCH_SIZE,
-        n_epochs=PPO_N_EPOCHS,
-        verbose=PPO_VERBOSE,
+        learning_rate=ppo_learning_rate,
+        batch_size=ppo_batch_size,
+        n_epochs=ppo_n_epochs,
+        verbose=ppo_verbose,
         device='cpu'  # Forza uso CPU invece di GPU
     )
     
     adr_history = []
-    num_updates = TOTAL_TIMESTEPS // ADR_UPDATE_FREQ
+    num_updates = total_timesteps // update_freq
     
     print(f"\n[INFO] Inizio training")
-    print(f"       Timestep totali: {TOTAL_TIMESTEPS}")
-    print(f"       ADR update freq: {ADR_UPDATE_FREQ}")
+    print(f"       Timestep totali: {total_timesteps}")
+    print(f"       ADR update freq: {update_freq}")
     print(f"       Numero update: {num_updates}\n")
     
     for update_idx in range(num_updates):
         # Train
         model.learn(
-            total_timesteps=ADR_UPDATE_FREQ,
+            total_timesteps=update_freq,
             reset_num_timesteps=False,
             progress_bar=False  # Disabilitato per evitare dipendenze tqdm/rich
         )
@@ -246,12 +227,12 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
         })
     
     # Save final model
-    final_model_path = CHECKPOINT_DIR / "model_final.zip"
+    final_model_path = checkpoint_dir / "model_final.zip"
     model.save(str(final_model_path))
     print(f"\n✅ Training completato! Model salvato: {final_model_path}")
     
     # Save history
-    history_path = LOG_DIR / "adr_history.json"
+    history_path = log_dir / "adr_history.json"
     with open(history_path, 'w') as f:
         json.dump(adr_history, f, indent=2)
     print(f"📊 History salvato: {history_path}")
@@ -259,10 +240,10 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
     # Generate plots
     print("\n[INFO] Generazione plot...")
     try:
-        plot_path_main = PLOT_DIR / "training_history.png"
+        plot_path_main = plot_dir / "training_history.png"
         plot_training_history(history_path, save_path=plot_path_main, show=False)
         
-        plot_path_ranges = PLOT_DIR / "all_ranges.png"
+        plot_path_ranges = plot_dir / "all_ranges.png"
         plot_all_ranges(history_path, save_path=plot_path_ranges, show=False)
         
         print("✅ Plot generati con successo!")
@@ -278,64 +259,6 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
     print(f"Final reward (mean last 5): {np.mean([h['mean_reward'] for h in adr_history[-5:]]):.2f}")
     print(f"Final ADR ranges: {adr_manager.ranges}")
     
-    
-    """
-    # Final evaluation on target domain
-    print(f"\n{'='*70}")
-    print("  FINAL EVALUATION ON TARGET")
-    print(f"{'='*70}")
-    
-    env_target = gym.make("CustomHopper-target-v0")
-    target_rewards = []
-    
-    for ep in range(50):
-        obs, _ = env_target.reset()
-        episode_return = 0
-        done = False
-        
-        for _ in range(500):
-            action, _ = model.predict(obs, deterministic=True)
-            obs, reward, terminated, truncated, _ = env_target.step(action)
-            episode_return += reward
-            done = terminated or truncated
-            if done:
-                break
-        
-        target_rewards.append(episode_return)
-    
-    mean_target = np.mean(target_rewards)
-    std_target = np.std(target_rewards)
-    
-    print(f"\nTarget domain performance:")
-    print(f"  Mean: {mean_target:.1f} ± {std_target:.1f}")
-    print(f"  Range: [{np.min(target_rewards):.1f}, {np.max(target_rewards):.1f}]")
-    print(f"\nBaselines:")
-    print(f"  Source→Target (naive): {SOURCE_TARGET_BASELINE:.1f}")
-    print(f"  Target→Target (upper): {TARGET_TARGET_PERFORMANCE:.1f}")
-    print(f"  ADR improvement: {mean_target - SOURCE_TARGET_BASELINE:+.1f}")
-    
-    # Save final results
-    results = {
-        'variant': variant_name,
-        'config': variant_config,
-        'target_performance': TARGET_TARGET_PERFORMANCE,
-        'source_target_baseline': SOURCE_TARGET_BASELINE,
-        'final_target_mean': float(mean_target),
-        'final_target_std': float(std_target),
-        'improvement': float(mean_target - SOURCE_TARGET_BASELINE),
-        'adr_history': adr_history,
-    }
-    
-    results_path = LOG_DIR / "results_complete.json"
-    with open(results_path, 'w') as f:
-        json.dump(results, f, indent=2)
-    
-    print(f"\n📁 All results saved in: {LOG_DIR}")
-    
-    env_train.close()
-    env_target.close()
-    
-    """
 # ============================================================================
 # MAIN (Universal)
 # ============================================================================
@@ -371,54 +294,34 @@ if __name__ == "__main__":
     )
     
     parser.add_argument(
-        '--target-perf',
-        type=float,
-        default=None,
-        help='Override target performance threshold (if not set, uses default from ENV_CONFIGS)'
-    )
-    
-    parser.add_argument(
-        '--seed',
+        '--update-freq',
         type=int,
-        default=None,
-        help='Random seed for reproducibility'
-    )
-    
-    parser.add_argument(
-        '--delta',
-        type=float,
-        default=None,
-        help='Override ADR delta parameter (range expansion/contraction rate)'
+        default=5000,
+        help='ADR update frequency (every N timesteps)'
     )
     
     args = parser.parse_args()
     
-    # Update global variables
-    ENVIRONMENT = args.env
-    VARIANT = args.variant
-    TOTAL_TIMESTEPS = args.timesteps
-    
-    # Override target performance if specified
-    if args.target_perf is not None:
-        print(f"[INFO] Overriding target performance: {ENV_CONFIGS[ENVIRONMENT]['target_performance']:.1f} → {args.target_perf:.1f}")
-        ENV_CONFIGS[ENVIRONMENT]['target_performance'] = args.target_perf
-    
-    # Set seed if specified
-    if args.seed is not None:
-        print(f"[INFO] Setting random seed: {args.seed}")
-        np.random.seed(args.seed)
+    # Set fixed random seed for reproducibility
+    np.random.seed(42)
+    print("[INFO] Random seed set to 42")
     
     # Print configuration
     print("\n" + "="*60)
     print("TRAINING CONFIGURATION")
     print("="*60)
-    print(f"Environment:       {ENVIRONMENT}")
-    print(f"ADR Variant:       {VARIANT}")
-    print(f"Total Timesteps:   {TOTAL_TIMESTEPS:,}")
-    print(f"Target Performance: {ENV_CONFIGS[ENVIRONMENT]['target_performance']:.1f}")
-    print(f"Delta Override:    {args.delta if args.delta is not None else 'None (use variant default)'}")
-    print(f"Seed:              {args.seed if args.seed is not None else 'None (random)'}")
+    print(f"Environment:       {args.env}")
+    print(f"ADR Variant:       {args.variant}")
+    print(f"Total Timesteps:   {args.timesteps:,}")
+    print(f"Update Frequency:  {args.update_freq:,}")
+    print(f"Target Performance: {ENV_CONFIGS[args.env]['target_performance']:.1f}")
+    print(f"Random Seed:       42 (fixed)")
     print("="*60 + "\n")
     
     # Launch training
-    train_adr_variant(VARIANT, environment=ENVIRONMENT, delta_override=args.delta)
+    train_adr_variant(
+        args.variant, 
+        environment=args.env, 
+        total_timesteps=args.timesteps,
+        update_freq=args.update_freq
+    )
