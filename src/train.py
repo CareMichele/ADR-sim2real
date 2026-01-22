@@ -34,14 +34,12 @@ ENV_CONFIGS = {
         'max_episode_steps': 500,
     },
     # Puoi aggiungere altri environment qui in futuro
-    # 'walker': {
-    #     'env_id': 'CustomWalker-v0',
-    #     'env_module': 'custom_walker',
-    #     'env_path': Path(__file__).parent.parent / "env",
-    #     'target_performance': 3000.0,
-    #     'baseline_performance': 1200.0,
-    #     'max_episode_steps': 1000,
-    # },
+    'ant': {
+        'env_id': 'CustomAnt-source-v0',
+        'target_performance': 3000.0,
+        'baseline_performance': 1200.0,
+        'max_episode_steps': 1000,
+    },
 }
 
 # ============================================================================
@@ -102,8 +100,15 @@ ENV_CONFIG = ENV_CONFIGS[ENVIRONMENT]
 TARGET_TARGET_PERFORMANCE = ENV_CONFIG['target_performance']
 SOURCE_TARGET_BASELINE = ENV_CONFIG['baseline_performance']
 
+# Directory structure: logs for history, checkpoints for models, imgs for plots
 LOG_DIR = Path(f"./logs/{ENVIRONMENT}_adr_{VARIANT}")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+CHECKPOINT_DIR = Path(f"./checkpoints/{ENVIRONMENT}_adr_{VARIANT}")
+CHECKPOINT_DIR.mkdir(parents=True, exist_ok=True)
+
+PLOT_DIR = Path(f"./imgs/{ENVIRONMENT}_adr_{VARIANT}")
+PLOT_DIR.mkdir(parents=True, exist_ok=True)
 
 # ============================================================================
 # TRAINING FUNCTION (Universal)
@@ -241,7 +246,7 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
         })
     
     # Save final model
-    final_model_path = LOG_DIR / "model_final.zip"
+    final_model_path = CHECKPOINT_DIR / "model_final.zip"
     model.save(str(final_model_path))
     print(f"\n✅ Training completato! Model salvato: {final_model_path}")
     
@@ -254,10 +259,10 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
     # Generate plots
     print("\n[INFO] Generazione plot...")
     try:
-        plot_path_main = LOG_DIR / "training_history.png"
+        plot_path_main = PLOT_DIR / "training_history.png"
         plot_training_history(history_path, save_path=plot_path_main, show=False)
         
-        plot_path_ranges = LOG_DIR / "all_ranges.png"
+        plot_path_ranges = PLOT_DIR / "all_ranges.png"
         plot_all_ranges(history_path, save_path=plot_path_ranges, show=False)
         
         print("✅ Plot generati con successo!")
