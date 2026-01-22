@@ -1,6 +1,7 @@
 """
-ADR Training Loop - FIXED VERSION
-Fixes: separate test environment, proper evaluation, better logging
+ADR Training Loop - UNIVERSAL VERSION
+Versione universale compatibile con qualsiasi environment Gymnasium/MuJoCo.
+Supporta configurazioni per diversi environment (Hopper, Walker, Humanoid, ecc.)
 """
 
 import gymnasium as gym
@@ -8,17 +9,43 @@ import numpy as np
 from stable_baselines3 import PPO
 from pathlib import Path
 import json
-
-# Importa il modulo con gli environment registrati
-import envs.custom_hopper_base
+import sys
+import argparse
 
 #import ADR Manager
 from adr_manager import ADRManager
 
 #import ADR Wrapper
 from adr_wrapper import ADRWrapper
+
+# Import plotting utilities
+from utils.plotting import plot_training_history, plot_all_ranges
+
+from envs import custom_hopper
 # ============================================================================
-# ADR VARIANTS CONFIGURATION
+# ENVIRONMENT CONFIGURATIONS (Universal - può supportare qualsiasi env)
+# ============================================================================
+
+ENV_CONFIGS = {
+    'hopper': {
+        'env_id': 'CustomHopper-source-v0',
+        'target_performance': 1666.0,
+        'baseline_performance': 724.0,
+        'max_episode_steps': 500,
+    },
+    # Puoi aggiungere altri environment qui in futuro
+    # 'walker': {
+    #     'env_id': 'CustomWalker-v0',
+    #     'env_module': 'custom_walker',
+    #     'env_path': Path(__file__).parent.parent / "env",
+    #     'target_performance': 3000.0,
+    #     'baseline_performance': 1200.0,
+    #     'max_episode_steps': 1000,
+    # },
+}
+
+# ============================================================================
+# ADR VARIANTS CONFIGURATION (Universal - funziona per tutti gli env)
 # ============================================================================
 
 ADR_VARIANTS = {
@@ -55,8 +82,11 @@ ADR_VARIANTS = {
 }
 
 # ============================================================================
-# CONFIGURATION
+# CONFIGURATION (Universal Settings)
 # ============================================================================
+
+# Seleziona quale environment usare
+ENVIRONMENT = 'hopper'  # Cambia questo per usare altri environment
 
 VARIANT = 'vanilla'    #quale variante usare
 ADR_UPDATE_FREQ = 5000  #ogni quanti step aggiorna i range ADR
@@ -67,41 +97,62 @@ PPO_BATCH_SIZE = 64
 PPO_N_EPOCHS = 10
 PPO_VERBOSE = 1
 
-TARGET_TARGET_PERFORMANCE = 1666.0
-SOURCE_TARGET_BASELINE = 724.0
+# Carica la config per l'environment selezionato
+ENV_CONFIG = ENV_CONFIGS[ENVIRONMENT]
+TARGET_TARGET_PERFORMANCE = ENV_CONFIG['target_performance']
+SOURCE_TARGET_BASELINE = ENV_CONFIG['baseline_performance']
 
-LOG_DIR = Path(f"./logs/adr_{VARIANT}")
+LOG_DIR = Path(f"./logs/{ENVIRONMENT}_adr_{VARIANT}")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # ============================================================================
-# TRAINING FUNCTION
+# TRAINING FUNCTION (Universal)
 # ============================================================================
 
-def train_adr_variant(variant_name):
-    """Allena ADR con la variante specificata"""
+def train_adr_variant(variant_name, environment='hopper', delta_override=None):
+    """
+    Allena ADR con la variante specificata su qualsiasi environment.
+    
+    Args:
+        variant_name: Nome della variante ADR ('vanilla', 'boundary', ecc.)
+        environment: Nome dell'environment ('hopper', 'walker', ecc.)
+        delta_override: Se specificato, sovrascrive il valore delta della variante
+    """
+    
+    env_config = ENV_CONFIGS[environment]
     
     print(f"\n{'='*70}")
-    print(f"  ADR Training - Variant: {variant_name.upper()}")
+    print(f"  ADR Training - Environment: {environment.upper()}")
+    print(f"  Variant: {variant_name.upper()}")
     print(f"  {ADR_VARIANTS[variant_name]['description']}")
     print(f"{'='*70}\n")
     
-    print("[INFO] Creazione environment...")
     # Training environment (with ADR)
-    env_train = gym.make("CustomHopper-source-v0")
+    env_train = gym.make(env_config['env_id'])
     
-    # We don't need env_test anymore - we test on ADR distribution
-    # env_test = gym.make("CustomHopper-source-v0")  # REMOVED
+    # Clone variant config to avoid modifying the global dictionary
+    variant_config = ADR_VARIANTS[variant_name].copy()
     
-    variant_config = ADR_VARIANTS[variant_name]
-    adr_manager = ADRManager(variant_config, TARGET_TARGET_PERFORMANCE)
+    # Override delta if specified
+    if delta_override is not None:
+        original_delta = variant_config.get('delta', 'N/A')
+        variant_config['delta'] = delta_override
+        print(f"[INFO] Overriding delta: {original_delta} → {delta_override}")
+    adr_manager = ADRManager(
+        variant_config, 
+        env_config['target_performance'],
+        env_type=environment
+    )
     
     print(f"Configuration:")
+    print(f"  Environment: {env_config['env_id']}")
     print(f"  Delta: {adr_manager.delta}")
     print(f"  Threshold iniziale: {adr_manager.threshold:.1f}")
-    print(f"  Target Performance: {TARGET_TARGET_PERFORMANCE:.1f}")
-    print(f"  Update Frequency: {ADR_UPDATE_FREQ} steps\n")
+    print(f"  Target Performance: {env_config['target_performance']:.1f}")
+    print(f"  Update Frequency: {ADR_UPDATE_FREQ} steps")
+    print(f"  Parameters to randomize: {adr_manager.params_to_randomize}\n")
     
-    env_train = ADRWrapper(env_train, adr_manager)
+    env_train = ADRWrapper(env_train, adr_manager) 
     
     print("[INFO] Inizializzazione modello PPO...")
     model = PPO(
@@ -110,7 +161,8 @@ def train_adr_variant(variant_name):
         learning_rate=PPO_LEARNING_RATE,
         batch_size=PPO_BATCH_SIZE,
         n_epochs=PPO_N_EPOCHS,
-        verbose=PPO_VERBOSE
+        verbose=PPO_VERBOSE,
+        device='cpu'  # Forza uso CPU invece di GPU
     )
     
     adr_history = []
@@ -126,7 +178,7 @@ def train_adr_variant(variant_name):
         model.learn(
             total_timesteps=ADR_UPDATE_FREQ,
             reset_num_timesteps=False,
-            progress_bar=True
+            progress_bar=False  # Disabilitato per evitare dipendenze tqdm/rich
         )
         
         # Test on ADR distribution (randomized masses)
@@ -194,6 +246,19 @@ def train_adr_variant(variant_name):
     with open(history_path, 'w') as f:
         json.dump(adr_history, f, indent=2)
     print(f"📊 History salvato: {history_path}")
+    
+    # Generate plots
+    print("\n[INFO] Generazione plot...")
+    try:
+        plot_path_main = LOG_DIR / "training_history.png"
+        plot_training_history(history_path, save_path=plot_path_main, show=False)
+        
+        plot_path_ranges = LOG_DIR / "all_ranges.png"
+        plot_all_ranges(history_path, save_path=plot_path_ranges, show=False)
+        
+        print("✅ Plot generati con successo!")
+    except Exception as e:
+        print(f"⚠️ Warning: Errore nella generazione plot: {e}")
     
     # Final summary
     print(f"\n{'='*70}")
@@ -263,8 +328,88 @@ def train_adr_variant(variant_name):
     
     """
 # ============================================================================
-# MAIN
+# MAIN (Universal)
 # ============================================================================
 
 if __name__ == "__main__":
-    train_adr_variant(VARIANT)
+    # Setup argument parser
+    parser = argparse.ArgumentParser(
+        description='Train PPO agent with ADR on MuJoCo environments',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    
+    parser.add_argument(
+        '--env',
+        type=str,
+        default='hopper',
+        choices=['hopper', 'walker', 'ant'],
+        help='Environment to train on'
+    )
+    
+    parser.add_argument(
+        '--variant',
+        type=str,
+        default='vanilla',
+        choices=list(ADR_VARIANTS.keys()),
+        help='ADR variant to use'
+    )
+    
+    parser.add_argument(
+        '--timesteps',
+        type=int,
+        default=1000000,
+        help='Total training timesteps'
+    )
+    
+    parser.add_argument(
+        '--target-perf',
+        type=float,
+        default=None,
+        help='Override target performance threshold (if not set, uses default from ENV_CONFIGS)'
+    )
+    
+    parser.add_argument(
+        '--seed',
+        type=int,
+        default=None,
+        help='Random seed for reproducibility'
+    )
+    
+    parser.add_argument(
+        '--delta',
+        type=float,
+        default=None,
+        help='Override ADR delta parameter (range expansion/contraction rate)'
+    )
+    
+    args = parser.parse_args()
+    
+    # Update global variables
+    ENVIRONMENT = args.env
+    VARIANT = args.variant
+    TOTAL_TIMESTEPS = args.timesteps
+    
+    # Override target performance if specified
+    if args.target_perf is not None:
+        print(f"[INFO] Overriding target performance: {ENV_CONFIGS[ENVIRONMENT]['target_performance']:.1f} → {args.target_perf:.1f}")
+        ENV_CONFIGS[ENVIRONMENT]['target_performance'] = args.target_perf
+    
+    # Set seed if specified
+    if args.seed is not None:
+        print(f"[INFO] Setting random seed: {args.seed}")
+        np.random.seed(args.seed)
+    
+    # Print configuration
+    print("\n" + "="*60)
+    print("TRAINING CONFIGURATION")
+    print("="*60)
+    print(f"Environment:       {ENVIRONMENT}")
+    print(f"ADR Variant:       {VARIANT}")
+    print(f"Total Timesteps:   {TOTAL_TIMESTEPS:,}")
+    print(f"Target Performance: {ENV_CONFIGS[ENVIRONMENT]['target_performance']:.1f}")
+    print(f"Delta Override:    {args.delta if args.delta is not None else 'None (use variant default)'}")
+    print(f"Seed:              {args.seed if args.seed is not None else 'None (random)'}")
+    print("="*60 + "\n")
+    
+    # Launch training
+    train_adr_variant(VARIANT, environment=ENVIRONMENT, delta_override=args.delta)
