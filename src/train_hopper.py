@@ -195,7 +195,11 @@ def train_adr_variant(variant_name, environment='hopper', delta_override=None):
             done = False
             
             for _ in range(500):
-                action, _ = model.predict(obs, deterministic=True)
+                #durante Evaluation:
+                    #deterministic = True -> azioni deterministiche (senza rumore, la migliore)
+                #durante Training:
+                    #azioni stocastiche (PPO esplora aggiungendo rumore)
+                action, _ = model.predict(obs, deterministic=True)  
                 obs, reward, terminated, truncated, info = env_train.step(action)
                 episode_return += reward
                 done = terminated or truncated
