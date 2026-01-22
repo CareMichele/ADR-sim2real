@@ -7,21 +7,34 @@ import numpy as np
 class ADRManager:
     """Gestisce gli aggiornamenti dei range ADR per diverse varianti"""
     
-    def __init__(self, variant_config, target_performance):
+    def __init__(self, variant_config, target_performance, parameters=None, param_to_idx=None, limits=None):
         self.config = variant_config
         self.target_performance = target_performance
         
-        self.ranges = {
-            'thigh': [1.0, 1.0],
-            'leg': [1.0, 1.0],
-            'foot': [1.0, 1.0],
-        }
+        # Se 'parameters' non è specificato, usa default (Hopper: thigh, leg, foot)
+        if parameters is None:
+            parameters = ['thigh', 'leg', 'foot']
         
-        self.limits = {
-            'thigh': [0.5, 1.5],
-            'leg': [0.5, 1.5],
-            'foot': [0.5, 1.5],
-        }
+        # Mapping esplicito nome_parametro -> indice_massa in MuJoCo
+        # Fondamentale per randomizzare il parametro corretto!
+        if param_to_idx is None:
+            # Default per Hopper
+            param_to_idx = {
+                'thigh': 0,
+                'leg': 1,
+                'foot': 2,
+            }
+        
+        self.param_to_idx = param_to_idx
+        
+        # Inizializza ranges
+        self.ranges = {param: [1.0, 1.0] for param in parameters}
+        
+        # Inizializza limits (default: [0.5, 1.5], ma può essere customizzato)
+        if limits is None:
+            limits = [0.5, 1.5]
+        
+        self.limits = {param: limits for param in parameters}
         
         self.delta = variant_config['delta']
         
@@ -104,14 +117,23 @@ class ADRManager:
             self.ranges[param] = [new_lower, new_upper]
     
     def sample_parameters(self, original_masses):
-        """Campiona i moltiplicatori di massa secondo la strategia della variante"""
+        """Campiona i moltiplicatori di massa secondo la strategia della variante
+        
+        Generico per qualsiasi ambiente (Hopper, Ant, ecc.)
+        Usa il mapping param_to_idx per applicare il moltiplicatore all'indice CORRETTO.
+        """
         new_masses = np.copy(original_masses)
         
-        params_to_randomize = self.config.get('randomize_only', ['thigh', 'leg', 'foot'])
+        # Parametri da randomizzare (default: tutti quelli nei ranges)
+        params_to_randomize = self.config.get('randomize_only', list(self.ranges.keys()))
         
-        for i, param in enumerate(['thigh', 'leg', 'foot'], start=1):
+        # Itera sui parametri in ranges e applica moltiplicatori
+        for param in self.ranges.keys():
             if param not in params_to_randomize:
                 continue
+            
+            # Usa il mapping per trovare l'indice corretto in MuJoCo
+            idx = self.param_to_idx[param]
             
             lower, upper = self.ranges[param]
             
@@ -128,7 +150,8 @@ class ADRManager:
                 # Vanilla: uniform sampling
                 multiplier = np.random.uniform(lower, upper)
             
-            new_masses[i] = original_masses[i] * multiplier
+            # Applica il moltiplicatore all'INDICE CORRETTO
+            new_masses[idx] = original_masses[idx] * multiplier
         
         return new_masses
     

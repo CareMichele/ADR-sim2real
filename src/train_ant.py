@@ -1,6 +1,7 @@
 """
-ADR Training Loop - FIXED VERSION
+ADR Training Loop for Ant - ADAPTED FROM HOPPER
 Fixes: separate test environment, proper evaluation, better logging
+Adapted for Ant with different performance targets and complexity
 """
 
 import gymnasium as gym
@@ -10,7 +11,7 @@ from pathlib import Path
 import json
 
 # Importa il modulo con gli environment registrati
-import envs.custom_hopper_base
+import envs.custom_ant
 
 #import ADR Manager
 from adr_manager import ADRManager
@@ -18,88 +19,136 @@ from adr_manager import ADRManager
 #import ADR Wrapper
 from adr_wrapper import ADRWrapper
 # ============================================================================
-# ADR VARIANTS CONFIGURATION
+# ADR VARIANTS CONFIGURATION FOR ANT
 # ============================================================================
 
 ADR_VARIANTS = {
     'vanilla': {
-        'description': 'Symmetric expansion/contraction (baseline)',
+        'description': 'Symmetric expansion/contraction (baseline) - all 8 legs',
         'delta': 0.05,
         'threshold_pct': 0.75,
         'boundary_sampling': False,
         'progressive': False,
+        'parameters': ['front_left_hip', 'front_left_foot', 'front_right_hip', 'front_right_foot',
+                       'back_left_hip', 'back_left_foot', 'back_right_hip', 'back_right_foot'],
     },
     'boundary': {
-        'description': 'Boundary sampling (50% at extremes)',
+        'description': 'Boundary sampling (50% at extremes) - all 8 legs',
         'delta': 0.05,
         'threshold_pct': 0.75,
         'boundary_sampling': True,
         'boundary_prob': 0.5,
         'progressive': False,
+        'parameters': ['front_left_hip', 'front_left_foot', 'front_right_hip', 'front_right_foot',
+                       'back_left_hip', 'back_left_foot', 'back_right_hip', 'back_right_foot'],
     },
     'progressive': {
-        'description': 'Progressive curriculum (increasing threshold)',
+        'description': 'Progressive curriculum (increasing threshold) - all 8 legs',
         'delta': 0.05,
         'threshold_schedule': [0.60, 0.70, 0.80],
         'boundary_sampling': False,
         'progressive': True,
+        'parameters': ['front_left_hip', 'front_left_foot', 'front_right_hip', 'front_right_foot',
+                       'back_left_hip', 'back_left_foot', 'back_right_hip', 'back_right_foot'],
     },
     'selective': {
-        'description': 'Only randomize critical parameters (thigh)',
+        'description': 'Only randomize critical parameters (front legs)',
         'delta': 0.05,
         'threshold_pct': 0.75,
-        'randomize_only': ['thigh'],
+        'randomize_only': ['front_left_hip', 'front_left_foot', 'front_right_hip', 'front_right_foot'],
         'boundary_sampling': False,
         'progressive': False,
+        'parameters': ['front_left_hip', 'front_left_foot', 'front_right_hip', 'front_right_foot'],
     }
 }
 
 # ============================================================================
-# CONFIGURATION
+# CONFIGURATION - ADAPTED FOR ANT
 # ============================================================================
 
-VARIANT = 'vanilla'    #quale variante usare
-ADR_UPDATE_FREQ = 5000  #ogni quanti step aggiorna i range ADR
-TOTAL_TIMESTEPS = 1000000
+VARIANT = 'vanilla'    # quale variante usare
+ADR_UPDATE_FREQ = 5000  # ogni quanti step aggiorna i range ADR
+TOTAL_TIMESTEPS = 2000000  # Ant richiede più timestep (più complesso)
 
 PPO_LEARNING_RATE = 3e-4
 PPO_BATCH_SIZE = 64
 PPO_N_EPOCHS = 10
 PPO_VERBOSE = 1
 
-TARGET_TARGET_PERFORMANCE = 1666.0
-SOURCE_TARGET_BASELINE = 724.0
+# Ant ha target performance diverso da Hopper
+TARGET_TARGET_PERFORMANCE = 3000.0
+SOURCE_TARGET_BASELINE = 800.0
 
-LOG_DIR = Path(f"./logs/adr_{VARIANT}")
+LOG_DIR = Path(f"./logs/adr_ant_{VARIANT}")
 LOG_DIR.mkdir(parents=True, exist_ok=True)
+
+
+# ============================================================================
+# ADR MANAGER CLASS
+# ============================================================================
+
+# Nota: Usiamo la stessa ADRManager importata da adr_manager.py
+# Il file train.py lo fa già, quindi è riutilizzabile
+
 
 # ============================================================================
 # TRAINING FUNCTION
 # ============================================================================
 
 def train_adr_variant(variant_name):
-    """Allena ADR con la variante specificata"""
+    """Allena ADR con la variante specificata su Ant"""
     
     print(f"\n{'='*70}")
-    print(f"  ADR Training - Variant: {variant_name.upper()}")
+    print(f"  ADR Training - Ant - Variant: {variant_name.upper()}")
     print(f"  {ADR_VARIANTS[variant_name]['description']}")
     print(f"{'='*70}\n")
     
     print("[INFO] Creazione environment...")
     # Training environment (with ADR)
-    env_train = gym.make("CustomHopper-source-v0")
-    
-    # We don't need env_test anymore - we test on ADR distribution
-    # env_test = gym.make("CustomHopper-source-v0")  # REMOVED
+    env_train = gym.make("CustomAnt-source-v0")
     
     variant_config = ADR_VARIANTS[variant_name]
-    adr_manager = ADRManager(variant_config, TARGET_TARGET_PERFORMANCE)
+    parameters = variant_config.get('parameters', None)
+    
+    # Mapping esplicito nome_parametro -> indice_massa per Ant
+    # original_masses = [front_left_hip, front_left_foot, front_right_hip, front_right_foot,
+    #                    back_left_hip, back_left_foot, back_right_hip, back_right_foot]
+    ant_param_to_idx = {
+        'front_left_hip': 0,
+        'front_left_foot': 1,
+        'front_right_hip': 2,
+        'front_right_foot': 3,
+        'back_left_hip': 4,
+        'back_left_foot': 5,
+        'back_right_hip': 6,
+        'back_right_foot': 7,
+    }
+    
+    adr_manager = ADRManager(
+        variant_config, 
+        TARGET_TARGET_PERFORMANCE,
+        parameters=parameters,
+        param_to_idx=ant_param_to_idx,
+        limits=[0.85, 1.15]  # ±15% per Ant (più conservativo)
+    )
     
     print(f"Configuration:")
     print(f"  Delta: {adr_manager.delta}")
     print(f"  Threshold iniziale: {adr_manager.threshold:.1f}")
     print(f"  Target Performance: {TARGET_TARGET_PERFORMANCE:.1f}")
     print(f"  Update Frequency: {ADR_UPDATE_FREQ} steps\n")
+    
+    class ADRWrapper(gym.Wrapper):
+        def __init__(self, env, adr_manager):
+            super().__init__(env)
+            self.adr_manager = adr_manager
+        
+        def reset(self, **kwargs):
+            obs, info = self.env.reset(**kwargs)
+            original_masses = self.env.unwrapped.original_masses
+            new_masses = self.adr_manager.sample_parameters(original_masses)
+            self.env.unwrapped.set_parameters(new_masses)
+            return obs, info
     
     env_train = ADRWrapper(env_train, adr_manager)
     
@@ -130,19 +179,18 @@ def train_adr_variant(variant_name):
         )
         
         # Test on ADR distribution (randomized masses)
-        # IMPORTANT: We test on the CURRENT ADR distribution to decide if we should expand
-        test_episodes = 20  # More episodes to reduce variance from randomization
+        test_episodes = 20
         test_rewards = []
         
         print(f"\n[ADR Update {update_idx + 1}/{num_updates}]")
         print(f"Timestep totali: {model.num_timesteps}")
         
         for test_ep in range(test_episodes):
-            obs, info = env_train.reset()  # ← Uses ADR! Samples random masses
+            obs, info = env_train.reset()
             episode_return = 0
             done = False
             
-            for _ in range(500):
+            for _ in range(1000):  # Ant ha max_episode_steps = 1000
                 action, _ = model.predict(obs, deterministic=True)
                 obs, reward, terminated, truncated, info = env_train.step(action)
                 episode_return += reward
@@ -169,7 +217,7 @@ def train_adr_variant(variant_name):
         print(f"Diversity: {diversity:.3f}")
         print(f"Ranges:")
         for param, (lower, upper) in adr_manager.ranges.items():
-            print(f"  {param:5s}: [{lower:.3f}, {upper:.3f}]  width={upper-lower:.3f}")
+            print(f"  {param:20s}: [{lower:.3f}, {upper:.3f}]  width={upper-lower:.3f}")
         
         adr_history.append({
             'update': update_idx + 1,
@@ -204,14 +252,13 @@ def train_adr_variant(variant_name):
     print(f"Final reward (mean last 5): {np.mean([h['mean_reward'] for h in adr_history[-5:]]):.2f}")
     print(f"Final ADR ranges: {adr_manager.ranges}")
     
-    
     """
     # Final evaluation on target domain
     print(f"\n{'='*70}")
     print("  FINAL EVALUATION ON TARGET")
     print(f"{'='*70}")
     
-    env_target = gym.make("CustomHopper-target-v0")
+    env_target = gym.make("CustomAnt-target-v0")
     target_rewards = []
     
     for ep in range(50):
@@ -219,7 +266,7 @@ def train_adr_variant(variant_name):
         episode_return = 0
         done = False
         
-        for _ in range(500):
+        for _ in range(1000):  # Ant max_episode_steps = 1000
             action, _ = model.predict(obs, deterministic=True)
             obs, reward, terminated, truncated, _ = env_target.step(action)
             episode_return += reward
@@ -260,8 +307,8 @@ def train_adr_variant(variant_name):
     
     env_train.close()
     env_target.close()
-    
     """
+
 # ============================================================================
 # MAIN
 # ============================================================================

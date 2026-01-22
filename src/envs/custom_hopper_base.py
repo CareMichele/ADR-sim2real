@@ -180,12 +180,11 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             'foot':  [0.5, 1.5],
         }
         
-        #if avg performance > threshold, expand it
-        # TODO: CRITICAL - TUNING PPO
-        # Al momento è 0.01 per debuggare velocemente (espande subito).
-        # Per il training vero con PPO, impostalo a 0.7 o 0.8.
-        # Significa: espandi solo se l'agente ottiene il 70-80% della reward massima.
-        self.adr_threshold = 0.01  
+        # if avg performance > threshold, expand it
+        # Impostato di default a un valore di placeholder
+        # Verrà sovrascritto dal training loop in train.py
+        # Formato: valore assoluto di reward (es: 2000 per il 70% di 3000)
+        self.adr_threshold = 2000.0  
         
         #accumulate avg reward
         self.adr_performance_buffer = []
@@ -371,7 +370,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         
         return new_masses
     
-    def update_adr_ranges(self, performance):
+    def update_adr_ranges(self, current_reward):
         """Update ADR ranges based on agent performance
         
         TODO: CRITICAL - NORMALIZATION CHECK
@@ -381,20 +380,25 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         Args:
             performance: float, normalized performance (0-1) or reward
         """
-        for key in self.adr_ranges:
-            lower, upper = self.adr_ranges[key]
-            limit_lower, limit_upper = self.adr_limits[key]
-            
-            if performance > self.adr_threshold:
-                # Agent doing well → expand range (more difficult)
-                new_lower = max(lower - self.adr_delta, limit_lower)
+        if current_reward >= self.adr_threshold:
+            print(f"ADR UPDATE: Performance {current_reward:.1f} >= Threshold {self.adr_threshold}. Expanding ranges.")
+            for key in self.adr_ranges:
+                lower, upper = self.adr_ranges[key]
+                limit_lower, limit_upper = self.adr_limits[key]
+                
+                new_lower = max(lower - self.adr_delta, limit_lower, 0.1)
                 new_upper = min(upper + self.adr_delta, limit_upper)
-            else:
-                # Agent struggling → shrink range (easier)
+                
+                self.adr_ranges[key] = (new_lower, new_upper)
+        else:
+            print(f"ADR UPDATE: Performance {current_reward:.1f} < Threshold {self.adr_threshold}. Shrinking ranges.")
+            for key in self.adr_ranges:
+                lower,upper = self.adr_ranges[key]
+                
                 new_lower = min(lower + self.adr_delta, 1.0)
                 new_upper = max(upper - self.adr_delta, 1.0)
-            
-            self.adr_ranges[key] = (new_lower, new_upper)
+        
+                self.adr_ranges[key] = (new_lower, new_upper)
     
     def _sample_simopt(self):
         """Sample parameters using Simulation Optimization"""
