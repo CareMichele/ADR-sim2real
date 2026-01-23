@@ -43,7 +43,7 @@ ENV_CONFIGS = {
     },
     'ant-target': {
         'env_id': 'CustomAnt-target-v0',
-        'target_performance': 3000.0,
+        #'target_performance': 3000.0,
     },
 }
 
