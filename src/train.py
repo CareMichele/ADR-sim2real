@@ -30,7 +30,7 @@ from envs import custom_ant
 ENV_CONFIGS = {
     'hopper': {
         'env_id': 'CustomHopper-source-v0',
-        'target_performance': 1666.0,
+        'target_performance': 1500.0,
     },
     # Puoi aggiungere altri environment qui in futuro
     'ant': {
@@ -82,16 +82,17 @@ ADR_VARIANTS = {
 # TRAINING FUNCTION (Universal)
 # ============================================================================
 
-def train_adr_variant(variant_name, environment='hopper', total_timesteps=1000000, 
-                      update_freq=5000):
+def train_agent(variant_name, environment='hopper', total_timesteps=1000000, 
+                update_freq=5000, use_adr=True):
     """
-    Allena ADR con la variante specificata su qualsiasi environment.
+    Allena agente PPO con o senza ADR su qualsiasi environment.
     
     Args:
-        variant_name: Nome della variante ADR ('vanilla', 'boundary', ecc.)
-        environment: Nome dell'environment ('hopper', 'walker', ecc.)
+        variant_name: Nome della variante ADR ('vanilla', 'boundary', ecc.) - ignorato se use_adr=False
+        environment: Nome dell'environment ('hopper', 'ant', ecc.)
         total_timesteps: Numero totale di timesteps per il training
-        update_freq: Frequenza di aggiornamento ADR (ogni quanti step)
+        update_freq: Frequenza di valutazione (ogni quanti step)
+        use_adr: Se True usa ADR, se False usa solo PPO
     """
     
     # PPO hyperparameters (locali)
@@ -101,44 +102,58 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
     ppo_verbose = 1
     
     # Setup directories
-    log_dir = Path(f"./logs/{environment}_adr_{variant_name}")
+    if use_adr:
+        log_dir = Path(f"./logs/{environment}_adr_{variant_name}")
+        checkpoint_dir = Path(f"./checkpoints/{environment}_adr_{variant_name}")
+        plot_dir = Path(f"./imgs/{environment}_adr_{variant_name}")
+    else:
+        log_dir = Path(f"./logs/{environment}_ppo")
+        checkpoint_dir = Path(f"./checkpoints/{environment}_ppo")
+        plot_dir = Path(f"./imgs/{environment}_ppo")
+    
     log_dir.mkdir(parents=True, exist_ok=True)
-    
-    checkpoint_dir = Path(f"./checkpoints/{environment}_adr_{variant_name}")
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    
-    plot_dir = Path(f"./imgs/{environment}_adr_{variant_name}")
     plot_dir.mkdir(parents=True, exist_ok=True)
     
     env_config = ENV_CONFIGS[environment]
     
     print(f"\n{'='*70}")
-    print(f"  ADR Training - Environment: {environment.upper()}")
-    print(f"  Variant: {variant_name.upper()}")
-    print(f"  {ADR_VARIANTS[variant_name]['description']}")
+    if use_adr:
+        print(f"  ADR Training - Environment: {environment.upper()}")
+        print(f"  Variant: {variant_name.upper()}")
+        print(f"  {ADR_VARIANTS[variant_name]['description']}")
+    else:
+        print(f"  PPO Training (no ADR) - Environment: {environment.upper()}")
     print(f"{'='*70}\n")
     
-    # Training environment (with ADR)
+    # Training environment
     env_train = gym.make(env_config['env_id'])
     
-    # Clone variant config to avoid modifying the global dictionary
-    variant_config = ADR_VARIANTS[variant_name].copy()
-    
-    adr_manager = ADRManager(
-        variant_config, 
-        env_config['target_performance'],
-        env_type=environment
-    )
-    
-    print(f"Configuration:")
-    print(f"  Environment: {env_config['env_id']}")
-    print(f"  Delta: {adr_manager.delta}")
-    print(f"  Threshold iniziale: {adr_manager.threshold:.1f}")
-    print(f"  Target Performance: {env_config['target_performance']:.1f}")
-    print(f"  Update Frequency: {update_freq} steps")
-    print(f"  Parameters to randomize: {adr_manager.params_to_randomize}\n")
-    
-    env_train = ADRWrapper(env_train, adr_manager) 
+    # Setup ADR if enabled
+    if use_adr:
+        variant_config = ADR_VARIANTS[variant_name].copy()
+        adr_manager = ADRManager(
+            variant_config, 
+            env_config['target_performance'],
+            env_type=environment
+        )
+        
+        print(f"Configuration:")
+        print(f"  Environment: {env_config['env_id']}")
+        print(f"  ADR Enabled: Yes")
+        print(f"  Delta: {adr_manager.delta}")
+        print(f"  Threshold iniziale: {adr_manager.threshold:.1f}")
+        print(f"  Target Performance: {env_config['target_performance']:.1f}")
+        print(f"  Update Frequency: {update_freq} steps")
+        print(f"  Parameters to randomize: {adr_manager.params_to_randomize}\n")
+        
+        env_train = ADRWrapper(env_train, adr_manager)
+    else:
+        adr_manager = None
+        print(f"Configuration:")
+        print(f"  Environment: {env_config['env_id']}")
+        print(f"  ADR Enabled: No (vanilla PPO)")
+        print(f"  Evaluation Frequency: {update_freq} steps\n") 
     
     print("[INFO] Inizializzazione modello PPO...")
     model = PPO(
@@ -151,13 +166,13 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
         device='cpu'  # Forza uso CPU invece di GPU
     )
     
-    adr_history = []
+    training_history = []
     num_updates = total_timesteps // update_freq
     
     print(f"\n[INFO] Inizio training")
     print(f"       Timestep totali: {total_timesteps}")
-    print(f"       ADR update freq: {update_freq}")
-    print(f"       Numero update: {num_updates}\n")
+    print(f"       Evaluation freq: {update_freq}")
+    print(f"       Numero valutazioni: {num_updates}\n")
     
     for update_idx in range(num_updates):
         # Train
@@ -167,24 +182,20 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
             progress_bar=False  # Disabilitato per evitare dipendenze tqdm/rich
         )
         
-        # Test on ADR distribution (randomized masses)
-        # IMPORTANT: We test on the CURRENT ADR distribution to decide if we should expand
-        test_episodes = 20  # More episodes to reduce variance from randomization
+        # Test on current distribution
+        test_episodes = 20
         test_rewards = []
         
-        print(f"\n[ADR Update {update_idx + 1}/{num_updates}]")
+        eval_label = "ADR Update" if use_adr else "Evaluation"
+        print(f"\n[{eval_label} {update_idx + 1}/{num_updates}]")
         print(f"Timestep totali: {model.num_timesteps}")
         
         for test_ep in range(test_episodes):
-            obs, info = env_train.reset()  # ← Uses ADR! Samples random masses
+            obs, info = env_train.reset()
             episode_return = 0
             done = False
             
             for _ in range(500):
-                #durante Evaluation:
-                    #deterministic = True -> azioni deterministiche (senza rumore, la migliore)
-                #durante Training:
-                    #azioni stocastiche (PPO esplora aggiungendo rumore)
                 action, _ = model.predict(obs, deterministic=True)  
                 obs, reward, terminated, truncated, info = env_train.step(action)
                 episode_return += reward
@@ -199,32 +210,43 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
         min_reward = np.min(test_rewards)
         max_reward = np.max(test_rewards)
         
-        print(f"Test reward (ADR dist): mean={mean_reward:.2f}, std={std_reward:.2f}")
-        print(f"                        range=[{min_reward:.2f}, {max_reward:.2f}]")
+        print(f"Test reward: mean={mean_reward:.2f}, std={std_reward:.2f}")
+        print(f"             range=[{min_reward:.2f}, {max_reward:.2f}]")
         
-        # Update ADR ranges based on performance on randomized distribution
-        status = adr_manager.update_ranges(mean_reward)
-        diversity = adr_manager.get_range_diversity()
-        
-        print(f"\nADR Status: {status}")
-        print(f"Threshold: {adr_manager.threshold:.1f}")
-        print(f"Diversity: {diversity:.3f}")
-        print(f"Ranges:")
-        for param, (lower, upper) in adr_manager.ranges.items():
-            print(f"  {param:5s}: [{lower:.3f}, {upper:.3f}]  width={upper-lower:.3f}")
-        
-        adr_history.append({
-            'update': update_idx + 1,
-            'timestep': model.num_timesteps,
-            'mean_reward': float(mean_reward),
-            'std_reward': float(std_reward),
-            'min_reward': float(min_reward),
-            'max_reward': float(max_reward),
-            'threshold': float(adr_manager.threshold),
-            'status': status,
-            'diversity': float(diversity),
-            'ranges': {k: list(v) for k, v in adr_manager.ranges.items()},
-        })
+        # Update ADR if enabled
+        if use_adr:
+            status = adr_manager.update_ranges(mean_reward)
+            diversity = adr_manager.get_range_diversity()
+            
+            print(f"\nADR Status: {status}")
+            print(f"Threshold: {adr_manager.threshold:.1f}")
+            print(f"Diversity: {diversity:.3f}")
+            print(f"Ranges:")
+            for param, (lower, upper) in adr_manager.ranges.items():
+                print(f"  {param:5s}: [{lower:.3f}, {upper:.3f}]  width={upper-lower:.3f}")
+            
+            training_history.append({
+                'update': update_idx + 1,
+                'timestep': model.num_timesteps,
+                'mean_reward': float(mean_reward),
+                'std_reward': float(std_reward),
+                'min_reward': float(min_reward),
+                'max_reward': float(max_reward),
+                'threshold': float(adr_manager.threshold),
+                'status': status,
+                'diversity': float(diversity),
+                'ranges': {k: list(v) for k, v in adr_manager.ranges.items()},
+            })
+        else:
+            # Solo reward history per PPO puro
+            training_history.append({
+                'update': update_idx + 1,
+                'timestep': model.num_timesteps,
+                'mean_reward': float(mean_reward),
+                'std_reward': float(std_reward),
+                'min_reward': float(min_reward),
+                'max_reward': float(max_reward),
+            })
     
     # Save final model
     final_model_path = checkpoint_dir / "model_final.zip"
@@ -232,9 +254,10 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
     print(f"\n✅ Training completato! Model salvato: {final_model_path}")
     
     # Save history
-    history_path = log_dir / "adr_history.json"
+    history_filename = "adr_history.json" if use_adr else "training_history.json"
+    history_path = log_dir / history_filename
     with open(history_path, 'w') as f:
-        json.dump(adr_history, f, indent=2)
+        json.dump(training_history, f, indent=2)
     print(f"📊 History salvato: {history_path}")
     
     # Generate plots
@@ -243,8 +266,10 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
         plot_path_main = plot_dir / "training_history.png"
         plot_training_history(history_path, save_path=plot_path_main, show=False)
         
-        plot_path_ranges = plot_dir / "all_ranges.png"
-        plot_all_ranges(history_path, save_path=plot_path_ranges, show=False)
+        # Plot ranges solo se ADR è abilitato
+        if use_adr:
+            plot_path_ranges = plot_dir / "all_ranges.png"
+            plot_all_ranges(history_path, save_path=plot_path_ranges, show=False)
         
         print("✅ Plot generati con successo!")
     except Exception as e:
@@ -254,10 +279,15 @@ def train_adr_variant(variant_name, environment='hopper', total_timesteps=100000
     print(f"\n{'='*70}")
     print("  FINAL SUMMARY")
     print(f"{'='*70}")
-    print(f"Variant: {variant_name}")
+    if use_adr:
+        print(f"Variant: {variant_name}")
+    else:
+        print(f"Mode: PPO (no ADR)")
+    print(f"Environment: {environment}")
     print(f"Timesteps: {model.num_timesteps}")
-    print(f"Final reward (mean last 5): {np.mean([h['mean_reward'] for h in adr_history[-5:]]):.2f}")
-    print(f"Final ADR ranges: {adr_manager.ranges}")
+    print(f"Final reward (mean last 5): {np.mean([h['mean_reward'] for h in training_history[-5:]]):.2f}")
+    if use_adr:
+        print(f"Final ADR ranges: {adr_manager.ranges}")
     
 # ============================================================================
 # MAIN (Universal)
@@ -283,7 +313,13 @@ if __name__ == "__main__":
         type=str,
         default='vanilla',
         choices=list(ADR_VARIANTS.keys()),
-        help='ADR variant to use'
+        help='ADR variant to use (ignored if --no-adr is set)'
+    )
+    
+    parser.add_argument(
+        '--no-adr',
+        action='store_true',
+        help='Train with vanilla PPO without ADR'
     )
     
     parser.add_argument(
@@ -311,17 +347,21 @@ if __name__ == "__main__":
     print("TRAINING CONFIGURATION")
     print("="*60)
     print(f"Environment:       {args.env}")
-    print(f"ADR Variant:       {args.variant}")
+    print(f"Mode:              {'PPO (no ADR)' if args.no_adr else f'ADR ({args.variant})'}")
+    if not args.no_adr:
+        print(f"ADR Variant:       {args.variant}")
     print(f"Total Timesteps:   {args.timesteps:,}")
     print(f"Update Frequency:  {args.update_freq:,}")
-    print(f"Target Performance: {ENV_CONFIGS[args.env]['target_performance']:.1f}")
+    if not args.no_adr:
+        print(f"Target Performance: {ENV_CONFIGS[args.env]['target_performance']:.1f}")
     print(f"Random Seed:       42 (fixed)")
     print("="*60 + "\n")
     
     # Launch training
-    train_adr_variant(
+    train_agent(
         args.variant, 
         environment=args.env, 
         total_timesteps=args.timesteps,
-        update_freq=args.update_freq
+        update_freq=args.update_freq,
+        use_adr=not args.no_adr
     )
