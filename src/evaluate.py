@@ -15,6 +15,15 @@ import time
 # Gli envs sono in src/envs/, quindi basta aggiungere src al path
 sys.path.insert(0, str(Path(__file__).parent))
 import envs.custom_hopper
+import envs.custom_ant
+
+# Environment mapping (deve coincidere con train.py)
+ENV_CONFIGS = {
+    'hopper-source': 'CustomHopper-source-v0',
+    'hopper-target': 'CustomHopper-target-v0',
+    'ant-source': 'CustomAnt-source-v0',
+    'ant-target': 'CustomAnt-target-v0',
+}
 
 
 def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministic=True, max_steps=500):
@@ -186,14 +195,22 @@ def main():
         print(f"❌ Errore: Model file non trovato: {model_path}")
         sys.exit(1)
     
+    # Converti env-name a env-id se necessario
+    env_id = args.env
+    if args.env in ENV_CONFIGS:
+        env_id = ENV_CONFIGS[args.env]
+        print(f"[INFO] Convertito '{args.env}' -> '{env_id}'")
+    
     # Modalità comparison
     if args.compare:
-        compare_environments(str(model_path), args.compare, args.episodes)
+        # Converti anche i nomi in compare
+        compare_envs = [ENV_CONFIGS.get(e, e) for e in args.compare]
+        compare_environments(str(model_path), compare_envs, args.episodes)
     else:
         # Valutazione singola
         evaluate_model(
             str(model_path),
-            args.env,
+            env_id,
             args.episodes,
             args.render,
             deterministic=not args.stochastic,

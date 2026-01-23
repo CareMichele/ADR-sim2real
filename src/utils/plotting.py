@@ -10,9 +10,10 @@ import json
 def plot_training_history(history_path, save_path=None, show=True):
     """
     Plotta le metriche di training da un file JSON history.
+    Gestisce sia ADR che vanilla PPO.
     
     Args:
-        history_path: Path al file adr_history.json
+        history_path: Path al file adr_history.json o training_history.json
         save_path: Path dove salvare il plot (opzionale)
         show: Se True, mostra il plot a schermo
     """
@@ -24,67 +25,88 @@ def plot_training_history(history_path, save_path=None, show=True):
     timesteps = [h['timestep'] for h in history]
     mean_rewards = [h['mean_reward'] for h in history]
     std_rewards = [h['std_reward'] for h in history]
-    thresholds = [h['threshold'] for h in history]
-    diversities = [h['diversity'] for h in history]
     
-    # Crea figura con subplots
-    fig, axes = plt.subplots(2, 2, figsize=(15, 10))
-    fig.suptitle('ADR Training History', fontsize=16, fontweight='bold')
+    # Controlla se è ADR o vanilla PPO
+    is_adr = 'threshold' in history[0]
     
-    # 1. Reward nel tempo con threshold
-    ax1 = axes[0, 0]
-    ax1.plot(timesteps, mean_rewards, 'b-', linewidth=2, label='Mean Reward')
-    ax1.fill_between(timesteps, 
-                      np.array(mean_rewards) - np.array(std_rewards),
-                      np.array(mean_rewards) + np.array(std_rewards),
-                      alpha=0.3, color='b', label='±1 Std')
-    ax1.plot(timesteps, thresholds, 'r--', linewidth=2, label='Threshold')
-    ax1.set_xlabel('Timesteps', fontsize=12)
-    ax1.set_ylabel('Reward', fontsize=12)
-    ax1.set_title('Reward vs Threshold', fontsize=14, fontweight='bold')
-    ax1.legend(loc='best')
-    ax1.grid(True, alpha=0.3)
-    
-    # 2. Diversity (larghezza range ADR)
-    ax2 = axes[0, 1]
-    ax2.plot(timesteps, diversities, 'g-', linewidth=2, marker='o', markersize=4)
-    ax2.set_xlabel('Timesteps', fontsize=12)
-    ax2.set_ylabel('Range Diversity', fontsize=12)
-    ax2.set_title('ADR Range Diversity', fontsize=14, fontweight='bold')
-    ax2.grid(True, alpha=0.3)
-    
-    # 3. Status ADR (EXPAND vs CONTRACT)
-    ax3 = axes[1, 0]
-    statuses = [h['status'] for h in history]
-    expand_count = statuses.count('EXPAND')
-    contract_count = statuses.count('CONTRACT')
-    ax3.bar(['EXPAND', 'CONTRACT'], [expand_count, contract_count], 
-            color=['green', 'red'], alpha=0.7)
-    ax3.set_ylabel('Count', fontsize=12)
-    ax3.set_title('ADR Actions Distribution', fontsize=14, fontweight='bold')
-    ax3.grid(True, alpha=0.3, axis='y')
-    
-    # 4. Range evolution nel tempo (esempio per primo parametro)
-    ax4 = axes[1, 1]
-    # Prendi il primo parametro di massa
-    first_mass_param = None
-    for key in history[0]['ranges'].keys():
-        if key not in ['friction', 'damping', 'gravity', 'force_magnitude']:
-            first_mass_param = key
-            break
-    
-    if first_mass_param:
-        lower_bounds = [h['ranges'][first_mass_param][0] for h in history]
-        upper_bounds = [h['ranges'][first_mass_param][1] for h in history]
-        ax4.plot(timesteps, lower_bounds, 'r-', linewidth=2, label='Lower Bound')
-        ax4.plot(timesteps, upper_bounds, 'b-', linewidth=2, label='Upper Bound')
-        ax4.fill_between(timesteps, lower_bounds, upper_bounds, alpha=0.3, color='gray')
-        ax4.axhline(y=1.0, color='k', linestyle='--', linewidth=1, label='Nominal')
-        ax4.set_xlabel('Timesteps', fontsize=12)
-        ax4.set_ylabel('Range', fontsize=12)
-        ax4.set_title(f'Range Evolution: {first_mass_param}', fontsize=14, fontweight='bold')
-        ax4.legend(loc='best')
-        ax4.grid(True, alpha=0.3)
+    if is_adr:
+        # ADR: plot completo con threshold, diversity, ecc.
+        thresholds = [h['threshold'] for h in history]
+        diversities = [h['diversity'] for h in history]
+        
+        # Crea figura con subplots
+        fig, axes = plt.subplots(2, 2, figsize=(15, 10))
+        fig.suptitle('ADR Training History', fontsize=16, fontweight='bold')
+        
+        # 1. Reward nel tempo con threshold
+        ax1 = axes[0, 0]
+        ax1.plot(timesteps, mean_rewards, 'b-', linewidth=2, label='Mean Reward')
+        ax1.fill_between(timesteps, 
+                          np.array(mean_rewards) - np.array(std_rewards),
+                          np.array(mean_rewards) + np.array(std_rewards),
+                          alpha=0.3, color='b', label='±1 Std')
+        ax1.plot(timesteps, thresholds, 'r--', linewidth=2, label='Threshold')
+        ax1.set_xlabel('Timesteps', fontsize=12)
+        ax1.set_ylabel('Reward', fontsize=12)
+        ax1.set_title('Reward vs Threshold', fontsize=14, fontweight='bold')
+        ax1.legend(loc='best')
+        ax1.grid(True, alpha=0.3)
+        
+        # 2. Diversity (larghezza range ADR)
+        ax2 = axes[0, 1]
+        ax2.plot(timesteps, diversities, 'g-', linewidth=2, marker='o', markersize=4)
+        ax2.set_xlabel('Timesteps', fontsize=12)
+        ax2.set_ylabel('Range Diversity', fontsize=12)
+        ax2.set_title('ADR Range Diversity', fontsize=14, fontweight='bold')
+        ax2.grid(True, alpha=0.3)
+        
+        # 3. Status ADR (EXPAND vs CONTRACT)
+        ax3 = axes[1, 0]
+        statuses = [h['status'] for h in history]
+        expand_count = statuses.count('EXPAND')
+        contract_count = statuses.count('CONTRACT')
+        ax3.bar(['EXPAND', 'CONTRACT'], [expand_count, contract_count], 
+                color=['green', 'red'], alpha=0.7)
+        ax3.set_ylabel('Count', fontsize=12)
+        ax3.set_title('ADR Actions Distribution', fontsize=14, fontweight='bold')
+        ax3.grid(True, alpha=0.3, axis='y')
+        
+        # 4. Range evolution nel tempo (esempio per primo parametro)
+        ax4 = axes[1, 1]
+        # Prendi il primo parametro di massa
+        first_mass_param = None
+        for key in history[0]['ranges'].keys():
+            if key not in ['friction', 'damping', 'gravity', 'force_magnitude']:
+                first_mass_param = key
+                break
+        
+        if first_mass_param:
+            lower_bounds = [h['ranges'][first_mass_param][0] for h in history]
+            upper_bounds = [h['ranges'][first_mass_param][1] for h in history]
+            ax4.plot(timesteps, lower_bounds, 'r-', linewidth=2, label='Lower Bound')
+            ax4.plot(timesteps, upper_bounds, 'b-', linewidth=2, label='Upper Bound')
+            ax4.fill_between(timesteps, lower_bounds, upper_bounds, alpha=0.3, color='gray')
+            ax4.axhline(y=1.0, color='k', linestyle='--', linewidth=1, label='Nominal')
+            ax4.set_xlabel('Timesteps', fontsize=12)
+            ax4.set_ylabel('Range', fontsize=12)
+            ax4.set_title(f'Range Evolution: {first_mass_param}', fontsize=14, fontweight='bold')
+            ax4.legend(loc='best')
+            ax4.grid(True, alpha=0.3)
+    else:
+        # Vanilla PPO: solo reward plot
+        fig, ax = plt.subplots(1, 1, figsize=(10, 6))
+        fig.suptitle('PPO Training History (no ADR)', fontsize=16, fontweight='bold')
+        
+        ax.plot(timesteps, mean_rewards, 'b-', linewidth=2, label='Mean Reward')
+        ax.fill_between(timesteps, 
+                         np.array(mean_rewards) - np.array(std_rewards),
+                         np.array(mean_rewards) + np.array(std_rewards),
+                         alpha=0.3, color='b', label='±1 Std')
+        ax.set_xlabel('Timesteps', fontsize=12)
+        ax.set_ylabel('Reward', fontsize=12)
+        ax.set_title('Training Reward', fontsize=14, fontweight='bold')
+        ax.legend(loc='best')
+        ax.grid(True, alpha=0.3)
     
     plt.tight_layout()
     

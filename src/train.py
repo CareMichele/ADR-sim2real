@@ -28,14 +28,21 @@ from envs import custom_ant
 # ============================================================================
 
 ENV_CONFIGS = {
-    'hopper': {
+    'hopper-source': {
         'env_id': 'CustomHopper-source-v0',
         'target_performance': 1500.0,
     },
-    # Puoi aggiungere altri environment qui in futuro
-    'ant': {
+    'hopper-target': {
+        'env_id': 'CustomHopper-target-v0',
+        'target_performance': 1500.0,
+    },
+    'ant-source': {
         'env_id': 'CustomAnt-source-v0',
-        'target_performance': 3000.0, #TODO capire se va bene 3000 facendo training target -> target
+        'target_performance': 3000.0,
+    },
+    'ant-target': {
+        'env_id': 'CustomAnt-target-v0',
+        'target_performance': 3000.0,
     },
 }
 
@@ -83,7 +90,7 @@ ADR_VARIANTS = {
 # ============================================================================
 
 def train_agent(variant_name, environment='hopper', total_timesteps=1000000, 
-                update_freq=5000, use_adr=True):
+                update_freq=5000, use_adr=True, checkpoint_path=None):
     """
     Allena agente PPO con o senza ADR su qualsiasi environment.
     
@@ -93,6 +100,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         total_timesteps: Numero totale di timesteps per il training
         update_freq: Frequenza di valutazione (ogni quanti step)
         use_adr: Se True usa ADR, se False usa solo PPO
+        checkpoint_path: Path a checkpoint esistente per riprendere training (opzionale)
     """
     
     # PPO hyperparameters (locali)
@@ -104,11 +112,11 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     # Setup directories
     if use_adr:
         log_dir = Path(f"./logs/{environment}_adr_{variant_name}")
-        checkpoint_dir = Path(f"./checkpoints/{environment}_adr_{variant_name}")
+        checkpoint_dir = Path(f"./data/checkpoints/{environment}_adr_{variant_name}")
         plot_dir = Path(f"./imgs/{environment}_adr_{variant_name}")
     else:
         log_dir = Path(f"./logs/{environment}_ppo")
-        checkpoint_dir = Path(f"./checkpoints/{environment}_ppo")
+        checkpoint_dir = Path(f"./data/checkpoints/{environment}_ppo")
         plot_dir = Path(f"./imgs/{environment}_ppo")
     
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -155,19 +163,26 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"  ADR Enabled: No (vanilla PPO)")
         print(f"  Evaluation Frequency: {update_freq} steps\n") 
     
-    print("[INFO] Inizializzazione modello PPO...")
-    model = PPO(
-        "MlpPolicy",
-        env_train,
-        learning_rate=ppo_learning_rate,
-        batch_size=ppo_batch_size,
-        n_epochs=ppo_n_epochs,
-        verbose=ppo_verbose,
-        device='cpu'  # Forza uso CPU invece di GPU
-    )
+    # Carica o crea modello
+    if checkpoint_path:
+        print(f"[INFO] Caricamento checkpoint da: {checkpoint_path}")
+        model = PPO.load(checkpoint_path, env=env_train, device='cpu')
+        print("✅ Checkpoint caricato! Ripresa training...")
+    else:
+        print("[INFO] Inizializzazione nuovo modello PPO...")
+        model = PPO(
+            "MlpPolicy",
+            env_train,
+            learning_rate=ppo_learning_rate,
+            batch_size=ppo_batch_size,
+            n_epochs=ppo_n_epochs,
+            verbose=ppo_verbose,
+            device='cpu'  # Forza CPU (migliore per MLP policy)
+        )
     
     training_history = []
     num_updates = total_timesteps // update_freq
+    best_reward = -np.inf  # Track best model
     
     print(f"\n[INFO] Inizio training")
     print(f"       Timestep totali: {total_timesteps}")
@@ -213,6 +228,13 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"Test reward: mean={mean_reward:.2f}, std={std_reward:.2f}")
         print(f"             range=[{min_reward:.2f}, {max_reward:.2f}]")
         
+        # Save best model
+        if mean_reward > best_reward:
+            best_reward = mean_reward
+            best_model_path = checkpoint_dir / "model_best.zip"
+            model.save(str(best_model_path))
+            print(f"🏆 New best model! Reward={best_reward:.2f} -> Salvato in {best_model_path}")
+        
         # Update ADR if enabled
         if use_adr:
             status = adr_manager.update_ranges(mean_reward)
@@ -248,10 +270,13 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
                 'max_reward': float(max_reward),
             })
     
-    # Save final model
+    # Training completato - salva final model
     final_model_path = checkpoint_dir / "model_final.zip"
     model.save(str(final_model_path))
-    print(f"\n✅ Training completato! Model salvato: {final_model_path}")
+    
+    print(f"\n✅ Training completato!")
+    print(f"💾 Final model salvato: {final_model_path}")
+    print(f"🏆 Best model salvato: {checkpoint_dir / 'model_best.zip'} (reward={best_reward:.2f})")
     
     # Save history
     history_filename = "adr_history.json" if use_adr else "training_history.json"
@@ -303,9 +328,9 @@ if __name__ == "__main__":
     parser.add_argument(
         '--env',
         type=str,
-        default='hopper',
-        choices=['hopper', 'walker', 'ant'],
-        help='Environment to train on'
+        default='hopper-source',
+        choices=['hopper-source', 'hopper-target', 'ant-source', 'ant-target'],
+        help='Environment to train on (source or target domain)'
     )
     
     parser.add_argument(
@@ -336,7 +361,21 @@ if __name__ == "__main__":
         help='ADR update frequency (every N timesteps)'
     )
     
+    parser.add_argument(
+        '--checkpoint',
+        type=str,
+        default=None,
+        help='Path to checkpoint to resume training from (e.g., ./data/checkpoints/hopper-source_ppo/model_best.zip)'
+    )
+    
     args = parser.parse_args()
+    
+    # Auto-disable ADR for target environments
+    use_adr = not args.no_adr
+    if '-target' in args.env:
+        if use_adr:
+            print("[INFO] Target environment detected: automatically disabling ADR (using vanilla PPO)")
+        use_adr = False
     
     # Set fixed random seed for reproducibility
     np.random.seed(42)
@@ -347,15 +386,26 @@ if __name__ == "__main__":
     print("TRAINING CONFIGURATION")
     print("="*60)
     print(f"Environment:       {args.env}")
-    print(f"Mode:              {'PPO (no ADR)' if args.no_adr else f'ADR ({args.variant})'}")
-    if not args.no_adr:
+    print(f"Mode:              {'PPO (no ADR)' if not use_adr else f'ADR ({args.variant})'}")
+    if not use_adr:
+        print(f"ADR Variant:       N/A (disabled)")
+    else:
         print(f"ADR Variant:       {args.variant}")
     print(f"Total Timesteps:   {args.timesteps:,}")
     print(f"Update Frequency:  {args.update_freq:,}")
-    if not args.no_adr:
+    if use_adr:
         print(f"Target Performance: {ENV_CONFIGS[args.env]['target_performance']:.1f}")
     print(f"Random Seed:       42 (fixed)")
     print("="*60 + "\n")
+    
+    # Verifica checkpoint se specificato
+    checkpoint_path = None
+    if args.checkpoint:
+        checkpoint_path = Path(args.checkpoint)
+        if not checkpoint_path.exists():
+            print(f"❌ Errore: Checkpoint non trovato: {checkpoint_path}")
+            sys.exit(1)
+        print(f"[INFO] Checkpoint specificato: {checkpoint_path}")
     
     # Launch training
     train_agent(
@@ -363,5 +413,6 @@ if __name__ == "__main__":
         environment=args.env, 
         total_timesteps=args.timesteps,
         update_freq=args.update_freq,
-        use_adr=not args.no_adr
+        use_adr=use_adr,
+        checkpoint_path=checkpoint_path
     )
