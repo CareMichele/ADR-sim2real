@@ -115,17 +115,30 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     
     # Setup directories
     if use_adr:
-        log_dir = Path(f"./logs/{environment}_adr_{variant_name}")
+        log_dir = Path(f"./data/logs/{environment}_adr_{variant_name}")
         checkpoint_dir = Path(f"./data/checkpoints/{environment}_adr_{variant_name}")
-        plot_dir = Path(f"./imgs/{environment}_adr_{variant_name}")
+        plot_dir = Path(f"./data/imgs/{environment}_adr_{variant_name}")
     else:
-        log_dir = Path(f"./logs/{environment}_ppo")
+        log_dir = Path(f"./data/logs/{environment}_ppo")
         checkpoint_dir = Path(f"./data/checkpoints/{environment}_ppo")
-        plot_dir = Path(f"./imgs/{environment}_ppo")
+        plot_dir = Path(f"./data/imgs/{environment}_ppo")
     
-    log_dir.mkdir(parents=True, exist_ok=True)
-    checkpoint_dir.mkdir(parents=True, exist_ok=True)
-    plot_dir.mkdir(parents=True, exist_ok=True)
+    # Verifica che le directory base esistano (non crearle automaticamente)
+    base_dirs = [Path("./data/logs"), Path("./data/checkpoints"), Path("./data/imgs")]
+    for base_dir in base_dirs:
+        if not base_dir.exists():
+            print(f"\n❌ ERROR: directory '{base_dir}' does not exist!")
+            print(f"   Base folders must be created manually to avoid errors.")
+            print(f"   Make sure you are in the project root and that the following exist:")
+            print(f"   - data/logs/")
+            print(f"   - data/checkpoints/")
+            print(f"   - data/imgs/")
+            sys.exit(1)
+    
+    # Crea solo le sottocartelle specifiche per questo run
+    log_dir.mkdir(exist_ok=True)
+    checkpoint_dir.mkdir(exist_ok=True)
+    plot_dir.mkdir(exist_ok=True)
     
     env_config = ENV_CONFIGS[environment]
     

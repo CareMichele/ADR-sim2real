@@ -79,8 +79,8 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         )
 
         if xml_file == "hopper.xml":
-            # Il file hopper.xml è nella directory data/ alla root del progetto
-            xml_file = os.path.join(os.path.dirname(__file__), "..", "..", "data", "hopper.xml")
+            # Il file hopper.xml è nella directory configs/ alla root del progetto
+            xml_file = os.path.join(os.path.dirname(__file__), "..", "..", "configs", "hopper.xml")
 
         MujocoEnv.__init__(
             self,
