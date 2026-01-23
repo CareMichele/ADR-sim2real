@@ -6,6 +6,7 @@ Carica un checkpoint salvato e valuta il modello su vari environment.
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from pathlib import Path
 import sys
 import argparse
@@ -52,15 +53,28 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
     
     # Carica il modello
     print("[INFO] Caricamento modello...")
-    model = PPO.load(model_path)
+    model = PPO.load(model_path, device='cpu')
     print("✅ Modello caricato con successo!\n")
     
     # Crea l'environment
     print("[INFO] Creazione environment...")
     if render:
-        env = gym.make(env_id, render_mode="human")
+        base_env = gym.make(env_id, render_mode="human")
     else:
-        env = gym.make(env_id)
+        base_env = gym.make(env_id)
+    
+    # Wrap with DummyVecEnv
+    env = DummyVecEnv([lambda: base_env])
+    
+    # Load VecNormalize stats if available
+    vecnorm_path = Path(model_path).parent / "vecnormalize.pkl"
+    if vecnorm_path.exists():
+        print(f"[INFO] Caricamento VecNormalize stats da {vecnorm_path}...")
+        env = VecNormalize.load(str(vecnorm_path), env)
+        env.training = False
+        env.norm_reward = False
+        print("✅ VecNormalize stats caricati!")
+    
     print("✅ Environment creato!\n")
     
     # Statistiche
@@ -70,7 +84,7 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
     print(f"[INFO] Inizio valutazione ({n_episodes} episodi)...\n")
     
     for ep in range(n_episodes):
-        obs, info = env.reset()
+        obs = env.reset()
         episode_reward = 0
         done = False
         steps = 0
@@ -80,10 +94,10 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
             action, _ = model.predict(obs, deterministic=deterministic)
             
             # Step
-            obs, reward, terminated, truncated, info = env.step(action)
-            episode_reward += reward
+            obs, reward, done_array, info = env.step(action)
+            episode_reward += reward[0]
             steps += 1
-            done = terminated or truncated
+            done = done_array[0]
             
             # Rendering
             if render:

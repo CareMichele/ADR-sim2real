@@ -1,1 +1,2 @@
-data/checkpoints/
+data/checkpoints/*
+!data/checkpoints/.gitkeep

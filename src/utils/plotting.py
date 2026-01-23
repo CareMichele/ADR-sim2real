@@ -148,7 +148,10 @@ def plot_all_ranges(history_path, save_path=None, show=True):
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 4*n_rows))
     fig.suptitle('ADR All Parameters Range Evolution', fontsize=16, fontweight='bold')
     
-    if n_rows == 1:
+    # Fix: gestisci caso singolo parametro o singola riga
+    if n_params == 1:
+        axes = np.array([[axes]])
+    elif n_rows == 1:
         axes = axes.reshape(1, -1)
     
     for idx, param in enumerate(all_params):

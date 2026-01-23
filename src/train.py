@@ -7,6 +7,7 @@ Supporta configurazioni per diversi environment (Hopper, Walker, Humanoid, ecc.)
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
+from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
 from pathlib import Path
 import json
 import sys
@@ -104,9 +105,12 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     """
     
     # PPO hyperparameters (locali)
-    ppo_learning_rate = 3e-4
-    ppo_batch_size = 64
+    initial_lr = 3e-4
+    final_lr = 1e-5
+    ppo_learning_rate = initial_lr
+    ppo_batch_size = 512
     ppo_n_epochs = 10
+    ppo_ent_coef = 0.01
     ppo_verbose = 1
     
     # Setup directories
@@ -135,15 +139,28 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     print(f"{'='*70}\n")
     
     # Training environment
-    env_train = gym.make(env_config['env_id'])
+    base_env = gym.make(env_config['env_id'])
+    
+    # Wrap with DummyVecEnv and VecNormalize
+    env_train = DummyVecEnv([lambda: base_env])
+    env_train = VecNormalize(env_train, norm_obs=True, norm_reward=False, clip_obs=10.0)
     
     # Setup ADR if enabled
     if use_adr:
         variant_config = ADR_VARIANTS[variant_name].copy()
+        
+        # Estrai il tipo base dell'environment per ADRManager
+        if 'hopper' in environment:
+            domain_type = 'hopper'
+        elif 'ant' in environment:
+            domain_type = 'ant'
+        else:
+            domain_type = environment
+        
         adr_manager = ADRManager(
             variant_config, 
             env_config['target_performance'],
-            env_type=environment
+            env_type=domain_type
         )
         
         print(f"Configuration:")
@@ -176,6 +193,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             learning_rate=ppo_learning_rate,
             batch_size=ppo_batch_size,
             n_epochs=ppo_n_epochs,
+            ent_coef=ppo_ent_coef,
             verbose=ppo_verbose,
             device='cpu'  # Forza CPU (migliore per MLP policy)
         )
@@ -190,6 +208,15 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     print(f"       Numero valutazioni: {num_updates}\n")
     
     for update_idx in range(num_updates):
+        # Aggiorna LR con schedule lineare globale (effettivo in SB3)
+        progress = min(1.0, model.num_timesteps / total_timesteps)
+        current_lr = initial_lr + (final_lr - initial_lr) * progress
+        model.learning_rate = current_lr
+        model.lr_schedule = lambda _: current_lr
+        # Aggiorna direttamente l'optimizer (evita _update_learning_rate prima del logger)
+        for param_group in model.policy.optimizer.param_groups:
+            param_group["lr"] = current_lr
+
         # Train
         model.learn(
             total_timesteps=update_freq,
@@ -204,21 +231,27 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         eval_label = "ADR Update" if use_adr else "Evaluation"
         print(f"\n[{eval_label} {update_idx + 1}/{num_updates}]")
         print(f"Timestep totali: {model.num_timesteps}")
+        print(f"Current LR: {current_lr:.2e}")
+        
+        # Set evaluation mode
+        env_train.training = False
         
         for test_ep in range(test_episodes):
-            obs, info = env_train.reset()
+            obs = env_train.reset()
             episode_return = 0
             done = False
             
             for _ in range(500):
                 action, _ = model.predict(obs, deterministic=True)  
-                obs, reward, terminated, truncated, info = env_train.step(action)
-                episode_return += reward
-                done = terminated or truncated
-                if done:
+                obs, reward, done, info = env_train.step(action)
+                episode_return += reward[0]
+                if done[0]:
                     break
             
             test_rewards.append(episode_return)
+        
+        # Re-enable training mode
+        env_train.training = True
         
         mean_reward = np.mean(test_rewards)
         std_reward = np.std(test_rewards)
@@ -233,6 +266,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             best_reward = mean_reward
             best_model_path = checkpoint_dir / "model_best.zip"
             model.save(str(best_model_path))
+            env_train.save(str(checkpoint_dir / "vecnormalize.pkl"))
             print(f"🏆 New best model! Reward={best_reward:.2f} -> Salvato in {best_model_path}")
         
         # Update ADR if enabled
