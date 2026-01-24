@@ -7,7 +7,7 @@ Supporta configurazioni per diversi environment (Hopper, Walker, Humanoid, ecc.)
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
+from stable_baselines3.common.vec_env import DummyVecEnv, VecFrameStack, VecNormalize
 from pathlib import Path
 import json
 import sys
@@ -29,13 +29,25 @@ from envs import custom_ant
 # ============================================================================
 
 ENV_CONFIGS = {
+    # Source per ADR training (target_performance viene presa dal target-X quando si usa --difficulty)
     'hopper-source': {
         'env_id': 'CustomHopper-source-v0',
-        'target_performance': 1500.0,
     },
-    'hopper-target': {
-        'env_id': 'CustomHopper-target-v0',
-        'target_performance': 1500.0,
+    # Target per testing/upper bound
+    'hopper-target-easy': {
+        'env_id': 'CustomHopper-target-easy-v0',
+        'target_performance': 1666.0,
+        'description': 'EASY: Only mass difference (source -1kg torso, target standard)',
+    },
+    'hopper-target-medium': {
+        'env_id': 'CustomHopper-target-medium-v0',
+        'target_performance': 1500.0, #TODO da fare training su target per determinare upper bound
+        'description': 'MEDIUM: Moderate mass changes (+/-20%) + friction (0.7x)',
+    },
+    'hopper-target-hard': {
+        'env_id': 'CustomHopper-target-hard-v0',
+        'target_performance': 1358.0,
+        'description': 'HARD: Full hostile config (masses +/-50%, friction 0.5x, gravity -11, pushes)',
     },
     'ant-source': {
         'env_id': 'CustomAnt-source-v0',
@@ -61,10 +73,10 @@ ADR_VARIANTS = {
     },
     'boundary': {
         'description': 'Boundary sampling (50% at extremes)',
-        'delta': 0.05,
-        'threshold_pct': 0.75,
+        'delta': 0.03,
+        'threshold_pct': 0.7,
         'boundary_sampling': True, #Al posto che scegliere valore a caso dentro il range, spesso sceglie i bordi 
-        'boundary_prob': 0.5, #Per il 50% delle volte dammi caso peggiore (bordo del range)
+        'boundary_prob': 0.10, #Per il 50% delle volte dammi caso peggiore (bordo del range)
         'progressive': False,
     },
     'progressive': {
@@ -91,7 +103,7 @@ ADR_VARIANTS = {
 # ============================================================================
 
 def train_agent(variant_name, environment='hopper', total_timesteps=1000000, 
-                update_freq=5000, use_adr=True, checkpoint_path=None):
+                update_freq=32768, use_adr=True, checkpoint_path=None, difficulty=None):
     """
     Allena agente PPO con o senza ADR su qualsiasi environment.
     
@@ -102,26 +114,45 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         update_freq: Frequenza di valutazione (ogni quanti step)
         use_adr: Se True usa ADR, se False usa solo PPO
         checkpoint_path: Path a checkpoint esistente per riprendere training (opzionale)
+        difficulty: Livello di difficoltà ('easy', 'medium', 'hard') - solo per source training con ADR
     """
     
     # PPO hyperparameters (locali)
-    initial_lr = 3e-4
-    final_lr = 1e-5
+    initial_lr = 5e-4
+    final_lr = 1e-4
     ppo_learning_rate = initial_lr
-    ppo_batch_size = 128
+    ppo_batch_size = 64  # CRITICO: non cambiare, stabilizza il training
     ppo_n_epochs = 10
-    ppo_ent_coef = 0.01
+    ppo_ent_coef = 0.02
     ppo_verbose = 1
     
+    # Calibra hyperparameters in base a difficulty (opzionale ma raccomandato)
+    if difficulty == 'easy':
+        ppo_ent_coef = 0.01  # Meno esplorazione casuale
+        final_lr = 1e-4
+    elif difficulty == 'medium':
+        ppo_ent_coef = 0.02  # Configurazione standard
+        final_lr = 1e-4
+    elif difficulty == 'hard':
+        ppo_ent_coef = 0.03  # Più esplorazione
+        final_lr = 5e-5      # LR finale più basso per stabilità
+    
+    if difficulty:
+        print(f"[INFO] PPO hyperparameters calibrated for {difficulty.upper()} difficulty:")
+        print(f"       ent_coef={ppo_ent_coef}, final_lr={final_lr:.0e}")
+    
     # Setup directories
+    # Se difficulty è specificato, aggiungi al nome della directory
+    difficulty_suffix = f"_{difficulty}" if difficulty else ""
+    
     if use_adr:
-        log_dir = Path(f"./data/logs/{environment}_adr_{variant_name}")
-        checkpoint_dir = Path(f"./data/checkpoints/{environment}_adr_{variant_name}")
-        plot_dir = Path(f"./data/imgs/{environment}_adr_{variant_name}")
+        log_dir = Path(f"./data/logs/{environment}_adr_{variant_name}{difficulty_suffix}")
+        checkpoint_dir = Path(f"./data/checkpoints/{environment}_adr_{variant_name}{difficulty_suffix}")
+        plot_dir = Path(f"./data/imgs/{environment}_adr_{variant_name}{difficulty_suffix}")
     else:
-        log_dir = Path(f"./data/logs/{environment}_ppo")
-        checkpoint_dir = Path(f"./data/checkpoints/{environment}_ppo")
-        plot_dir = Path(f"./data/imgs/{environment}_ppo")
+        log_dir = Path(f"./data/logs/{environment}_ppo{difficulty_suffix}")
+        checkpoint_dir = Path(f"./data/checkpoints/{environment}_ppo{difficulty_suffix}")
+        plot_dir = Path(f"./data/imgs/{environment}_ppo{difficulty_suffix}")
     
     # Verifica che le directory base esistano (non crearle automaticamente)
     base_dirs = [Path("./data/logs"), Path("./data/checkpoints"), Path("./data/imgs")]
@@ -142,22 +173,49 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     
     env_config = ENV_CONFIGS[environment]
     
+    def _persist_adr_state(target_dir: Path):
+        if not use_adr or not adr_manager:
+            return
+        adr_state_path = target_dir / "adr_state.json"
+        serializable_ranges = {k: list(v) for k, v in adr_manager.ranges.items()}
+        with open(adr_state_path, 'w') as f:
+            json.dump(serializable_ranges, f, indent=2)
+        print(f"[INFO] ADR Ranges salvati in {adr_state_path}")
+
     print(f"\n{'='*70}")
     if use_adr:
         print(f"  ADR Training - Environment: {environment.upper()}")
+        if difficulty:
+            print(f"  Target Difficulty: {difficulty.upper()}")
         print(f"  Variant: {variant_name.upper()}")
         print(f"  {ADR_VARIANTS[variant_name]['description']}")
     else:
         print(f"  PPO Training (no ADR) - Environment: {environment.upper()}")
+        if difficulty:
+            print(f"  Target Difficulty: {difficulty.upper()}")
     print(f"{'='*70}\n")
-    
-    # Training environment
-    base_env = gym.make(env_config['env_id'])
-    env_train = DummyVecEnv([lambda: base_env])
     
     # Setup ADR if enabled (prima del VecNormalize)
     if use_adr:
         variant_config = ADR_VARIANTS[variant_name].copy()
+        
+        # Calibra parametri ADR in base a difficulty
+        if difficulty == 'easy':
+            variant_config['delta'] = 0.03
+            variant_config['threshold_pct'] = 0.7
+            variant_config['boundary_prob'] = 0.10
+        elif difficulty == 'medium':
+            variant_config['delta'] = 0.05
+            variant_config['threshold_pct'] = 0.6
+            variant_config['boundary_prob'] = 0.15
+        elif difficulty == 'hard':
+            variant_config['delta'] = 0.07
+            variant_config['threshold_pct'] = 0.5
+            variant_config['boundary_prob'] = 0.25
+        
+        if difficulty:
+            print(f"[INFO] ADR parameters calibrated for {difficulty.upper()} difficulty:")
+            print(f"       delta={variant_config['delta']}, threshold_pct={variant_config['threshold_pct']}, boundary_prob={variant_config.get('boundary_prob', 'N/A')}")
         
         # Estrai il tipo base dell'environment per ADRManager
         if 'hopper' in environment:
@@ -167,10 +225,19 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         else:
             domain_type = environment
         
+        # Determina target_performance in base a difficulty
+        if difficulty and environment == 'hopper-source':
+            target_env_key = f'hopper-target-{difficulty}'
+            target_perf = ENV_CONFIGS[target_env_key]['target_performance']
+            print(f"[INFO] Using target_performance from {target_env_key}: {target_perf:.1f}")
+        else:
+            target_perf = env_config.get('target_performance', 1358.0)  # Fallback
+        
         adr_manager = ADRManager(
             variant_config, 
-            env_config['target_performance'],
-            env_type=domain_type
+            target_perf,
+            env_type=domain_type,
+            difficulty=difficulty  # Pass difficulty for calibrated limits
         )
         
         print(f"Configuration:")
@@ -178,17 +245,24 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"  ADR Enabled: Yes")
         print(f"  Delta: {adr_manager.delta}")
         print(f"  Threshold iniziale: {adr_manager.threshold:.1f}")
-        print(f"  Target Performance: {env_config['target_performance']:.1f}")
+        print(f"  Target Performance: {target_perf:.1f}")
         print(f"  Update Frequency: {update_freq} steps")
         print(f"  Parameters to randomize: {adr_manager.params_to_randomize}\n")
-        
-        env_train = ADRWrapper(env_train, adr_manager)
     else:
         adr_manager = None
         print(f"Configuration:")
         print(f"  Environment: {env_config['env_id']}")
         print(f"  ADR Enabled: No (vanilla PPO)")
         print(f"  Evaluation Frequency: {update_freq} steps\n") 
+
+    # Training environment (wrappa l'env Gymnasium PRIMA del VecEnv)
+    # ADRWrapper è un gymnasium.Wrapper e non può wrappare direttamente DummyVecEnv.
+    if use_adr:
+        env_fn = lambda: ADRWrapper(gym.make(env_config['env_id']), adr_manager)
+    else:
+        env_fn = lambda: gym.make(env_config['env_id'])
+    env_train = DummyVecEnv([env_fn])
+    env_train = VecFrameStack(env_train, n_stack=4)
     
     # Carica o crea modello (VecNormalize viene gestito qui)
     if checkpoint_path:
@@ -200,19 +274,28 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             print(f"[INFO] Caricamento VecNormalize stats da: {vecnorm_path}")
             env_train = VecNormalize.load(str(vecnorm_path), env_train)
             env_train.training = True
-            env_train.norm_reward = True
+            env_train.norm_obs = True
+            env_train.norm_reward = False
             print("✅ VecNormalize stats caricati!")
         else:
             print("⚠️  Warning: VecNormalize stats non trovati, creando nuovo VecNormalize")
-            env_train = VecNormalize(env_train, norm_obs=True, norm_reward=True, clip_obs=10.0)
+            env_train = VecNormalize(env_train, norm_obs=True, norm_reward=False, clip_obs=10.0)
         
+        if use_adr and adr_manager:
+            adr_state_path = checkpoint_path.parent / "adr_state.json"
+            if adr_state_path.exists():
+                with open(adr_state_path, 'r') as f:
+                    saved_ranges = json.load(f)
+                adr_manager.ranges = {k: tuple(v) for k, v in saved_ranges.items()}
+                print("[INFO] ADR Ranges caricati da file!")
+
         model = PPO.load(checkpoint_path, env=env_train, device='cpu')
         use_lr_schedule = False
         
         # Sovrascrivi parametri per fine-tuning conservativo
-        ft_lr = 1e-5           # Bassissimo: solo rifinitura
-        ft_clip = 0.1          # Molto conservativo: vieta cambiamenti bruschi
-        ft_batch = 256         # Ridotto per fine-tuning
+        ft_lr = initial_lr      # Rifinitura stabile al learning rate di partenza
+        ft_clip = 0.1          # Conservativo: vieta cambiamenti bruschi
+        ft_batch = ppo_batch_size  # Mantieni l'ampio batch per stabilità (512)
         ft_ent_coef = 0.0      # Zero esplorazione, solo performance
         
         model.learning_rate = ft_lr
@@ -246,7 +329,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             initial_test_rewards.append(episode_return)
         
         env_train.training = True
-        env_train.norm_reward = True
+        env_train.norm_reward = False
         
         initial_mean_reward = np.mean(initial_test_rewards)
         initial_std_reward = np.std(initial_test_rewards)
@@ -258,7 +341,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print("[INFO] Inizializzazione nuovo modello PPO...")
         
         # Crea VecNormalize per nuovo training
-        env_train = VecNormalize(env_train, norm_obs=True, norm_reward=True, clip_obs=10.0)
+        env_train = VecNormalize(env_train, norm_obs=True, norm_reward=False, clip_obs=10.0)
         
         model = PPO(
             "MlpPolicy",
@@ -332,7 +415,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         # Re-enable training mode
         env_train.training = True
         if hasattr(env_train, "norm_reward"):
-            env_train.norm_reward = True
+            env_train.norm_reward = False
         
         mean_reward = np.mean(test_rewards)
         std_reward = np.std(test_rewards)
@@ -347,7 +430,8 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             best_reward = mean_reward
             best_model_path = checkpoint_dir / "model_best.zip"
             model.save(str(best_model_path))
-            env_train.save(str(checkpoint_dir / "vecnormalize.pkl"))
+            env_train.save(str(best_model_path.parent / "vecnormalize.pkl"))
+            _persist_adr_state(best_model_path.parent)
             print(f"🏆 New best model! Reward={best_reward:.2f} -> Salvato in {best_model_path}")
         
         # Update ADR if enabled
@@ -388,6 +472,9 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     # Training completato - salva final model
     final_model_path = checkpoint_dir / "model_final.zip"
     model.save(str(final_model_path))
+    # Salva sempre VecNormalize stats nella stessa cartella del modello (utile per resume da model_final)
+    env_train.save(str(final_model_path.parent / "vecnormalize.pkl"))
+    _persist_adr_state(final_model_path.parent)
     
     print(f"\n✅ Training completato!")
     print(f"💾 Final model salvato: {final_model_path}")
@@ -444,8 +531,16 @@ if __name__ == "__main__":
         '--env',
         type=str,
         default='hopper-source',
-        choices=['hopper-source', 'hopper-target', 'ant-source', 'ant-target'],
-        help='Environment to train on (source or target domain)'
+        choices=['hopper-source', 'hopper-target', 'hopper-target-easy', 'hopper-target-medium', 'hopper-target-hard', 'ant-source', 'ant-target'],
+        help='Environment to train on (source or target domain with difficulty level)'
+    )
+    
+    parser.add_argument(
+        '--difficulty',
+        type=str,
+        default=None,
+        choices=['easy', 'medium', 'hard'],
+        help='Target difficulty level for ADR training on source domain (easy/medium/hard). Ignored for target envs.'
     )
     
     parser.add_argument(
@@ -472,7 +567,7 @@ if __name__ == "__main__":
     parser.add_argument(
         '--update-freq',
         type=int,
-        default=5000,
+        default=16384,
         help='ADR update frequency (every N timesteps)'
     )
     
@@ -485,12 +580,24 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Auto-disable ADR for target environments
+    # Auto-disable ADR for target environments (non ha senso fare ADR su target)
     use_adr = not args.no_adr
     if '-target' in args.env:
         if use_adr:
             print("[INFO] Target environment detected: automatically disabling ADR (using vanilla PPO)")
         use_adr = False
+        # Per target env, difficulty non ha senso
+        if args.difficulty:
+            print("[WARNING] --difficulty parameter ignored for target environments")
+            args.difficulty = None
+    
+    # Valida che difficulty sia usato solo con source + ADR
+    if args.difficulty and not use_adr:
+        print("[WARNING] --difficulty parameter ignored when ADR is disabled")
+        args.difficulty = None
+    
+    if args.difficulty and '-source' not in args.env:
+        print("[WARNING] --difficulty should be used with source environment for ADR training")
     
     # Set fixed random seed for reproducibility
     np.random.seed(42)
@@ -501,6 +608,13 @@ if __name__ == "__main__":
     print("TRAINING CONFIGURATION")
     print("="*60)
     print(f"Environment:       {args.env}")
+    if args.difficulty:
+        print(f"Target Difficulty: {args.difficulty.upper()}")
+        if args.env == 'hopper-source':
+            target_env_name = f"hopper-target-{args.difficulty}"
+            if target_env_name in ENV_CONFIGS:
+                print(f"Target Env:        {ENV_CONFIGS[target_env_name]['env_id']}")
+                print(f"Description:       {ENV_CONFIGS[target_env_name]['description']}")
     print(f"Mode:              {'PPO (no ADR)' if not use_adr else f'ADR ({args.variant})'}")
     if not use_adr:
         print(f"ADR Variant:       N/A (disabled)")
@@ -509,7 +623,13 @@ if __name__ == "__main__":
     print(f"Total Timesteps:   {args.timesteps:,}")
     print(f"Update Frequency:  {args.update_freq:,}")
     if use_adr:
-        print(f"Target Performance: {ENV_CONFIGS[args.env]['target_performance']:.1f}")
+        # Determina target_performance come nel codice ADR
+        if args.difficulty and args.env == 'hopper-source':
+            target_env_key = f'hopper-target-{args.difficulty}'
+            target_perf = ENV_CONFIGS[target_env_key]['target_performance']
+        else:
+            target_perf = ENV_CONFIGS[args.env].get('target_performance', 1358.0)
+        print(f"Target Performance: {target_perf:.1f}")
     print(f"Random Seed:       42 (fixed)")
     print("="*60 + "\n")
     
@@ -529,5 +649,6 @@ if __name__ == "__main__":
         total_timesteps=args.timesteps,
         update_freq=args.update_freq,
         use_adr=use_adr,
-        checkpoint_path=checkpoint_path
+        checkpoint_path=checkpoint_path,
+        difficulty=args.difficulty
     )

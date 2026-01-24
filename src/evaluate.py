@@ -6,7 +6,7 @@ Carica un checkpoint salvato e valuta il modello su vari environment.
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
-from stable_baselines3.common.vec_env import DummyVecEnv, VecNormalize
+from stable_baselines3.common.vec_env import DummyVecEnv, VecFrameStack, VecNormalize
 from pathlib import Path
 import sys
 import argparse
@@ -22,6 +22,9 @@ import envs.custom_ant
 ENV_CONFIGS = {
     'hopper-source': 'CustomHopper-source-v0',
     'hopper-target': 'CustomHopper-target-v0',
+    'hopper-target-easy': 'CustomHopper-target-easy-v0',
+    'hopper-target-medium': 'CustomHopper-target-medium-v0',
+    'hopper-target-hard': 'CustomHopper-target-hard-v0',
     'ant-source': 'CustomAnt-source-v0',
     'ant-target': 'CustomAnt-target-v0',
 }
@@ -59,17 +62,39 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
     # Crea l'environment
     print("[INFO] Creazione environment...")
     if render:
-        base_env = gym.make(env_id, render_mode="human")
+        env = DummyVecEnv([lambda: gym.make(env_id, render_mode="human")])
     else:
-        base_env = gym.make(env_id)
+        env = DummyVecEnv([lambda: gym.make(env_id)])
     
-    # Wrap with DummyVecEnv
-    env = DummyVecEnv([lambda: base_env])
+    # Auto-detect if VecFrameStack was used during training
+    vecnorm_path = Path(model_path).parent / "vecnormalize.pkl"
+    use_frame_stack = False
+    
+    if vecnorm_path.exists():
+        # Load temporarily to check observation space dimension
+        print(f"[INFO] Auto-detecting training configuration da {vecnorm_path}...")
+        import pickle
+        with open(vecnorm_path, 'rb') as f:
+            vecnorm_data = pickle.load(f)
+        
+        # Check observation space dimension
+        saved_obs_dim = vecnorm_data.observation_space.shape[0]
+        base_obs_dim = env.observation_space.shape[0]
+        
+        # If saved dimension is 4x base, then VecFrameStack was used
+        if saved_obs_dim == base_obs_dim * 4:
+            use_frame_stack = True
+            print(f"   Detected: VecFrameStack(n_stack=4) was used (obs: {base_obs_dim} → {saved_obs_dim})")
+        else:
+            print(f"   Detected: No VecFrameStack (obs: {saved_obs_dim})")
+    
+    # Apply VecFrameStack ONLY if it was used during training
+    if use_frame_stack:
+        env = VecFrameStack(env, n_stack=4)
     
     # Load VecNormalize stats if available
-    vecnorm_path = Path(model_path).parent / "vecnormalize.pkl"
     if vecnorm_path.exists():
-        print(f"[INFO] Caricamento VecNormalize stats da {vecnorm_path}...")
+        print(f"[INFO] Caricamento VecNormalize stats...")
         env = VecNormalize.load(str(vecnorm_path), env)
         env.training = False
         env.norm_reward = False
@@ -99,10 +124,7 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
             steps += 1
             done = done_array[0]
             
-            # Rendering
-            if render:
-                env.render()
-                time.sleep(0.01)  # Rallenta per visualizzazione
+            # Note: rendering is automatic with render_mode="human", no need to call env.render()
         
         episode_rewards.append(episode_reward)
         episode_lengths.append(steps)

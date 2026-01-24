@@ -15,13 +15,14 @@ class ADRManager:
     - Force magnitude (perturbazioni)
     """
     
-    def __init__(self, variant_config, target_performance, env_type='hopper'):
+    def __init__(self, variant_config, target_performance, env_type='hopper', difficulty=None):
         self.config = variant_config
         self.target_performance = target_performance
         self.env_type = env_type
+        self.difficulty = difficulty
         
-        # ===== CONFIGURAZIONE RANGES E LIMITS DIPENDENTE DA ENV_TYPE =====
-        self.ranges, self.limits = self._init_ranges_for_env(env_type)
+        # ===== CONFIGURAZIONE RANGES E LIMITS DIPENDENTE DA ENV_TYPE E DIFFICULTY =====
+        self.ranges, self.limits = self._init_ranges_for_env(env_type, difficulty)
         
         # Identificazione parametri che rappresentano masse (per logica speciale)
         self.mass_params = self._get_mass_params_for_env(env_type)
@@ -50,8 +51,8 @@ class ADRManager:
         
         self.performance_history = []
     
-    def _init_ranges_for_env(self, env_type):
-        """Inizializza ranges e limits in base all'environment type"""
+    def _init_ranges_for_env(self, env_type, difficulty=None):
+        """Inizializza ranges e limits in base all'environment type e difficulty"""
         if env_type == 'hopper':
             ranges = {
                 # Masse specifiche Hopper
@@ -60,19 +61,55 @@ class ADRManager:
                 'foot': [1.0, 1.0],
                 # Parametri fisici comuni
                 'friction': [1.0, 1.0],
-                'damping': [1.0, 1.0],
                 'gravity': [-9.81, -9.81],
                 'force_magnitude': [0.0, 0.0],
             }
-            limits = {
-                'thigh': [0.5, 1.5],
-                'leg': [0.5, 1.5],
-                'foot': [0.5, 1.5],
-                'friction': [0.2, 2.0],
-                'damping': [0.5, 2.0],
-                'gravity': [-13.0, -7.0],
-                'force_magnitude': [0.0, 5.0],
-            }
+            
+            # ===== LIMITI CALIBRATI PER DIFFICOLTÀ =====
+            if difficulty == 'easy':
+                # EASY: solo masse ±30% (target ha solo torso -1kg)
+                limits = {
+                    'thigh': [0.7, 1.3],
+                    'leg': [0.7, 1.3],
+                    'foot': [0.7, 1.3],
+                    'friction': [1.0, 1.0],      # NO friction randomization
+                    'gravity': [-9.81, -9.81],   # NO gravity randomization
+                    'force_magnitude': [0.0, 0.0],  # NO forces
+                }
+                print(f"[ADR] Limiti EASY: masse ±30% only")
+            elif difficulty == 'medium':
+                # MEDIUM: masse ±40%, friction ±40%
+                limits = {
+                    'thigh': [0.6, 1.4],
+                    'leg': [0.6, 1.4],
+                    'foot': [0.6, 1.4],
+                    'friction': [0.6, 1.4],
+                    'gravity': [-9.81, -9.81],   # NO gravity randomization
+                    'force_magnitude': [0.0, 0.0],  # NO forces
+                }
+                print(f"[ADR] Limiti MEDIUM: masse ±40%, friction ±40%")
+            elif difficulty == 'hard':
+                # HARD: masse ±60%, friction ±80%, gravity ±30%, forces 0-3N
+                limits = {
+                    'thigh': [0.4, 1.6],
+                    'leg': [0.4, 1.6],
+                    'foot': [0.4, 1.6],
+                    'friction': [0.2, 1.8],
+                    'gravity': [-12.0, -7.0],
+                    'force_magnitude': [0.0, 3.0],
+                }
+                print(f"[ADR] Limiti HARD: masse ±60%, friction ±80%, gravity ±30%, forces 0-3N")
+            else:
+                # Default: limiti HARD (backward compatibility)
+                limits = {
+                    'thigh': [0.4, 1.6],
+                    'leg': [0.4, 1.6],
+                    'foot': [0.4, 1.6],
+                    'friction': [0.1, 2.4],
+                    'gravity': [-14.0, -6.0],
+                    'force_magnitude': [0.0, 3.0],
+                }
+                print(f"[ADR] Limiti DEFAULT (hard): full randomization")
         elif env_type == 'ant':
             # Placeholder per Ant (4 gambe, 8 giunti)
             ranges = {

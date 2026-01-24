@@ -135,9 +135,33 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             # Source environment: imprecise torso mass (1kg shift)
             self.model.body_mass[1] -= 1.0
         
-        elif domain == 'target':
-            # Target environment: HOSTILE/DIFFICULT configuration for testing robustness
-            print("[INFO] Initializing TARGET domain (hostile environment)")
+        elif domain == 'target-easy':
+            # EASY: Only slight mass differences (source has -1kg torso, target is standard)
+            print("[INFO] Initializing TARGET-EASY domain")
+            # No changes - standard configuration
+            # The difference is that source has -1kg torso, this has standard
+            print(f"  - Standard masses (source has -1kg torso difference)")
+            print("[INFO] Target-EASY initialized")
+        
+        elif domain == 'target-medium':
+            # MEDIUM: Moderate mass changes + friction changes
+            print("[INFO] Initializing TARGET-MEDIUM domain")
+            
+            # 1. MASSES: Moderate unbalance
+            # Thigh slightly heavier (+20%), Leg slightly lighter (-20%)
+            self.model.body_mass[2] *= 1.2   # Thigh: +20%
+            self.model.body_mass[3] *= 0.8   # Leg: -20%
+            print(f"  - Masses modified: thigh={self.model.body_mass[2]:.2f}kg, leg={self.model.body_mass[3]:.2f}kg")
+            
+            # 2. FRICTION: Moderately slippery
+            for geom_id in range(self.model.ngeom):
+                self.model.geom_friction[geom_id, 0] *= 0.7  # Sliding friction reduced to 70%
+            print(f"  - Friction reduced to 0.7x (moderately slippery)")
+            print("[INFO] Target-MEDIUM initialized")
+        
+        elif domain == 'target' or domain == 'target-hard':
+            # HARD: Full hostile configuration (original target)
+            print("[INFO] Initializing TARGET-HARD domain (hostile environment)")
             
             # 1. MASSES: Unbalanced configuration
             # Thigh heavier (+50%), Leg lighter (-50%)
@@ -158,7 +182,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             self.current_max_push = 1.0         # 1 Newton lateral pushes
             self.push_probability = 0.05        # 5% chance per step
             print(f"  - Random pushes enabled: max={self.current_max_push}N, prob={self.push_probability*100:.1f}%")
-            print("[INFO] Target domain initialized (HARD MODE)")
+            print("[INFO] Target-HARD initialized")
 
 
 
@@ -430,7 +454,28 @@ gym.register(
         id="CustomHopper-target-v0",
         entry_point="%s:CustomHopper" % __name__,
         max_episode_steps=500,
-        kwargs={"domain": "target"}
+        kwargs={"domain": "target"}  # Alias for target-hard
+)
+
+gym.register(
+        id="CustomHopper-target-easy-v0",
+        entry_point="%s:CustomHopper" % __name__,
+        max_episode_steps=500,
+        kwargs={"domain": "target-easy"}
+)
+
+gym.register(
+        id="CustomHopper-target-medium-v0",
+        entry_point="%s:CustomHopper" % __name__,
+        max_episode_steps=500,
+        kwargs={"domain": "target-medium"}
+)
+
+gym.register(
+        id="CustomHopper-target-hard-v0",
+        entry_point="%s:CustomHopper" % __name__,
+        max_episode_steps=500,
+        kwargs={"domain": "target-hard"}
 )
 
 
