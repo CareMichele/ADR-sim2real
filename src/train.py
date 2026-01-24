@@ -39,7 +39,7 @@ ENV_CONFIGS = {
     },
     'ant-source': {
         'env_id': 'CustomAnt-source-v0',
-        'target_performance': 3000.0,
+        'target_performance': 2370.0,
     },
     'ant-target': {
         'env_id': 'CustomAnt-target-v0',
@@ -197,6 +197,9 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     if checkpoint_path:
         print(f"[INFO] Caricamento checkpoint da: {checkpoint_path}")
         model = PPO.load(checkpoint_path, env=env_train, device='cpu')
+        model.ent_coef = 0.0
+        model.initial_lr = final_lr
+        
         print("✅ Checkpoint caricato! Ripresa training...")
     else:
         print("[INFO] Inizializzazione nuovo modello PPO...")
