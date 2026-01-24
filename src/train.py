@@ -108,7 +108,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     initial_lr = 3e-4
     final_lr = 1e-5
     ppo_learning_rate = initial_lr
-    ppo_batch_size = 512
+    ppo_batch_size = 128
     ppo_n_epochs = 10
     ppo_ent_coef = 0.01
     ppo_verbose = 1
@@ -153,12 +153,9 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     
     # Training environment
     base_env = gym.make(env_config['env_id'])
-    
-    # Wrap with DummyVecEnv and VecNormalize
     env_train = DummyVecEnv([lambda: base_env])
-    env_train = VecNormalize(env_train, norm_obs=True, norm_reward=False, clip_obs=10.0)
     
-    # Setup ADR if enabled
+    # Setup ADR if enabled (prima del VecNormalize)
     if use_adr:
         variant_config = ADR_VARIANTS[variant_name].copy()
         
@@ -193,13 +190,76 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"  ADR Enabled: No (vanilla PPO)")
         print(f"  Evaluation Frequency: {update_freq} steps\n") 
     
-    # Carica o crea modello
+    # Carica o crea modello (VecNormalize viene gestito qui)
     if checkpoint_path:
         print(f"[INFO] Caricamento checkpoint da: {checkpoint_path}")
+        
+        # Carica VecNormalize stats PRIMA di creare VecNormalize
+        vecnorm_path = checkpoint_path.parent / "vecnormalize.pkl"
+        if vecnorm_path.exists():
+            print(f"[INFO] Caricamento VecNormalize stats da: {vecnorm_path}")
+            env_train = VecNormalize.load(str(vecnorm_path), env_train)
+            env_train.training = True
+            env_train.norm_reward = True
+            print("✅ VecNormalize stats caricati!")
+        else:
+            print("⚠️  Warning: VecNormalize stats non trovati, creando nuovo VecNormalize")
+            env_train = VecNormalize(env_train, norm_obs=True, norm_reward=True, clip_obs=10.0)
+        
         model = PPO.load(checkpoint_path, env=env_train, device='cpu')
-        print("✅ Checkpoint caricato! Ripresa training...")
+        use_lr_schedule = False
+        
+        # Sovrascrivi parametri per fine-tuning conservativo
+        ft_lr = 1e-5           # Bassissimo: solo rifinitura
+        ft_clip = 0.1          # Molto conservativo: vieta cambiamenti bruschi
+        ft_batch = 256         # Ridotto per fine-tuning
+        ft_ent_coef = 0.0      # Zero esplorazione, solo performance
+        
+        model.learning_rate = ft_lr
+        model.clip_range = lambda _: ft_clip  # DEVE essere callable
+        model.batch_size = ft_batch
+        model.ent_coef = ft_ent_coef
+        model.lr_schedule = lambda _: ft_lr  # Blocca LR fisso
+        
+        print("✅ Checkpoint caricato! Parametri fine-tuning applicati:")
+        print(f"   LR={ft_lr:.0e}, Clip={ft_clip}, Batch={ft_batch}, Entropy={ft_ent_coef}")
+        
+        # Valuta il modello caricato per inizializzare best_reward
+        print("\n[INFO] Valutazione modello caricato per inizializzare best_reward...")
+        initial_test_episodes = 20
+        initial_test_rewards = []
+        env_train.training = False
+        env_train.norm_reward = False
+        
+        for test_ep in range(initial_test_episodes):
+            obs = env_train.reset()
+            episode_return = 0
+            done = False
+            
+            for _ in range(500):
+                action, _ = model.predict(obs, deterministic=True)
+                obs, reward, done, info = env_train.step(action)
+                episode_return += reward[0]
+                if done[0]:
+                    break
+            
+            initial_test_rewards.append(episode_return)
+        
+        env_train.training = True
+        env_train.norm_reward = True
+        
+        initial_mean_reward = np.mean(initial_test_rewards)
+        initial_std_reward = np.std(initial_test_rewards)
+        print(f"Reward modello caricato: mean={initial_mean_reward:.2f}, std={initial_std_reward:.2f}")
+        print(f"                         range=[{np.min(initial_test_rewards):.2f}, {np.max(initial_test_rewards):.2f}]")
+        best_reward = initial_mean_reward
+        print(f"🏆 Best reward inizializzato a: {best_reward:.2f}\n")
     else:
         print("[INFO] Inizializzazione nuovo modello PPO...")
+        
+        # Crea VecNormalize per nuovo training
+        env_train = VecNormalize(env_train, norm_obs=True, norm_reward=True, clip_obs=10.0)
+        
         model = PPO(
             "MlpPolicy",
             env_train,
@@ -208,12 +268,13 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             n_epochs=ppo_n_epochs,
             ent_coef=ppo_ent_coef,
             verbose=ppo_verbose,
-            device='cpu'  # Forza CPU (migliore per MLP policy)
+            device='cpu',
         )
+        best_reward = -np.inf
+        use_lr_schedule = True
     
     training_history = []
     num_updates = total_timesteps // update_freq
-    best_reward = -np.inf  # Track best model
     
     print(f"\n[INFO] Inizio training")
     print(f"       Timestep totali: {total_timesteps}")
@@ -221,14 +282,17 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     print(f"       Numero valutazioni: {num_updates}\n")
     
     for update_idx in range(num_updates):
-        # Aggiorna LR con schedule lineare globale (effettivo in SB3)
-        progress = min(1.0, model.num_timesteps / total_timesteps)
-        current_lr = initial_lr + (final_lr - initial_lr) * progress
-        model.learning_rate = current_lr
-        model.lr_schedule = lambda _: current_lr
-        # Aggiorna direttamente l'optimizer (evita _update_learning_rate prima del logger)
-        for param_group in model.policy.optimizer.param_groups:
-            param_group["lr"] = current_lr
+        # Aggiorna LR con schedule lineare globale (solo quando non si sta facendo fine-tuning da checkpoint)
+        if use_lr_schedule:
+            progress = min(1.0, model.num_timesteps / total_timesteps)
+            current_lr = initial_lr + (final_lr - initial_lr) * progress
+            model.learning_rate = current_lr
+            model.lr_schedule = lambda _: current_lr
+            # Aggiorna direttamente l'optimizer (evita _update_learning_rate prima del logger)
+            for param_group in model.policy.optimizer.param_groups:
+                param_group["lr"] = current_lr
+        else:
+            current_lr = model.lr_schedule(1.0) if callable(getattr(model, "lr_schedule", None)) else model.learning_rate
 
         # Train
         model.learn(
@@ -246,8 +310,10 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"Timestep totali: {model.num_timesteps}")
         print(f"Current LR: {current_lr:.2e}")
         
-        # Set evaluation mode
+        # Set evaluation mode (reward reale, non normalizzato)
         env_train.training = False
+        if hasattr(env_train, "norm_reward"):
+            env_train.norm_reward = False
         
         for test_ep in range(test_episodes):
             obs = env_train.reset()
@@ -265,6 +331,8 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         
         # Re-enable training mode
         env_train.training = True
+        if hasattr(env_train, "norm_reward"):
+            env_train.norm_reward = True
         
         mean_reward = np.mean(test_rewards)
         std_reward = np.std(test_rewards)
