@@ -94,11 +94,11 @@ ADR_VARIANTS = {
         'boundary_sampling': False,
         'progressive': False,
     },
-    'ant-symmetric': {
-        'description': 'Symmetric mass scaling (all legs together) + friction/damping/gravity',
+    'ant-asymmetric': {
+        'description': 'asymmetric 4 legs',
         'delta': 0.05,
-        'threshold_pct': 0.75,
-        'randomize_only': ['hip_1', 'friction', 'damping', 'gravity', 'force_magnitude'],
+        'threshold_pct': 0.45,
+        'randomize_only': ['hip_1', 'ankle_2', 'hip_3', 'ankle_4','friction','gravity'],
         'boundary_sampling': False,
         'progressive': False,
     }
