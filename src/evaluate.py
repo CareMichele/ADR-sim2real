@@ -62,7 +62,7 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
     # Crea l'environment
     print("[INFO] Creazione environment...")
     if render:
-        env = DummyVecEnv([lambda: gym.make(env_id, render_mode="human")])
+        env = DummyVecEnv([lambda: gym.make(env_id, render_mode="human", width=2000, height=1080)])
     else:
         env = DummyVecEnv([lambda: gym.make(env_id)])
     
