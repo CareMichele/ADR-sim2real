@@ -1,2 +1,4 @@
 data/checkpoints/*
 !data/checkpoints/.gitkeep
+__pycache__/
+*.pyc
