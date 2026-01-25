@@ -39,12 +39,16 @@ ENV_CONFIGS = {
     },
     'ant-source': {
         'env_id': 'CustomAnt-source-v0',
-        'target_performance': 2370.0,
+        'target_performance': 2370.0,  
     },
-    'ant-target': {
-        'env_id': 'CustomAnt-target-v0',
+    #'ant-target': {
+      #  'env_id': 'CustomAnt-target-v0',
         #'target_performance': 3000.0,
-    },
+    #},
+    #'ant-target_fine-tuning': {
+     #   'env_id': 'CustomAnt-target-v0',
+        #'target_performance': 3000.0,
+    #},
 }
 
 # ============================================================================
@@ -81,6 +85,22 @@ ADR_VARIANTS = {
         'randomize_only': ['thigh'],
         'boundary_sampling': False,
         'progressive': False,
+    },
+    'ant-minimal': {
+        'description': 'Only friction, damping, gravity',
+        'delta': 0.02,
+        'threshold_pct': 0.45,
+        'randomize_only': ['friction', 'damping', 'gravity'],
+        'boundary_sampling': False,
+        'progressive': False,
+    },
+    'ant-symmetric': {
+        'description': 'Symmetric mass scaling (all legs together) + friction/damping/gravity',
+        'delta': 0.05,
+        'threshold_pct': 0.75,
+        'randomize_only': ['hip_1', 'friction', 'damping', 'gravity', 'force_magnitude'],
+        'boundary_sampling': False,
+        'progressive': False,
     }
 }
 
@@ -105,12 +125,20 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     """
     
     # PPO hyperparameters (locali)
-    initial_lr = 3e-4
-    final_lr = 1e-5
-    ppo_learning_rate = initial_lr
-    ppo_batch_size = 128
-    ppo_n_epochs = 10
-    ppo_ent_coef = 0.01
+    initial_lr = 2.5e-4       
+    final_lr = 0.0           
+    
+    ppo_learning_rate = initial_lr 
+    ppo_batch_size = 64      # Batch piccolo = Aggiornamenti più frequenti e precisi
+    ppo_n_epochs = 10        # 10 passaggi sui dati
+    ppo_ent_coef = 0.0       # Zero entropia: non vogliamo movimenti casuali che ci uccidono
+    
+    # PARAMETRI CRUCIALI PER AMBIENTI CHE TERMINANO SUBITO
+    ppo_clip_range = 0.1     # (Default 0.2) Stringiamo a 0.1 per stabilità
+    ppo_gae_lambda = 0.95    # Standard
+    ppo_gamma = 0.99         # Standard
+    ppo_max_grad_norm = 0.5  # Evita gradienti esplosivi quando cade
+    
     ppo_verbose = 1
     
     # Setup directories
@@ -151,9 +179,13 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"  PPO Training (no ADR) - Environment: {environment.upper()}")
     print(f"{'='*70}\n")
     
-    # Training environment
+
+    # Recupera kwargs dal config, se non ci sono usa dizionario vuoto
+    #kwargs = env_config.get('env_kwargs', {}) 
+    # Passa i kwargs a gym.make (esplodendoli con **)
+    #base_env = gym.make(env_config['env_id'], **kwargs)
+    # Setup ADR if enabled (prima del VecNormalize)
     base_env = gym.make(env_config['env_id'])
-    env_train = DummyVecEnv([lambda: base_env])
     
     # Setup ADR if enabled (prima del VecNormalize)
     if use_adr:
@@ -182,13 +214,15 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print(f"  Update Frequency: {update_freq} steps")
         print(f"  Parameters to randomize: {adr_manager.params_to_randomize}\n")
         
-        env_train = ADRWrapper(env_train, adr_manager)
+        base_env = ADRWrapper(base_env, adr_manager)
     else:
         adr_manager = None
         print(f"Configuration:")
         print(f"  Environment: {env_config['env_id']}")
         print(f"  ADR Enabled: No (vanilla PPO)")
         print(f"  Evaluation Frequency: {update_freq} steps\n") 
+
+    env_train = DummyVecEnv([lambda: base_env])
     
     # Carica o crea modello (VecNormalize viene gestito qui)
     if checkpoint_path:
@@ -210,19 +244,20 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         use_lr_schedule = False
         
         # Sovrascrivi parametri per fine-tuning conservativo
-        ft_lr = 1e-5           # Bassissimo: solo rifinitura
-        ft_clip = 0.1          # Molto conservativo: vieta cambiamenti bruschi
-        ft_batch = 256         # Ridotto per fine-tuning
-        ft_ent_coef = 0.0      # Zero esplorazione, solo performance
+        #ft_lr = 5e-6           # Bassissimo: solo rifinitura
+        #ft_clip = 0.1          # Molto conservativo: vieta cambiamenti bruschi
+        #ft_batch = 1024         # Ridotto per fine-tuning
+        #ft_ent_coef = 0.0      # Zero esplorazione, solo performance
+        ft_lr = 1.5e-4
         
         model.learning_rate = ft_lr
-        model.clip_range = lambda _: ft_clip  # DEVE essere callable
-        model.batch_size = ft_batch
-        model.ent_coef = ft_ent_coef
+        model.clip_range = lambda _: 0.1  # DEVE essere callable
+        #model.batch_size = ft_batch
+        #model.ent_coef = ft_ent_coef
         model.lr_schedule = lambda _: ft_lr  # Blocca LR fisso
         
-        print("✅ Checkpoint caricato! Parametri fine-tuning applicati:")
-        print(f"   LR={ft_lr:.0e}, Clip={ft_clip}, Batch={ft_batch}, Entropy={ft_ent_coef}")
+        #print("✅ Checkpoint caricato! Parametri fine-tuning applicati:")
+        #print(f"   LR={ft_lr:.0e}, Clip={ft_clip}, Batch={ft_batch}, Entropy={ft_ent_coef}")
         
         # Valuta il modello caricato per inizializzare best_reward
         print("\n[INFO] Valutazione modello caricato per inizializzare best_reward...")
@@ -258,7 +293,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
         print("[INFO] Inizializzazione nuovo modello PPO...")
         
         # Crea VecNormalize per nuovo training
-        env_train = VecNormalize(env_train, norm_obs=True, norm_reward=True, clip_obs=10.0)
+        env_train = VecNormalize(env_train, norm_obs=True, norm_reward=True, clip_obs=10.0, gamma=ppo_gamma)
         
         model = PPO(
             "MlpPolicy",
@@ -267,6 +302,10 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             batch_size=ppo_batch_size,
             n_epochs=ppo_n_epochs,
             ent_coef=ppo_ent_coef,
+            clip_range=ppo_clip_range,       # <--- NUOVO
+            max_grad_norm=ppo_max_grad_norm, # <--- NUOVO
+            gae_lambda=ppo_gae_lambda,       # <--- NUOVO
+            gamma=ppo_gamma,                 # <--- NUOVO
             verbose=ppo_verbose,
             device='cpu',
         )
@@ -282,7 +321,7 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
     print(f"       Numero valutazioni: {num_updates}\n")
     
     for update_idx in range(num_updates):
-        # Aggiorna LR con schedule lineare globale (solo quando non si sta facendo fine-tuning da checkpoint)
+        # Aggiorna LR con warmup iniziale + decay lineare (solo quando non si sta facendo fine-tuning da checkpoint)
         if use_lr_schedule:
             progress = min(1.0, model.num_timesteps / total_timesteps)
             current_lr = initial_lr + (final_lr - initial_lr) * progress
@@ -444,7 +483,7 @@ if __name__ == "__main__":
         '--env',
         type=str,
         default='hopper-source',
-        choices=['hopper-source', 'hopper-target', 'ant-source', 'ant-target'],
+        choices=['hopper-source', 'hopper-target', 'ant-source', 'ant-target', 'ant-target_fine-tuning'],
         help='Environment to train on (source or target domain)'
     )
     

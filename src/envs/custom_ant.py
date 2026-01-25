@@ -60,24 +60,36 @@ class CustomAnt(AntEnv):
                 **kwargs,
             )
 
+        if domain is None:
+            domain = "source" 
         self.domain = domain
+        
+        print(f"[CustomAnt.__init__] Domain ricevuto: {domain}")
 
         # Store original physical parameters
         self.original_masses = np.copy(self.model.body_mass[1:])
         self.original_friction = np.copy(self.model.geom_friction)
         self.original_damping = np.copy(self.model.dof_damping)
         self.original_gravity = np.copy(self.model.opt.gravity)
-
+        
         # ADR perturbations
         self.current_max_push = 0.0
-        self.push_probability = 0.1
+        self.push_probability = 0.0
         self.push_active = False
         self.original_colors = {}
 
         if domain == "target":
+            print("[INFO] Applying HELL MODE")  # ← Verifica che stampi solo su target
             self._apply_hell_mode()
+        else:
+            print("[INFO] Source domain - no modifications")
 
     def _apply_hell_mode(self):
+        
+        if self.domain != "target":
+            print(f"[ERROR] _apply_hell_mode chiamato con domain={self.domain}!")
+            print("[ERROR] Questo è un BUG - hell mode deve attivarsi solo su target!")
+            return
         print("[INFO] Initializing TARGET domain for Ant (HELL MODE)")
 
         # Mass unbalance
