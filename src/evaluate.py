@@ -124,6 +124,10 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
             steps += 1
             done = done_array[0]
             
+            # Frame rate limiting per rendering fluido (50 FPS = 0.02s per frame)
+            if render:
+                time.sleep(0.01)
+            
             # Note: rendering is automatic with render_mode="human", no need to call env.render()
         
         episode_rewards.append(episode_reward)

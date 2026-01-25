@@ -41,7 +41,7 @@ ENV_CONFIGS = {
     },
     'hopper-target-medium': {
         'env_id': 'CustomHopper-target-medium-v0',
-        'target_performance': 1500.0, #TODO da fare training su target per determinare upper bound
+        'target_performance':1636.0,
         'description': 'MEDIUM: Moderate mass changes (+/-20%) + friction (0.7x)',
     },
     'hopper-target-hard': {
@@ -205,13 +205,13 @@ def train_agent(variant_name, environment='hopper', total_timesteps=1000000,
             variant_config['threshold_pct'] = 0.7
             variant_config['boundary_prob'] = 0.10
         elif difficulty == 'medium':
-            variant_config['delta'] = 0.05
+            variant_config['delta'] = 0.03
             variant_config['threshold_pct'] = 0.6
-            variant_config['boundary_prob'] = 0.15
+            variant_config['boundary_prob'] = 0.3
         elif difficulty == 'hard':
             variant_config['delta'] = 0.07
             variant_config['threshold_pct'] = 0.5
-            variant_config['boundary_prob'] = 0.25
+            variant_config['boundary_prob'] = 0.5
         
         if difficulty:
             print(f"[INFO] ADR parameters calibrated for {difficulty.upper()} difficulty:")
