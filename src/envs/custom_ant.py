@@ -29,6 +29,8 @@ class CustomAnt(AntEnv):
         exclude_current_positions_from_observation: bool = True,
         **kwargs,
     ):
+        # AntEnv signature differs between gymnasium versions (v4 vs v5).
+        # Try v4-style args first, then fall back to v5-style args.
         try:
             super().__init__(
                 ctrl_cost_weight=ctrl_cost_weight,
@@ -58,20 +60,22 @@ class CustomAnt(AntEnv):
             domain = "source" 
         self.domain = domain
         
-        print(f"[CustomAnt.__init__] Domain received: {domain}")
+        print(f"[CustomAnt.__init__] Domain ricevuto: {domain}")
 
+        # Store original physical parameters
         self.original_masses = np.copy(self.model.body_mass[1:])
         self.original_friction = np.copy(self.model.geom_friction)
         self.original_damping = np.copy(self.model.dof_damping)
         self.original_gravity = np.copy(self.model.opt.gravity)
         
+        # ADR perturbations
         self.current_max_push = 0.0
         self.push_probability = 0.0
         self.push_active = False
         self.original_colors = {}
 
         if domain == "target":
-            print("[INFO] Applying HELL MODE")
+            print("[INFO] Applying HELL MODE")  # ← Verifica che stampi solo su target
             self._apply_hell_mode()
         else:
             print("[INFO] Source domain - no modifications")
@@ -79,14 +83,17 @@ class CustomAnt(AntEnv):
     def _apply_hell_mode(self):
         
         if self.domain != "target":
-            print(f"[ERROR] _apply_hell_mode called with domain={self.domain}!")
-            print("[ERROR] This is a BUG - hell mode must only activate on target!")
+            print(f"[ERROR] _apply_hell_mode chiamato con domain={self.domain}!")
+            print("[ERROR] Questo è un BUG - hell mode deve attivarsi solo su target!")
             return
         print("[INFO] Initializing TARGET domain for Ant (HELL MODE)")
 
+        #torso unbalance
+        self.model.body_mass[1] *= 2.5 
+        print(f"  - Torso mass increased to 2.5x (HEAVY LOAD)")
+        
         # Mass unbalance
         if len(self.model.body_mass) > 9:
-            self.model.body_mass[1] *= 2.5 
             self.model.body_mass[2] *= 1.5
             self.model.body_mass[3] *= 1.5
             self.model.body_mass[4] *= 1.5
@@ -145,6 +152,7 @@ class CustomAnt(AntEnv):
             return
 
         mass_mapping = {
+            "torso": 1,
             "hip_1": 2,
             "ankle_1": 3,
             "hip_2": 4,
@@ -173,7 +181,7 @@ class CustomAnt(AntEnv):
             self.current_max_push = parameters["force_magnitude"]
 
     def _set_robot_color(self, rgba):
-        """Change robot color (to visualize perturbations)"""
+        """Cambia il colore del robot (per visualizzare perturbazioni)"""
         if not self.original_colors:
             for geom_id in range(self.model.ngeom):
                 self.original_colors[geom_id] = np.copy(self.model.geom_rgba[geom_id])
@@ -182,11 +190,15 @@ class CustomAnt(AntEnv):
             self.model.geom_rgba[geom_id] = rgba
 
     def _restore_robot_color(self):
-        """Restore robot's original colors"""
+        """Ripristina i colori originali del robot"""
         if self.original_colors:
             for geom_id, color in self.original_colors.items():
                 self.model.geom_rgba[geom_id] = color
-                
+
+
+"""
+    Registered environments for Ant
+"""
 gym.register(
         id="CustomAnt-v0",
         entry_point="%s:CustomAnt" % __name__,
