@@ -86,6 +86,7 @@ class CustomAnt(AntEnv):
 
         # Mass unbalance
         if len(self.model.body_mass) > 9:
+            self.model.body_mass[1] *= 2.5 
             self.model.body_mass[2] *= 1.5
             self.model.body_mass[3] *= 1.5
             self.model.body_mass[4] *= 1.5
