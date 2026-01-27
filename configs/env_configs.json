@@ -1,0 +1,24 @@
+{
+  "hopper-source": {
+    "env_id": "CustomHopper-source-v0"
+  },
+  "hopper-target-easy": {
+    "env_id": "CustomHopper-target-easy-v0",
+    "target_performance": 1740,
+    "description": "EASY: Only mass difference (source -1kg torso, target standard)"
+  },
+  "hopper-target-medium": {
+    "env_id": "CustomHopper-target-medium-v0",
+    "target_performance": 1600,
+    "description": "MEDIUM: Moderate mass changes (+/-20%) + friction (0.7x)"
+  },
+  "hopper-target-hard": {
+    "env_id": "CustomHopper-target-hard-v0",
+    "target_performance": 1700.0,
+    "description": "HARD: Full hostile config (masses +/-50%, friction 0.5x, gravity -11, pushes)"
+  },
+  "ant-source": {
+    "env_id": "CustomAnt-source-v0",
+    "target_performance": 2370.0
+  }
+}

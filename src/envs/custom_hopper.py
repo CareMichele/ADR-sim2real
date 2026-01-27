@@ -15,9 +15,9 @@ from scipy.stats import truncnorm
 
 DEFAULT_CAMERA_CONFIG = {
     "trackbodyid": 2,
-    "distance": 9.5,  # Aumentato da 3.0 a 5.5 (più lontano)
-    "lookat": np.array((4.0, 0.0, 1.3)),  # Aumentato da 1.15 a 1.3 (guarda leggermente più in alto)
-    "elevation": -20.0,  # Aumentato da -20.0 a -15.0 (angolo meno ripido, vista più dall'alto)
+    "distance": 9.5,
+    "lookat": np.array((4.0, 0.0, 1.3)),
+    "elevation": -20.0,
 }
 
 class CustomHopper(MujocoEnv, utils.EzPickle):
@@ -79,7 +79,6 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         )
 
         if xml_file == "hopper.xml":
-            # Il file hopper.xml è nella directory configs/ alla root del progetto
             xml_file = os.path.join(os.path.dirname(__file__), "..", "..", "configs", "hopper.xml")
 
         MujocoEnv.__init__(
@@ -117,70 +116,52 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             "qvel": self.data.qvel.size,
         }
 
-        # ===== STORE ORIGINAL PHYSICAL PARAMETERS =====
-        # Salviamo i valori originali per poterli ripristinare/modificare con ADR
-        self.original_masses = np.copy(self.model.body_mass[1:])    # Default link masses
-        self.original_friction = np.copy(self.model.geom_friction)  # Friction coefficients [sliding, torsional, rolling]
-        self.original_damping = np.copy(self.model.dof_damping)     # Joint damping
-        self.original_gravity = np.copy(self.model.opt.gravity)     # Gravity vector [x, y, z]
+        self.original_masses = np.copy(self.model.body_mass[1:])
+        self.original_friction = np.copy(self.model.geom_friction)
+        self.original_damping = np.copy(self.model.dof_damping)
+        self.original_gravity = np.copy(self.model.opt.gravity)
         
-        # Variabili per gestire le perturbazioni (forze esterne)
-        self.current_max_push = 0.0  # Magnitudine massima della spinta (settata da ADR)
-        self.push_probability = 0.1  # Probabilità di applicare spinta ad ogni step (10%)
-        self.push_active = False     # Flag per visualizzazione
-        self.original_colors = {}    # Salvataggio colori originali per visualizzazione
+        self.current_max_push = 0.0
+        self.push_probability = 0.1
+        self.push_active = False
+        self.original_colors = {}
 
-        # ===== DOMAIN-SPECIFIC CONFIGURATIONS =====
         if domain == 'source':
-            # Source environment: imprecise torso mass (1kg shift)
             self.model.body_mass[1] -= 1.0
         
         elif domain == 'target-easy':
-            # EASY: Only slight mass differences (source has -1kg torso, target is standard)
             print("[INFO] Initializing TARGET-EASY domain")
-            # No changes - standard configuration
-            # The difference is that source has -1kg torso, this has standard
             print(f"  - Standard masses (source has -1kg torso difference)")
             print("[INFO] Target-EASY initialized")
         
         elif domain == 'target-medium':
-            # MEDIUM: Moderate mass changes + friction changes
             print("[INFO] Initializing TARGET-MEDIUM domain")
             
-            # 1. MASSES: Moderate unbalance
-            # Thigh slightly heavier (+20%), Leg slightly lighter (-20%)
-            self.model.body_mass[2] *= 1.2   # Thigh: +20%
-            self.model.body_mass[3] *= 0.8   # Leg: -20%
+            self.model.body_mass[2] *= 1.2
+            self.model.body_mass[3] *= 0.8
             print(f"  - Masses modified: thigh={self.model.body_mass[2]:.2f}kg, leg={self.model.body_mass[3]:.2f}kg")
             
-            # 2. FRICTION: Moderately slippery
             for geom_id in range(self.model.ngeom):
-                self.model.geom_friction[geom_id, 0] *= 0.7  # Sliding friction reduced to 70%
+                self.model.geom_friction[geom_id, 0] *= 0.7
             print(f"  - Friction reduced to 0.7x (moderately slippery)")
             print("[INFO] Target-MEDIUM initialized")
         
         elif domain == 'target' or domain == 'target-hard':
-            # HARD: Full hostile configuration (original target)
             print("[INFO] Initializing TARGET-HARD domain (hostile environment)")
             
-            # 1. MASSES: Unbalanced configuration
-            # Thigh heavier (+50%), Leg lighter (-50%)
-            self.model.body_mass[2] *= 1.5   # Thigh: +50%
-            self.model.body_mass[3] *= 0.5   # Leg: -50%
+            self.model.body_mass[2] *= 1.5
+            self.model.body_mass[3] *= 0.5
             print(f"  - Masses modified: thigh={self.model.body_mass[2]:.2f}kg, leg={self.model.body_mass[3]:.2f}kg")
             
-            # 2. FRICTION: Slippery floor (low friction)
             for geom_id in range(self.model.ngeom):
-                self.model.geom_friction[geom_id, 0] *= 0.5  # Sliding friction reduced to 50%
+                self.model.geom_friction[geom_id, 0] *= 0.5
             print(f"  - Friction reduced to 0.5x (slippery)")
             
-            # 3. GRAVITY: Heavier gravity
-            self.model.opt.gravity[2] = -11.0  # Stronger than Earth
+            self.model.opt.gravity[2] = -11.0
             print(f"  - Gravity: {self.model.opt.gravity[2]} m/s²")
             
-            # 4. DISTURBANCES: Enable random pushes natively
-            self.current_max_push = 1.0         # 1 Newton lateral pushes
-            self.push_probability = 0.05        # 5% chance per step
+            self.current_max_push = 1.0
+            self.push_probability = 0.05
             print(f"  - Random pushes enabled: max={self.current_max_push}N, prob={self.push_probability*100:.1f}%")
             print("[INFO] Target-HARD initialized")
 
@@ -224,27 +205,21 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
     def step(self, action):
         x_position_before = self.data.qpos[0]
         
-        # ===== APPLY RANDOM EXTERNAL FORCES (ADR Perturbations) =====
-        # Applica spinte laterali casuali con probabilità definita
         if self.current_max_push > 0 and np.random.rand() < self.push_probability:
-            # Genera forza casuale: direzione (x o y) e magnitudine
             force_direction = np.random.choice(['x', 'y'])
             force_magnitude = np.random.uniform(-self.current_max_push, self.current_max_push)
             
-            # Applica la forza al torso (body index 1)
-            # xfrc_applied[body_id] = [force_x, force_y, force_z, torque_x, torque_y, torque_z]
             if force_direction == 'x':
-                self.data.xfrc_applied[1, 0] = force_magnitude  # Forza lungo X
+                self.data.xfrc_applied[1, 0] = force_magnitude
             else:
-                self.data.xfrc_applied[1, 1] = force_magnitude  # Forza lungo Y
+                self.data.xfrc_applied[1, 1] = force_magnitude
             
             self.push_active = True
-            self._set_robot_color([1.0, 0.0, 0.0, 1.0])  # Rosso quando viene spinto
+            self._set_robot_color([1.0, 0.0, 0.0, 1.0])
         else:
-            # Nessuna forza esterna
             self.data.xfrc_applied[1, :] = 0.0
             if self.push_active:
-                self._restore_robot_color()  # Ripristina colore originale
+                self._restore_robot_color()
                 self.push_active = False
         
         self.do_simulation(action, self.frame_skip)
@@ -285,13 +260,9 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
         return reward, reward_info
 
     def reset_model(self):
-        #print(self.model.body_mass)
-        #Questo serve per non far partire il robot mai nella stessa identica posizione perfetta al millimetro. 
-        #Se partisse sempre identico, la rete neurale imparerebbe a memoria la sequenza di partenza invece di imparare a reagire.
         noise_low = -self._reset_noise_scale
         noise_high = self._reset_noise_scale
         
-        #calcola posizione e velocità iniziale del robot con l'aggiunta di un piccolo rumores
         qpos = self.init_qpos + self.np_random.uniform(
             low=noise_low, high=noise_high, size=self.model.nq
         )
@@ -299,26 +270,8 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             low=noise_low, high=noise_high, size=self.model.nv
         )
 
-        #"Teletrasporta il robot istantaneamente in questa posizione qpos con questa velocità qvel"
         self.set_state(qpos, qvel)
-
-        # Custom domain randomization
-        # DISABLED: La randomizzazione è gestita esternamente da ADRWrapper
-        # self.set_random_parameters() # TODO: May be useful insert a parameter to control if to sample new mass params
         
-        """
-        original_masses = np.array([4.05789051, 2.7813567, 5.31557477])
-        
-        sigma = 0.6
-        
-        lower_bounds = original_masses - (original_masses*sigma)
-        upper_bounds = original_masses + (original_masses*sigma)
-        new_masses = self.np_random.uniform(low = lower_bounds, high = upper_bounds)
-        
-        self.model.body_mass[2:] = new_masses
-        
-        #print(f"Masse episodio: {self.model.body_mass[2:]}")
-        """
         observation = self._get_obs()
         return observation
 
@@ -328,19 +281,6 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             "z_distance_from_origin": self.data.qpos[1] - self.init_qpos[1],
         }
 
-    def set_random_parameters(self):
-        """Set random masses
-        TODO
-        """
-        self.set_parameters(*self.sample_parameters())
-
-    def sample_parameters(self):
-        """Sample masses according to a domain randomization distribution
-        N.B. You can't change the mass of the torso (first link)
-        TODO
-        """
-        return
-
     def get_parameters(self):
         """Get value of mass for each link"""
         masses = np.array( self.model.body_mass[1:] )
@@ -348,95 +288,64 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
 
     def set_parameters(self, parameters):
         """
-        Applica TUTTI i parametri fisici dall'ADR Manager.
-        Versione agnostica con mass_mapping locale.
+        Apply all physical parameters from ADR Manager.
+        Environment-agnostic version with local mass_mapping.
         
         Args:
-            parameters: dict o array (per backward compatibility)
-                Se dict: {'thigh': float, 'leg': float, 'foot': float, 
+            parameters: dict or array (for backward compatibility)
+                If dict: {'thigh': float, 'leg': float, 'foot': float, 
                          'friction': float, 'damping': float, 'gravity': float, 
                          'force_magnitude': float, 'masses': array [optional]}
-                Se array: solo masse (vecchio comportamento)
+                If array: masses only (old behavior)
         """
-        # ===== BACKWARD COMPATIBILITY: se riceve un array, trattalo come masse =====
         if isinstance(parameters, (np.ndarray, list)):
             self.model.body_mass[1:] = parameters
             return
         
-        # ===== NUOVO COMPORTAMENTO: dizionario completo =====
         if not isinstance(parameters, dict):
-            print(f"[WARNING] set_parameters ricevuto tipo inatteso: {type(parameters)}")
+            print(f"[WARNING] set_parameters received unexpected type: {type(parameters)}")
             return
         
-        # === 1. MASSES (gestione con mapping locale) ===
-        # Mappa locale: nome parametro -> indice in body_mass
         mass_mapping = {
-            'thigh': 2,  # body_mass[2] = thigh
-            'leg': 3,    # body_mass[3] = leg  
-            'foot': 4,   # body_mass[4] = foot
+            'thigh': 2,
+            'leg': 3,
+            'foot': 4,
         }
         
-        # Applica le masse usando la mappa locale
         for param_name, body_idx in mass_mapping.items():
             if param_name in parameters:
-                # Se il parametro è un moltiplicatore, applicalo alla massa originale
                 self.model.body_mass[body_idx] = self.original_masses[body_idx-1] * parameters[param_name]
         
-        # Backward compatibility: se c'è 'masses' come array completo, usalo
         if 'masses' in parameters and parameters['masses'] is not None:
             self.model.body_mass[1:] = parameters['masses']
         
-        # === 2. FRICTION ===
         if 'friction' in parameters:
             multiplier = parameters['friction']
-            # MuJoCo friction: array di shape (n_geoms, 3) = [sliding, torsional, rolling]
-            # Moltiplichiamo solo sliding friction (colonna 0), più importante per locomozione
             for geom_id in range(self.model.ngeom):
                 self.model.geom_friction[geom_id, 0] = self.original_friction[geom_id, 0] * multiplier
-        
-        # === 3. DAMPING ===
-        if 'damping' in parameters:
-            multiplier = parameters['damping']
-            # Applica lo smorzamento ai giunti attivi (dof = degrees of freedom)
-            # Nel Hopper: 6 DOF (3 per root free joint, 3 per i giunti delle gambe)
-            # Ci interessa modificare solo i giunti attivi (da index 3 in poi)
-            for dof_id in range(3, self.model.nv):  # Skip root joint (primi 3 DOF)
-                self.model.dof_damping[dof_id] = self.original_damping[dof_id] * multiplier
-        
-        # === 4. GRAVITY ===
         if 'gravity' in parameters:
             gravity_value = parameters['gravity']
-            # MuJoCo gravity: vettore [gx, gy, gz]. Normalmente [0, 0, -9.81]
-            # Modifichiamo solo la componente Z (verticale)
             self.model.opt.gravity[2] = gravity_value
-        
-        # === 5. FORCE MAGNITUDE ===
         if 'force_magnitude' in parameters:
-            # Salva il valore massimo della spinta per usarlo durante step()
             self.current_max_push = parameters['force_magnitude']
     
     def _set_robot_color(self, rgba):
-        """Cambia il colore del robot (per visualizzare perturbazioni)"""
-        # Salva i colori originali solo la prima volta
+        """Change robot color (to visualize perturbations)"""
         if not self.original_colors:
             for geom_id in range(self.model.ngeom):
                 self.original_colors[geom_id] = np.copy(self.model.geom_rgba[geom_id])
         
-        # Applica il nuovo colore a tutti i geom del robot (escluso il pavimento)
-        # Assumiamo che il pavimento sia il primo geom (index 0)
         for geom_id in range(1, self.model.ngeom):
             self.model.geom_rgba[geom_id] = rgba
     
     def _restore_robot_color(self):
-        """Ripristina i colori originali del robot"""
+        """Restore robot's original colors"""
         if self.original_colors:
             for geom_id, color in self.original_colors.items():
                 self.model.geom_rgba[geom_id] = color
 
+# Register envs
 
-"""
-    Registered environments
-"""
 gym.register(
         id="CustomHopper-v0",
         entry_point="%s:CustomHopper" % __name__,
@@ -448,13 +357,6 @@ gym.register(
         entry_point="%s:CustomHopper" % __name__,
         max_episode_steps=500,
         kwargs={"domain": "source"}
-)
-
-gym.register(
-        id="CustomHopper-target-v0",
-        entry_point="%s:CustomHopper" % __name__,
-        max_episode_steps=500,
-        kwargs={"domain": "target"}  # Alias for target-hard
 )
 
 gym.register(

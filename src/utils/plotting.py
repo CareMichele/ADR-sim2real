@@ -1,44 +1,37 @@
-"""
-Utility functions for plotting training metrics.
-"""
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
+import pandas as pd
 from pathlib import Path
 import json
 
 
 def plot_training_history(history_path, save_path=None, show=True):
     """
-    Plotta le metriche di training da un file JSON history.
-    Gestisce sia ADR che vanilla PPO.
+    Plot training metrics from JSON history file.
+    Handles both ADR and vanilla PPO.
     
     Args:
-        history_path: Path al file adr_history.json o training_history.json
-        save_path: Path dove salvare il plot (opzionale)
-        show: Se True, mostra il plot a schermo
+        history_path: Path to adr_history.json or training_history.json
+        save_path: Optional path to save the plot
+        show: If True, display the plot
     """
-    # Carica history
     with open(history_path, 'r') as f:
         history = json.load(f)
     
-    # Estrai dati
     timesteps = [h['timestep'] for h in history]
     mean_rewards = [h['mean_reward'] for h in history]
     std_rewards = [h['std_reward'] for h in history]
     
-    # Controlla se è ADR o vanilla PPO
     is_adr = 'threshold' in history[0]
     
     if is_adr:
-        # ADR: plot completo con threshold, diversity, ecc.
         thresholds = [h['threshold'] for h in history]
         diversities = [h['diversity'] for h in history]
         
-        # Crea figura con subplots
         fig, axes = plt.subplots(2, 2, figsize=(15, 10))
         fig.suptitle('ADR Training History', fontsize=16, fontweight='bold')
         
-        # 1. Reward nel tempo con threshold
         ax1 = axes[0, 0]
         ax1.plot(timesteps, mean_rewards, 'b-', linewidth=2, label='Mean Reward')
         ax1.fill_between(timesteps, 
@@ -52,7 +45,6 @@ def plot_training_history(history_path, save_path=None, show=True):
         ax1.legend(loc='best')
         ax1.grid(True, alpha=0.3)
         
-        # 2. Diversity (larghezza range ADR)
         ax2 = axes[0, 1]
         ax2.plot(timesteps, diversities, 'g-', linewidth=2, marker='o', markersize=4)
         ax2.set_xlabel('Timesteps', fontsize=12)
@@ -60,7 +52,6 @@ def plot_training_history(history_path, save_path=None, show=True):
         ax2.set_title('ADR Range Diversity', fontsize=14, fontweight='bold')
         ax2.grid(True, alpha=0.3)
         
-        # 3. Status ADR (EXPAND vs CONTRACT)
         ax3 = axes[1, 0]
         statuses = [h['status'] for h in history]
         expand_count = statuses.count('EXPAND')
@@ -71,9 +62,7 @@ def plot_training_history(history_path, save_path=None, show=True):
         ax3.set_title('ADR Actions Distribution', fontsize=14, fontweight='bold')
         ax3.grid(True, alpha=0.3, axis='y')
         
-        # 4. Range evolution nel tempo (esempio per primo parametro)
         ax4 = axes[1, 1]
-        # Prendi il primo parametro di massa
         first_mass_param = None
         for key in history[0]['ranges'].keys():
             if key not in ['friction', 'damping', 'gravity', 'force_magnitude']:
@@ -93,7 +82,6 @@ def plot_training_history(history_path, save_path=None, show=True):
             ax4.legend(loc='best')
             ax4.grid(True, alpha=0.3)
     else:
-        # Vanilla PPO: solo reward plot
         fig, ax = plt.subplots(1, 1, figsize=(10, 6))
         fig.suptitle('PPO Training History (no ADR)', fontsize=16, fontweight='bold')
         
@@ -110,12 +98,10 @@ def plot_training_history(history_path, save_path=None, show=True):
     
     plt.tight_layout()
     
-    # Salva se richiesto
     if save_path:
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"📊 Plot salvato in: {save_path}")
+        print(f"Plot saved: {save_path}")
     
-    # Mostra se richiesto
     if show:
         plt.show()
     else:
@@ -124,31 +110,27 @@ def plot_training_history(history_path, save_path=None, show=True):
 
 def plot_all_ranges(history_path, save_path=None, show=True):
     """
-    Plotta l'evoluzione di TUTTI i range ADR nel tempo.
+    Plot evolution of all ADR ranges over time.
     
     Args:
-        history_path: Path al file adr_history.json
-        save_path: Path dove salvare il plot (opzionale)
-        show: Se True, mostra il plot a schermo
+        history_path: Path to adr_history.json
+        save_path: Optional path to save the plot
+        show: If True, display the plot
     """
-    # Carica history
     with open(history_path, 'r') as f:
         history = json.load(f)
     
     timesteps = [h['timestep'] for h in history]
     
-    # Trova tutti i parametri
     all_params = list(history[0]['ranges'].keys())
     n_params = len(all_params)
     
-    # Calcola dimensioni griglia
     n_cols = 3
     n_rows = (n_params + n_cols - 1) // n_cols
     
     fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 4*n_rows))
     fig.suptitle('ADR All Parameters Range Evolution', fontsize=16, fontweight='bold')
     
-    # Fix: gestisci caso singolo parametro o singola riga
     if n_params == 1:
         axes = np.array([[axes]])
     elif n_rows == 1:
@@ -166,7 +148,6 @@ def plot_all_ranges(history_path, save_path=None, show=True):
         ax.plot(timesteps, upper_bounds, 'b-', linewidth=2, label='Upper')
         ax.fill_between(timesteps, lower_bounds, upper_bounds, alpha=0.3, color='gray')
         
-        # Linea nominale (diversa per gravity)
         if param == 'gravity':
             ax.axhline(y=-9.81, color='k', linestyle='--', linewidth=1, label='Nominal')
         elif param == 'force_magnitude':
@@ -180,7 +161,6 @@ def plot_all_ranges(history_path, save_path=None, show=True):
         ax.legend(loc='best', fontsize=8)
         ax.grid(True, alpha=0.3)
     
-    # Rimuovi subplot vuoti
     for idx in range(n_params, n_rows * n_cols):
         row = idx // n_cols
         col = idx % n_cols
@@ -190,7 +170,7 @@ def plot_all_ranges(history_path, save_path=None, show=True):
     
     if save_path:
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
-        print(f"📊 Plot salvato in: {save_path}")
+        print(f"Plot saved: {save_path}")
     
     if show:
         plt.show()
@@ -200,10 +180,10 @@ def plot_all_ranges(history_path, save_path=None, show=True):
 
 def plot_quick_summary(history_path):
     """
-    Crea un plot veloce di summary per visualizzazione rapida durante training.
+    Create quick summary plot for fast visualization during training.
     
     Args:
-        history_path: Path al file adr_history.json
+        history_path: Path to adr_history.json
     """
     with open(history_path, 'r') as f:
         history = json.load(f)
@@ -224,8 +204,104 @@ def plot_quick_summary(history_path):
     plt.show()
 
 
+def create_results_table(results_df):
+    """Create and print formatted results table."""
+    print("\n" + "="*100)
+    print("  EVALUATION RESULTS SUMMARY")
+    print("="*100)
+    
+    pivot_table = results_df.pivot_table(
+        values='Mean Reward',
+        index='Model',
+        columns='Target Difficulty',
+        aggfunc='first'
+    )
+    
+    print("\nMean Rewards by Model and Target Difficulty:")
+    print(pivot_table.to_string())
+    
+    print("\n\nDetailed Results:")
+    print(results_df[['Model', 'Target Difficulty', 'Mean Reward', 'Std Reward', 'Median Reward']].to_string(index=False))
+    
+    return pivot_table
+
+
+def create_heatmap(results_df, output_dir):
+    """Create heatmap visualization of results."""
+    pivot_data = results_df.pivot_table(
+        values='Mean Reward',
+        index='Model',
+        columns='Target Difficulty',
+        aggfunc='first'
+    )
+    
+    column_order = ['Easy', 'Medium', 'Hard']
+    pivot_data = pivot_data[[col for col in column_order if col in pivot_data.columns]]
+    
+    row_order = ['Upper Bound EASY', 'Upper Bound MEDIUM', 'Upper Bound HARD', 
+                 'ADR Easy', 'ADR Medium', 'ADR Hard']
+    pivot_data = pivot_data.reindex([row for row in row_order if row in pivot_data.index])
+    
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(
+        pivot_data,
+        annot=True,
+        fmt='.1f',
+        cmap='RdYlGn',
+        vmin=0,
+        vmax=1800,
+        cbar_kws={'label': 'Mean Reward'},
+        linewidths=0.5,
+        linecolor='gray',
+    )
+    
+    plt.title('Model Performance Across Target Difficulties', fontsize=16, fontweight='bold', pad=20)
+    plt.xlabel('Target Difficulty', fontsize=12, fontweight='bold')
+    plt.ylabel('Model', fontsize=12, fontweight='bold')
+    plt.tight_layout()
+    
+    output_path = output_dir / 'evaluation_heatmap.png'
+    plt.savefig(output_path, dpi=300, bbox_inches='tight')
+    print(f"\nHeatmap saved: {output_path}")
+    plt.close()
+
+
+def create_bar_chart(results_df, output_dir):
+    """Create grouped bar chart comparing models."""
+    adr_models = results_df[results_df['Model'].str.contains('ADR')]
+    
+    if len(adr_models) > 0:
+        plt.figure(figsize=(14, 6))
+        
+        models = adr_models['Model'].unique()
+        difficulties = ['Easy', 'Medium', 'Hard']
+        x = np.arange(len(difficulties))
+        width = 0.25
+        
+        for i, model in enumerate(models):
+            model_data = adr_models[adr_models['Model'] == model]
+            rewards = [
+                model_data[model_data['Target Difficulty'] == diff]['Mean Reward'].values[0]
+                if len(model_data[model_data['Target Difficulty'] == diff]) > 0 else 0
+                for diff in difficulties
+            ]
+            plt.bar(x + i*width, rewards, width, label=model, alpha=0.8)
+        
+        plt.xlabel('Target Difficulty', fontsize=12, fontweight='bold')
+        plt.ylabel('Mean Reward', fontsize=12, fontweight='bold')
+        plt.title('ADR Model Generalization Across Difficulties', fontsize=16, fontweight='bold', pad=20)
+        plt.xticks(x + width, difficulties)
+        plt.legend(loc='best')
+        plt.grid(axis='y', alpha=0.3)
+        plt.tight_layout()
+        
+        output_path = output_dir / 'adr_comparison_bars.png'
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
+        print(f"Bar chart saved: {output_path}")
+        plt.close()
+
+
 if __name__ == "__main__":
-    # Test: carica e plotta un history esistente
     import sys
     if len(sys.argv) > 1:
         history_file = Path(sys.argv[1])
@@ -234,6 +310,6 @@ if __name__ == "__main__":
             plot_training_history(history_file)
             plot_all_ranges(history_file)
         else:
-            print(f"File non trovato: {history_file}")
+            print(f"File not found: {history_file}")
     else:
         print("Usage: python plotting.py <path_to_adr_history.json>")

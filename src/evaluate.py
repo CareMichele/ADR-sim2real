@@ -1,8 +1,3 @@
-"""
-Evaluation script for trained ADR models.
-Carica un checkpoint salvato e valuta il modello su vari environment.
-"""
-
 import gymnasium as gym
 import numpy as np
 from stable_baselines3 import PPO
@@ -11,39 +6,32 @@ from pathlib import Path
 import sys
 import argparse
 import time
+import json
 
-# Importa le utility per gli environment
-# Gli envs sono in src/envs/, quindi basta aggiungere src al path
 sys.path.insert(0, str(Path(__file__).parent))
 import envs.custom_hopper
 import envs.custom_ant
+from utils.env_utils import create_eval_env
 
-# Environment mapping (deve coincidere con train.py)
-ENV_CONFIGS = {
-    'hopper-source': 'CustomHopper-source-v0',
-    'hopper-target': 'CustomHopper-target-v0',
-    'hopper-target-easy': 'CustomHopper-target-easy-v0',
-    'hopper-target-medium': 'CustomHopper-target-medium-v0',
-    'hopper-target-hard': 'CustomHopper-target-hard-v0',
-    'ant-source': 'CustomAnt-source-v0',
-    'ant-target': 'CustomAnt-target-v0',
-}
+# Load environment configurations
+with open(Path(__file__).parent.parent / 'configs' / 'env_configs.json', 'r') as f:
+    ENV_CONFIGS = json.load(f)
 
 
 def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministic=True, max_steps=500):
     """
-    Valuta un modello caricato da checkpoint.
+    Evaluate a model loaded from checkpoint.
     
     Args:
-        model_path: Path al checkpoint .zip del modello
-        env_id: ID dell'environment Gymnasium (es. 'CustomHopper-source-v0')
-        n_episodes: Numero di episodi da testare
-        render: Se True, renderizza l'environment
-        deterministic: Se True, usa policy deterministica
-        max_steps: Massimo numero di step per episodio
+        model_path: Path to model checkpoint .zip file
+        env_id: Gymnasium environment ID (e.g., 'CustomHopper-source-v0')
+        n_episodes: Number of episodes to test
+        render: If True, render the environment
+        deterministic: If True, use deterministic policy
+        max_steps: Maximum number of steps per episode
     
     Returns:
-        dict: Statistiche della valutazione
+        dict: Evaluation statistics
     """
     print(f"\n{'='*70}")
     print(f"  MODEL EVALUATION")
@@ -54,59 +42,18 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
     print(f"Render: {render}")
     print(f"Deterministic: {deterministic}\n")
     
-    # Carica il modello
-    print("[INFO] Caricamento modello...")
+    print("[INFO] Loading model...")
     model = PPO.load(model_path, device='cpu')
-    print("✅ Modello caricato con successo!\n")
+    print("Model loaded successfully!\n")
     
-    # Crea l'environment
-    print("[INFO] Creazione environment...")
-    if render:
-        env = DummyVecEnv([lambda: gym.make(env_id, render_mode="human", width=2000, height=1080)])
-    else:
-        env = DummyVecEnv([lambda: gym.make(env_id)])
+    print("[INFO] Creating environment...")
+    env = create_eval_env(env_id, model_path, render=render)
+    print("Environment created!\n")
     
-    # Auto-detect if VecFrameStack was used during training
-    vecnorm_path = Path(model_path).parent / "vecnormalize.pkl"
-    use_frame_stack = False
-    
-    if vecnorm_path.exists():
-        # Load temporarily to check observation space dimension
-        print(f"[INFO] Auto-detecting training configuration da {vecnorm_path}...")
-        import pickle
-        with open(vecnorm_path, 'rb') as f:
-            vecnorm_data = pickle.load(f)
-        
-        # Check observation space dimension
-        saved_obs_dim = vecnorm_data.observation_space.shape[0]
-        base_obs_dim = env.observation_space.shape[0]
-        
-        # If saved dimension is 4x base, then VecFrameStack was used
-        if saved_obs_dim == base_obs_dim * 4:
-            use_frame_stack = True
-            print(f"   Detected: VecFrameStack(n_stack=4) was used (obs: {base_obs_dim} → {saved_obs_dim})")
-        else:
-            print(f"   Detected: No VecFrameStack (obs: {saved_obs_dim})")
-    
-    # Apply VecFrameStack ONLY if it was used during training
-    if use_frame_stack:
-        env = VecFrameStack(env, n_stack=4)
-    
-    # Load VecNormalize stats if available
-    if vecnorm_path.exists():
-        print(f"[INFO] Caricamento VecNormalize stats...")
-        env = VecNormalize.load(str(vecnorm_path), env)
-        env.training = False
-        env.norm_reward = False
-        print("✅ VecNormalize stats caricati!")
-    
-    print("✅ Environment creato!\n")
-    
-    # Statistiche
     episode_rewards = []
     episode_lengths = []
     
-    print(f"[INFO] Inizio valutazione ({n_episodes} episodi)...\n")
+    print(f"[INFO] Starting evaluation ({n_episodes} episodes)...\n")
     
     for ep in range(n_episodes):
         obs = env.reset()
@@ -115,37 +62,28 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
         steps = 0
         
         while not done and steps < max_steps:
-            # Predizione
             action, _ = model.predict(obs, deterministic=deterministic)
-            
-            # Step
             obs, reward, done_array, info = env.step(action)
             episode_reward += reward[0]
             steps += 1
             done = done_array[0]
             
-            # Frame rate limiting per rendering fluido (50 FPS = 0.02s per frame)
             if render:
                 time.sleep(0.01)
-            
-            # Note: rendering is automatic with render_mode="human", no need to call env.render()
         
         episode_rewards.append(episode_reward)
         episode_lengths.append(steps)
         
-        # Stampa progress ogni 10 episodi
         if (ep + 1) % 10 == 0 or ep == 0:
             print(f"Episode {ep+1:3d}/{n_episodes}: reward={episode_reward:7.2f}, steps={steps:3d}")
     
     env.close()
     
-    # Calcola statistiche
     mean_reward = np.mean(episode_rewards)
     std_reward = np.std(episode_rewards)
     min_reward = np.min(episode_rewards)
     max_reward = np.max(episode_rewards)
     median_reward = np.median(episode_rewards)
-    
     mean_length = np.mean(episode_lengths)
     
     stats = {
@@ -160,7 +98,6 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
         'all_lengths': episode_lengths,
     }
     
-    # Stampa summary
     print(f"\n{'='*70}")
     print("  EVALUATION RESULTS")
     print(f"{'='*70}")
@@ -172,43 +109,6 @@ def evaluate_model(model_path, env_id, n_episodes=50, render=False, deterministi
     print(f"{'='*70}\n")
     
     return stats
-
-
-def compare_environments(model_path, env_ids, n_episodes=50):
-    """
-    Confronta le performance del modello su diversi environment.
-    
-    Args:
-        model_path: Path al checkpoint
-        env_ids: Lista di environment ID da testare
-        n_episodes: Episodi per environment
-    
-    Returns:
-        dict: Risultati per ogni environment
-    """
-    print(f"\n{'='*70}")
-    print(f"  MULTI-ENVIRONMENT COMPARISON")
-    print(f"{'='*70}\n")
-    
-    results = {}
-    
-    for env_id in env_ids:
-        print(f"\n>>> Testing on: {env_id}")
-        stats = evaluate_model(model_path, env_id, n_episodes, render=False, deterministic=True)
-        results[env_id] = stats
-        print()
-    
-    # Summary comparison
-    print(f"\n{'='*70}")
-    print("  COMPARISON SUMMARY")
-    print(f"{'='*70}")
-    print(f"{'Environment':<30s} {'Mean Reward':<15s} {'Std':>10s}")
-    print(f"{'-'*70}")
-    for env_id, stats in results.items():
-        print(f"{env_id:<30s} {stats['mean_reward']:>7.2f} ± {stats['std_reward']:>6.2f}")
-    print(f"{'='*70}\n")
-    
-    return results
 
 
 def main():
@@ -224,60 +124,32 @@ def main():
                         help='Use stochastic policy (default: deterministic)')
     parser.add_argument('--max-steps', type=int, default=500,
                         help='Max steps per episode (default: 500)')
-    parser.add_argument('--compare', nargs='+', type=str,
-                        help='Compare on multiple environments (e.g., --compare CustomHopper-source-v0 CustomHopper-target-v0)')
     
     args = parser.parse_args()
     
-    # Verifica che il modello esista
     model_path = Path(args.model_path)
     if not model_path.exists():
-        print(f"❌ Errore: Model file non trovato: {model_path}")
+        print(f"Error: Model file not found: {model_path}")
         sys.exit(1)
     
-    # Converti env-name a env-id se necessario
     env_id = args.env
     if args.env in ENV_CONFIGS:
-        env_id = ENV_CONFIGS[args.env]
-        print(f"[INFO] Convertito '{args.env}' -> '{env_id}'")
+        env_config = ENV_CONFIGS[args.env]
+        if isinstance(env_config, dict):
+            env_id = env_config['env_id']
+        else:
+            env_id = env_config
+        print(f"[INFO] Converted '{args.env}' -> '{env_id}'")
     
-    # Modalità comparison
-    if args.compare:
-        # Converti anche i nomi in compare
-        compare_envs = [ENV_CONFIGS.get(e, e) for e in args.compare]
-        compare_environments(str(model_path), compare_envs, args.episodes)
-    else:
-        # Valutazione singola
-        evaluate_model(
-            str(model_path),
-            env_id,
-            args.episodes,
-            args.render,
-            deterministic=not args.stochastic,
-            max_steps=args.max_steps
-        )
+    evaluate_model(
+        str(model_path),
+        env_id,
+        args.episodes,
+        args.render,
+        deterministic=not args.stochastic,
+        max_steps=args.max_steps
+    )
 
 
-if __name__ == "__main__":
-    # Esempi di utilizzo
-    """
-    # Valutazione base
-    python evaluate.py logs/hopper_adr_vanilla/model_final.zip
-    
-    # Con rendering
-    python evaluate.py logs/hopper_adr_vanilla/model_final.zip --render
-    
-    # Su environment specifico
-    python evaluate.py logs/hopper_adr_vanilla/model_final.zip --env CustomHopper-target-v0
-    
-    # Confronto su più environment
-    python evaluate.py logs/hopper_adr_vanilla/model_final.zip --compare CustomHopper-source-v0 CustomHopper-target-v0
-    
-    # Policy stocastica (invece di deterministica)
-    python evaluate.py logs/hopper_adr_vanilla/model_final.zip --stochastic
-    
-    # Solo 10 episodi
-    python evaluate.py logs/hopper_adr_vanilla/model_final.zip --episodes 10
-    """
-    
+if __name__ == "__main__": 
     main()
