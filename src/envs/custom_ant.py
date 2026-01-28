@@ -103,7 +103,7 @@ class CustomAnt(AntEnv):
             self.model.body_mass[7] *= 0.5
             self.model.body_mass[8] *= 0.5
             self.model.body_mass[9] *= 0.5
-            print("  - Masses unbalanced: front legs +50%, back legs -50%")
+            print("  - unbalanced internal link masses (some links increased by +50%, others reduced by −50%)")
 
         # Slippery floor
         self.model.geom_friction[:, 0] *= 0.5
