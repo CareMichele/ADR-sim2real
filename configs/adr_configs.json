@@ -39,7 +39,7 @@
       "progressive": false
     },
     "ant-asymmetric": {
-      "description": "Asymmetric 4 legs",
+      "description": "Partial internal link mass asymmetry + friction + gravity",
       "delta": 0.05,
       "threshold_pct": 0.45,
       "randomize_only": ["hip_1", "ankle_2", "hip_3", "ankle_4", "friction", "gravity"],
@@ -47,7 +47,7 @@
       "progressive": false
     },
     "ant-heavy": {
-        "description": "Full body randomization (Torso+4 Legs) + High Viscosity + Gravity",
+        "description": "Full mass-related parameter set defined in the model (torso + selected limb links) + friction + damping + gravity",
         "delta": 0.05,
         "threshold_pct": 0.45,
         "randomize_only": [
