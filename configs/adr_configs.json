@@ -45,6 +45,23 @@
       "randomize_only": ["hip_1", "ankle_2", "hip_3", "ankle_4", "friction", "gravity"],
       "boundary_sampling": false,
       "progressive": false
+    },
+    "ant-heavy": {
+        "description": "Full body randomization (Torso+4 Legs) + High Viscosity + Gravity",
+        "delta": 0.05,
+        "threshold_pct": 0.45,
+        "randomize_only": [
+            "torso",         
+            "hip_1", "ankle_1",
+            "hip_2", "ankle_2",
+            "hip_3", "ankle_3",
+            "hip_4", "ankle_4",
+            "friction",      
+            "damping",
+            "gravity"        
+        ],
+        "boundary_sampling": false, 
+        "progressive": false
     }
   },
   "difficulty_limits": {
@@ -153,6 +170,6 @@
   },
   "mass_params": {
     "hopper": ["thigh", "leg", "foot"],
-    "ant": ["hip_1", "ankle_1", "hip_2", "ankle_2", "hip_3", "ankle_3", "hip_4", "ankle_4"]
+    "ant": ["torso", "hip_1", "ankle_1", "hip_2", "ankle_2", "hip_3", "ankle_3", "hip_4", "ankle_4"]
   }
 }
