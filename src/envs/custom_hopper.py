@@ -160,7 +160,7 @@ class CustomHopper(MujocoEnv, utils.EzPickle):
             self.model.opt.gravity[2] = -11.0
             print(f"  - Gravity: {self.model.opt.gravity[2]} m/s²")
             
-            self.current_max_push = 1.0
+            self.current_max_push = 10.0
             self.push_probability = 0.05
             print(f"  - Random pushes enabled: max={self.current_max_push}N, prob={self.push_probability*100:.1f}%")
             print("[INFO] Target-HARD initialized")
