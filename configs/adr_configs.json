@@ -1,0 +1,175 @@
+{
+  "variants": {
+    "vanilla": {
+      "description": "Symmetric expansion/contraction (baseline)",
+      "delta": 0.05,
+      "threshold_pct": 0.75,
+      "boundary_sampling": false,
+      "progressive": false
+    },
+    "boundary": {
+      "description": "Boundary sampling (50% at extremes)",
+      "delta": 0.03,
+      "threshold_pct": 0.7,
+      "boundary_sampling": true,
+      "boundary_prob": 0.10,
+      "progressive": false
+    },
+    "progressive": {
+      "description": "Progressive curriculum (increasing threshold)",
+      "delta": 0.05,
+      "threshold_schedule": [0.60, 0.70, 0.80],
+      "boundary_sampling": false,
+      "progressive": true
+    },
+    "selective": {
+      "description": "Only randomize critical parameters (thigh)",
+      "delta": 0.05,
+      "threshold_pct": 0.75,
+      "randomize_only": ["thigh"],
+      "boundary_sampling": false,
+      "progressive": false
+    },
+    "ant-minimal": {
+      "description": "Only friction, damping, gravity",
+      "delta": 0.02,
+      "threshold_pct": 0.45,
+      "randomize_only": ["friction", "damping", "gravity"],
+      "boundary_sampling": false,
+      "progressive": false
+    },
+    "ant-asymmetric": {
+      "description": "Partial internal link mass asymmetry + friction + gravity",
+      "delta": 0.05,
+      "threshold_pct": 0.45,
+      "randomize_only": ["hip_1", "ankle_2", "hip_3", "ankle_4", "friction", "gravity"],
+      "boundary_sampling": false,
+      "progressive": false
+    },
+    "ant-heavy": {
+        "description": "Full mass-related parameter set defined in the model (torso + selected limb links) + friction + damping + gravity",
+        "delta": 0.05,
+        "threshold_pct": 0.45,
+        "randomize_only": [
+            "torso",         
+            "hip_1", "ankle_1",
+            "hip_2", "ankle_2",
+            "hip_3", "ankle_3",
+            "hip_4", "ankle_4",
+            "friction",      
+            "damping",
+            "gravity"        
+        ],
+        "boundary_sampling": false, 
+        "progressive": false
+    }
+  },
+  "difficulty_limits": {
+    "hopper": {
+      "easy": {
+        "thigh": [0.7, 1.3],
+        "leg": [0.7, 1.3],
+        "foot": [0.7, 1.3],
+        "friction": [1.0, 1.0],
+        "gravity": [-9.81, -9.81],
+        "force_magnitude": [0.0, 0.0]
+      },
+      "medium": {
+        "thigh": [0.6, 1.4],
+        "leg": [0.6, 1.4],
+        "foot": [0.6, 1.4],
+        "friction": [0.6, 1.4],
+        "gravity": [-9.81, -9.81],
+        "force_magnitude": [0.0, 0.0]
+      },
+      "hard": {
+        "thigh": [0.4, 1.6],
+        "leg": [0.4, 1.6],
+        "foot": [0.4, 1.6],
+        "friction": [0.2, 1.8],
+        "gravity": [-12.0, -7.0],
+        "force_magnitude": [0.0, 15.0]
+      },
+      "default": {
+        "thigh": [0.4, 1.6],
+        "leg": [0.4, 1.6],
+        "foot": [0.4, 1.6],
+        "friction": [0.1, 2.4],
+        "gravity": [-14.0, -6.0],
+        "force_magnitude": [0.0, 15.0]
+      }
+    },
+    "ant": {
+      "default": {
+        "hip_1": [0.5, 1.5],
+        "ankle_1": [0.5, 1.5],
+        "hip_2": [0.5, 1.5],
+        "ankle_2": [0.5, 1.5],
+        "hip_3": [0.5, 1.5],
+        "ankle_3": [0.5, 1.5],
+        "hip_4": [0.5, 1.5],
+        "ankle_4": [0.5, 1.5],
+        "friction": [0.2, 2.0],
+        "damping": [0.5, 2.0],
+        "gravity": [-12.0, -7.0],
+        "force_magnitude": [0.0, 50.0]
+      }
+    }
+  },
+  "difficulty_calibration": {
+    "hopper": {
+      "easy": {
+        "delta": 0.03,
+        "threshold_pct": 0.7,
+        "boundary_prob": 0.10,
+        "ppo_ent_coef": 0.01
+      },
+      "medium": {
+        "delta": 0.03,
+        "threshold_pct": 0.6,
+        "boundary_prob": 0.3,
+        "ppo_ent_coef": 0.01
+      },
+      "hard": {
+        "delta": 0.07,
+        "threshold_pct": 0.6,
+        "boundary_prob": 0.5,
+        "ppo_ent_coef": 0.01
+      }
+    }
+  },
+  "initial_ranges": {
+    "hopper": {
+      "thigh": [1.0, 1.0],
+      "leg": [1.0, 1.0],
+      "foot": [1.0, 1.0],
+      "friction": [1.0, 1.0],
+      "gravity": [-9.81, -9.81],
+      "force_magnitude": [0.0, 0.0]
+    },
+    "ant": {
+      "hip_1": [1.0, 1.0],
+      "ankle_1": [1.0, 1.0],
+      "hip_2": [1.0, 1.0],
+      "ankle_2": [1.0, 1.0],
+      "hip_3": [1.0, 1.0],
+      "ankle_3": [1.0, 1.0],
+      "hip_4": [1.0, 1.0],
+      "ankle_4": [1.0, 1.0],
+      "friction": [1.0, 1.0],
+      "damping": [1.0, 1.0],
+      "gravity": [-9.81, -9.81],
+      "force_magnitude": [0.0, 0.0]
+    },
+    "default": {
+      "friction": [1.0, 1.0],
+      "damping": [1.0, 1.0],
+      "gravity": [-9.81, -9.81],
+      "force_magnitude": [0.0, 0.0]
+    }
+  },
+  "mass_params": {
+    "hopper": ["thigh", "leg", "foot"],
+    "ant": ["torso", "hip_1", "ankle_1", "hip_2", "ankle_2", "hip_3", "ankle_3", "hip_4", "ankle_4"]
+  }
+}

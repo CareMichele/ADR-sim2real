@@ -1,0 +1,1602 @@
+[
+  {
+    "update": 1,
+    "timestep": 743424,
+    "mean_reward": 375.6813659667969,
+    "std_reward": 135.57913208007812,
+    "min_reward": 36.407779693603516,
+    "max_reward": 543.4322509765625
+  },
+  {
+    "update": 2,
+    "timestep": 749568,
+    "mean_reward": 412.68963623046875,
+    "std_reward": 123.78512573242188,
+    "min_reward": 21.121795654296875,
+    "max_reward": 556.55859375
+  },
+  {
+    "update": 3,
+    "timestep": 755712,
+    "mean_reward": 377.5069274902344,
+    "std_reward": 132.5501251220703,
+    "min_reward": 8.963630676269531,
+    "max_reward": 540.793701171875
+  },
+  {
+    "update": 4,
+    "timestep": 761856,
+    "mean_reward": 449.00006103515625,
+    "std_reward": 132.32882690429688,
+    "min_reward": 37.31552505493164,
+    "max_reward": 610.9780883789062
+  },
+  {
+    "update": 5,
+    "timestep": 768000,
+    "mean_reward": 453.311279296875,
+    "std_reward": 103.89065551757812,
+    "min_reward": 148.12643432617188,
+    "max_reward": 583.329345703125
+  },
+  {
+    "update": 6,
+    "timestep": 774144,
+    "mean_reward": 449.3714904785156,
+    "std_reward": 89.54488372802734,
+    "min_reward": 196.27133178710938,
+    "max_reward": 579.02587890625
+  },
+  {
+    "update": 7,
+    "timestep": 780288,
+    "mean_reward": 426.8926696777344,
+    "std_reward": 134.57611083984375,
+    "min_reward": 68.27162170410156,
+    "max_reward": 634.8228759765625
+  },
+  {
+    "update": 8,
+    "timestep": 786432,
+    "mean_reward": 488.68902587890625,
+    "std_reward": 66.88526916503906,
+    "min_reward": 365.7462463378906,
+    "max_reward": 585.5853881835938
+  },
+  {
+    "update": 9,
+    "timestep": 792576,
+    "mean_reward": 484.78106689453125,
+    "std_reward": 47.62797927856445,
+    "min_reward": 399.69378662109375,
+    "max_reward": 558.708984375
+  },
+  {
+    "update": 10,
+    "timestep": 798720,
+    "mean_reward": 479.6884765625,
+    "std_reward": 159.64077758789062,
+    "min_reward": 83.4080581665039,
+    "max_reward": 617.983154296875
+  },
+  {
+    "update": 11,
+    "timestep": 804864,
+    "mean_reward": 457.50201416015625,
+    "std_reward": 140.58619689941406,
+    "min_reward": 57.79798126220703,
+    "max_reward": 643.1659545898438
+  },
+  {
+    "update": 12,
+    "timestep": 811008,
+    "mean_reward": 518.38232421875,
+    "std_reward": 129.88858032226562,
+    "min_reward": 24.45932388305664,
+    "max_reward": 662.5423583984375
+  },
+  {
+    "update": 13,
+    "timestep": 817152,
+    "mean_reward": 552.4065551757812,
+    "std_reward": 129.51356506347656,
+    "min_reward": 127.5762939453125,
+    "max_reward": 766.554931640625
+  },
+  {
+    "update": 14,
+    "timestep": 823296,
+    "mean_reward": 563.22900390625,
+    "std_reward": 97.0773696899414,
+    "min_reward": 337.408447265625,
+    "max_reward": 712.3599853515625
+  },
+  {
+    "update": 15,
+    "timestep": 829440,
+    "mean_reward": 542.4620361328125,
+    "std_reward": 119.60233306884766,
+    "min_reward": 212.2245635986328,
+    "max_reward": 731.2550048828125
+  },
+  {
+    "update": 16,
+    "timestep": 835584,
+    "mean_reward": 535.0545043945312,
+    "std_reward": 154.39569091796875,
+    "min_reward": 71.35981750488281,
+    "max_reward": 682.1779174804688
+  },
+  {
+    "update": 17,
+    "timestep": 841728,
+    "mean_reward": 547.8216552734375,
+    "std_reward": 123.8189468383789,
+    "min_reward": 146.9914093017578,
+    "max_reward": 680.8427124023438
+  },
+  {
+    "update": 18,
+    "timestep": 847872,
+    "mean_reward": 508.4444274902344,
+    "std_reward": 159.0401153564453,
+    "min_reward": 124.6597671508789,
+    "max_reward": 704.8569946289062
+  },
+  {
+    "update": 19,
+    "timestep": 854016,
+    "mean_reward": 594.2124633789062,
+    "std_reward": 99.6416015625,
+    "min_reward": 254.57138061523438,
+    "max_reward": 729.5488891601562
+  },
+  {
+    "update": 20,
+    "timestep": 860160,
+    "mean_reward": 604.6004638671875,
+    "std_reward": 132.22398376464844,
+    "min_reward": 86.74424743652344,
+    "max_reward": 707.764892578125
+  },
+  {
+    "update": 21,
+    "timestep": 866304,
+    "mean_reward": 588.7455444335938,
+    "std_reward": 107.55988311767578,
+    "min_reward": 234.10519409179688,
+    "max_reward": 724.6616821289062
+  },
+  {
+    "update": 22,
+    "timestep": 872448,
+    "mean_reward": 596.1236572265625,
+    "std_reward": 162.1068878173828,
+    "min_reward": 105.29103088378906,
+    "max_reward": 746.21533203125
+  },
+  {
+    "update": 23,
+    "timestep": 878592,
+    "mean_reward": 618.119384765625,
+    "std_reward": 65.54896545410156,
+    "min_reward": 497.7356872558594,
+    "max_reward": 735.5729370117188
+  },
+  {
+    "update": 24,
+    "timestep": 884736,
+    "mean_reward": 560.552490234375,
+    "std_reward": 174.16177368164062,
+    "min_reward": 138.32278442382812,
+    "max_reward": 757.6004638671875
+  },
+  {
+    "update": 25,
+    "timestep": 890880,
+    "mean_reward": 618.4298095703125,
+    "std_reward": 81.93861389160156,
+    "min_reward": 434.73101806640625,
+    "max_reward": 698.3611450195312
+  },
+  {
+    "update": 26,
+    "timestep": 897024,
+    "mean_reward": 572.8674926757812,
+    "std_reward": 164.91387939453125,
+    "min_reward": 77.3364486694336,
+    "max_reward": 739.1119384765625
+  },
+  {
+    "update": 27,
+    "timestep": 903168,
+    "mean_reward": 613.3092651367188,
+    "std_reward": 153.14797973632812,
+    "min_reward": 19.341800689697266,
+    "max_reward": 737.6369018554688
+  },
+  {
+    "update": 28,
+    "timestep": 909312,
+    "mean_reward": 641.8015747070312,
+    "std_reward": 90.22142028808594,
+    "min_reward": 432.3958740234375,
+    "max_reward": 775.595458984375
+  },
+  {
+    "update": 29,
+    "timestep": 915456,
+    "mean_reward": 687.4113159179688,
+    "std_reward": 65.26815795898438,
+    "min_reward": 513.790283203125,
+    "max_reward": 791.5291748046875
+  },
+  {
+    "update": 30,
+    "timestep": 921600,
+    "mean_reward": 689.4970703125,
+    "std_reward": 76.74893951416016,
+    "min_reward": 471.596435546875,
+    "max_reward": 792.5397338867188
+  },
+  {
+    "update": 31,
+    "timestep": 927744,
+    "mean_reward": 647.746826171875,
+    "std_reward": 54.2512321472168,
+    "min_reward": 483.4115295410156,
+    "max_reward": 741.0186767578125
+  },
+  {
+    "update": 32,
+    "timestep": 933888,
+    "mean_reward": 635.7852783203125,
+    "std_reward": 100.829833984375,
+    "min_reward": 314.6338806152344,
+    "max_reward": 724.6851196289062
+  },
+  {
+    "update": 33,
+    "timestep": 940032,
+    "mean_reward": 618.9268798828125,
+    "std_reward": 157.55975341796875,
+    "min_reward": 123.21766662597656,
+    "max_reward": 774.2340698242188
+  },
+  {
+    "update": 34,
+    "timestep": 946176,
+    "mean_reward": 645.3463134765625,
+    "std_reward": 148.04486083984375,
+    "min_reward": 86.80804443359375,
+    "max_reward": 808.1982421875
+  },
+  {
+    "update": 35,
+    "timestep": 952320,
+    "mean_reward": 667.1414184570312,
+    "std_reward": 159.2132110595703,
+    "min_reward": 36.828330993652344,
+    "max_reward": 793.5208129882812
+  },
+  {
+    "update": 36,
+    "timestep": 958464,
+    "mean_reward": 650.3056030273438,
+    "std_reward": 149.8995819091797,
+    "min_reward": 70.9175033569336,
+    "max_reward": 809.9061279296875
+  },
+  {
+    "update": 37,
+    "timestep": 964608,
+    "mean_reward": 676.0911865234375,
+    "std_reward": 106.27755737304688,
+    "min_reward": 432.504150390625,
+    "max_reward": 786.1734619140625
+  },
+  {
+    "update": 38,
+    "timestep": 970752,
+    "mean_reward": 642.356689453125,
+    "std_reward": 175.7891387939453,
+    "min_reward": 95.21746063232422,
+    "max_reward": 801.8097534179688
+  },
+  {
+    "update": 39,
+    "timestep": 976896,
+    "mean_reward": 689.4912109375,
+    "std_reward": 56.53582000732422,
+    "min_reward": 518.0359497070312,
+    "max_reward": 773.558349609375
+  },
+  {
+    "update": 40,
+    "timestep": 983040,
+    "mean_reward": 694.0801391601562,
+    "std_reward": 160.72511291503906,
+    "min_reward": 35.965660095214844,
+    "max_reward": 827.7799682617188
+  },
+  {
+    "update": 41,
+    "timestep": 989184,
+    "mean_reward": 700.2857666015625,
+    "std_reward": 50.80923843383789,
+    "min_reward": 530.7470092773438,
+    "max_reward": 787.8844604492188
+  },
+  {
+    "update": 42,
+    "timestep": 995328,
+    "mean_reward": 656.1864624023438,
+    "std_reward": 126.80491638183594,
+    "min_reward": 151.4141387939453,
+    "max_reward": 762.9144897460938
+  },
+  {
+    "update": 43,
+    "timestep": 1001472,
+    "mean_reward": 667.3363647460938,
+    "std_reward": 105.75786590576172,
+    "min_reward": 251.4935760498047,
+    "max_reward": 779.2969970703125
+  },
+  {
+    "update": 44,
+    "timestep": 1007616,
+    "mean_reward": 735.3418579101562,
+    "std_reward": 31.588985443115234,
+    "min_reward": 643.817626953125,
+    "max_reward": 785.5145263671875
+  },
+  {
+    "update": 45,
+    "timestep": 1013760,
+    "mean_reward": 689.5399780273438,
+    "std_reward": 50.23428726196289,
+    "min_reward": 546.98779296875,
+    "max_reward": 775.5491333007812
+  },
+  {
+    "update": 46,
+    "timestep": 1019904,
+    "mean_reward": 688.22802734375,
+    "std_reward": 57.24300765991211,
+    "min_reward": 531.2487182617188,
+    "max_reward": 796.1543579101562
+  },
+  {
+    "update": 47,
+    "timestep": 1026048,
+    "mean_reward": 692.892578125,
+    "std_reward": 58.79182052612305,
+    "min_reward": 536.776123046875,
+    "max_reward": 807.3424682617188
+  },
+  {
+    "update": 48,
+    "timestep": 1032192,
+    "mean_reward": 679.7127685546875,
+    "std_reward": 82.43282318115234,
+    "min_reward": 401.201904296875,
+    "max_reward": 772.1849365234375
+  },
+  {
+    "update": 49,
+    "timestep": 1038336,
+    "mean_reward": 705.6075439453125,
+    "std_reward": 32.72922134399414,
+    "min_reward": 650.905517578125,
+    "max_reward": 775.3897094726562
+  },
+  {
+    "update": 50,
+    "timestep": 1044480,
+    "mean_reward": 696.5299682617188,
+    "std_reward": 69.34841918945312,
+    "min_reward": 443.7644348144531,
+    "max_reward": 810.3032836914062
+  },
+  {
+    "update": 51,
+    "timestep": 1050624,
+    "mean_reward": 717.6451416015625,
+    "std_reward": 62.67085266113281,
+    "min_reward": 603.8585815429688,
+    "max_reward": 808.6705322265625
+  },
+  {
+    "update": 52,
+    "timestep": 1056768,
+    "mean_reward": 712.6281127929688,
+    "std_reward": 59.461544036865234,
+    "min_reward": 524.560302734375,
+    "max_reward": 785.3876342773438
+  },
+  {
+    "update": 53,
+    "timestep": 1062912,
+    "mean_reward": 721.7150268554688,
+    "std_reward": 58.766014099121094,
+    "min_reward": 523.2994384765625,
+    "max_reward": 800.4421997070312
+  },
+  {
+    "update": 54,
+    "timestep": 1069056,
+    "mean_reward": 740.2093505859375,
+    "std_reward": 46.6659049987793,
+    "min_reward": 667.1080932617188,
+    "max_reward": 873.0219116210938
+  },
+  {
+    "update": 55,
+    "timestep": 1075200,
+    "mean_reward": 764.0780029296875,
+    "std_reward": 31.060089111328125,
+    "min_reward": 721.6871337890625,
+    "max_reward": 826.0049438476562
+  },
+  {
+    "update": 56,
+    "timestep": 1081344,
+    "mean_reward": 732.4793701171875,
+    "std_reward": 80.16938781738281,
+    "min_reward": 489.05731201171875,
+    "max_reward": 826.2307739257812
+  },
+  {
+    "update": 57,
+    "timestep": 1087488,
+    "mean_reward": 732.8938598632812,
+    "std_reward": 147.70005798339844,
+    "min_reward": 110.83975219726562,
+    "max_reward": 849.2623291015625
+  },
+  {
+    "update": 58,
+    "timestep": 1093632,
+    "mean_reward": 763.7131958007812,
+    "std_reward": 28.17974090576172,
+    "min_reward": 684.523193359375,
+    "max_reward": 814.4569702148438
+  },
+  {
+    "update": 59,
+    "timestep": 1099776,
+    "mean_reward": 757.4176025390625,
+    "std_reward": 56.85598373413086,
+    "min_reward": 537.7683715820312,
+    "max_reward": 817.7100830078125
+  },
+  {
+    "update": 60,
+    "timestep": 1105920,
+    "mean_reward": 733.3718872070312,
+    "std_reward": 127.65412139892578,
+    "min_reward": 197.71014404296875,
+    "max_reward": 833.2128295898438
+  },
+  {
+    "update": 61,
+    "timestep": 1112064,
+    "mean_reward": 759.9235229492188,
+    "std_reward": 36.64866638183594,
+    "min_reward": 685.8626098632812,
+    "max_reward": 831.8485107421875
+  },
+  {
+    "update": 62,
+    "timestep": 1118208,
+    "mean_reward": 792.0891723632812,
+    "std_reward": 28.13199234008789,
+    "min_reward": 730.7288208007812,
+    "max_reward": 848.6278686523438
+  },
+  {
+    "update": 63,
+    "timestep": 1124352,
+    "mean_reward": 791.5460205078125,
+    "std_reward": 32.2015495300293,
+    "min_reward": 735.43310546875,
+    "max_reward": 853.189697265625
+  },
+  {
+    "update": 64,
+    "timestep": 1130496,
+    "mean_reward": 803.635498046875,
+    "std_reward": 32.3838996887207,
+    "min_reward": 738.9895629882812,
+    "max_reward": 854.4749145507812
+  },
+  {
+    "update": 65,
+    "timestep": 1136640,
+    "mean_reward": 778.5516357421875,
+    "std_reward": 165.28028869628906,
+    "min_reward": 108.54084014892578,
+    "max_reward": 920.075439453125
+  },
+  {
+    "update": 66,
+    "timestep": 1142784,
+    "mean_reward": 766.6373291015625,
+    "std_reward": 177.07688903808594,
+    "min_reward": 17.59746551513672,
+    "max_reward": 885.9735717773438
+  },
+  {
+    "update": 67,
+    "timestep": 1148928,
+    "mean_reward": 828.7822265625,
+    "std_reward": 74.78524780273438,
+    "min_reward": 536.5921630859375,
+    "max_reward": 919.4581298828125
+  },
+  {
+    "update": 68,
+    "timestep": 1155072,
+    "mean_reward": 805.2827758789062,
+    "std_reward": 162.38616943359375,
+    "min_reward": 130.6269073486328,
+    "max_reward": 917.4982299804688
+  },
+  {
+    "update": 69,
+    "timestep": 1161216,
+    "mean_reward": 825.6669921875,
+    "std_reward": 93.3215103149414,
+    "min_reward": 462.2269287109375,
+    "max_reward": 937.8724365234375
+  },
+  {
+    "update": 70,
+    "timestep": 1167360,
+    "mean_reward": 774.2689208984375,
+    "std_reward": 164.64138793945312,
+    "min_reward": 218.42269897460938,
+    "max_reward": 910.218505859375
+  },
+  {
+    "update": 71,
+    "timestep": 1173504,
+    "mean_reward": 789.502685546875,
+    "std_reward": 143.4827117919922,
+    "min_reward": 274.0243225097656,
+    "max_reward": 923.054443359375
+  },
+  {
+    "update": 72,
+    "timestep": 1179648,
+    "mean_reward": 853.1309814453125,
+    "std_reward": 49.42097854614258,
+    "min_reward": 723.5089721679688,
+    "max_reward": 914.5924682617188
+  },
+  {
+    "update": 73,
+    "timestep": 1185792,
+    "mean_reward": 844.6285400390625,
+    "std_reward": 43.31283950805664,
+    "min_reward": 767.859375,
+    "max_reward": 928.3209838867188
+  },
+  {
+    "update": 74,
+    "timestep": 1191936,
+    "mean_reward": 806.0950317382812,
+    "std_reward": 178.75303649902344,
+    "min_reward": 42.90492248535156,
+    "max_reward": 918.1887817382812
+  },
+  {
+    "update": 75,
+    "timestep": 1198080,
+    "mean_reward": 829.4520263671875,
+    "std_reward": 47.191593170166016,
+    "min_reward": 690.6246948242188,
+    "max_reward": 895.9747314453125
+  },
+  {
+    "update": 76,
+    "timestep": 1204224,
+    "mean_reward": 809.3807983398438,
+    "std_reward": 162.0275115966797,
+    "min_reward": 124.6981430053711,
+    "max_reward": 943.5189819335938
+  },
+  {
+    "update": 77,
+    "timestep": 1210368,
+    "mean_reward": 792.2703857421875,
+    "std_reward": 144.15628051757812,
+    "min_reward": 356.6567687988281,
+    "max_reward": 934.3070068359375
+  },
+  {
+    "update": 78,
+    "timestep": 1216512,
+    "mean_reward": 822.9899291992188,
+    "std_reward": 158.6997528076172,
+    "min_reward": 285.4676513671875,
+    "max_reward": 920.970947265625
+  },
+  {
+    "update": 79,
+    "timestep": 1222656,
+    "mean_reward": 850.4459228515625,
+    "std_reward": 101.74433135986328,
+    "min_reward": 430.1492004394531,
+    "max_reward": 928.9898681640625
+  },
+  {
+    "update": 80,
+    "timestep": 1228800,
+    "mean_reward": 873.5126953125,
+    "std_reward": 31.800697326660156,
+    "min_reward": 786.6671142578125,
+    "max_reward": 921.6890258789062
+  },
+  {
+    "update": 81,
+    "timestep": 1234944,
+    "mean_reward": 834.7249145507812,
+    "std_reward": 122.8851318359375,
+    "min_reward": 377.83209228515625,
+    "max_reward": 955.9234619140625
+  },
+  {
+    "update": 82,
+    "timestep": 1241088,
+    "mean_reward": 801.8192749023438,
+    "std_reward": 194.08847045898438,
+    "min_reward": 71.67916107177734,
+    "max_reward": 958.5285034179688
+  },
+  {
+    "update": 83,
+    "timestep": 1247232,
+    "mean_reward": 771.9683837890625,
+    "std_reward": 248.36343383789062,
+    "min_reward": 84.96905517578125,
+    "max_reward": 923.0661010742188
+  },
+  {
+    "update": 84,
+    "timestep": 1253376,
+    "mean_reward": 826.6266479492188,
+    "std_reward": 184.7371368408203,
+    "min_reward": 28.334138870239258,
+    "max_reward": 928.450927734375
+  },
+  {
+    "update": 85,
+    "timestep": 1259520,
+    "mean_reward": 873.4747924804688,
+    "std_reward": 86.2047348022461,
+    "min_reward": 524.7734375,
+    "max_reward": 935.356689453125
+  },
+  {
+    "update": 86,
+    "timestep": 1265664,
+    "mean_reward": 834.6544189453125,
+    "std_reward": 207.70611572265625,
+    "min_reward": 38.93988800048828,
+    "max_reward": 935.1995239257812
+  },
+  {
+    "update": 87,
+    "timestep": 1271808,
+    "mean_reward": 912.9287109375,
+    "std_reward": 33.7379150390625,
+    "min_reward": 810.2153930664062,
+    "max_reward": 968.2298583984375
+  },
+  {
+    "update": 88,
+    "timestep": 1277952,
+    "mean_reward": 887.8683471679688,
+    "std_reward": 85.57637023925781,
+    "min_reward": 627.1813354492188,
+    "max_reward": 998.6519165039062
+  },
+  {
+    "update": 89,
+    "timestep": 1284096,
+    "mean_reward": 890.4855346679688,
+    "std_reward": 149.3790740966797,
+    "min_reward": 272.5184631347656,
+    "max_reward": 982.673828125
+  },
+  {
+    "update": 90,
+    "timestep": 1290240,
+    "mean_reward": 935.2365112304688,
+    "std_reward": 31.594051361083984,
+    "min_reward": 880.5828247070312,
+    "max_reward": 997.7782592773438
+  },
+  {
+    "update": 91,
+    "timestep": 1296384,
+    "mean_reward": 892.2711181640625,
+    "std_reward": 151.42718505859375,
+    "min_reward": 358.51470947265625,
+    "max_reward": 1018.2442626953125
+  },
+  {
+    "update": 92,
+    "timestep": 1302528,
+    "mean_reward": 866.60205078125,
+    "std_reward": 190.82159423828125,
+    "min_reward": 81.64488220214844,
+    "max_reward": 1021.412109375
+  },
+  {
+    "update": 93,
+    "timestep": 1308672,
+    "mean_reward": 876.7252807617188,
+    "std_reward": 196.22064208984375,
+    "min_reward": 36.491783142089844,
+    "max_reward": 978.6522216796875
+  },
+  {
+    "update": 94,
+    "timestep": 1314816,
+    "mean_reward": 860.9656982421875,
+    "std_reward": 243.14105224609375,
+    "min_reward": 115.02214050292969,
+    "max_reward": 1009.9063110351562
+  },
+  {
+    "update": 95,
+    "timestep": 1320960,
+    "mean_reward": 750.0126953125,
+    "std_reward": 319.1134948730469,
+    "min_reward": 25.667085647583008,
+    "max_reward": 999.0732421875
+  },
+  {
+    "update": 96,
+    "timestep": 1327104,
+    "mean_reward": 885.2463989257812,
+    "std_reward": 195.9638214111328,
+    "min_reward": 81.6348876953125,
+    "max_reward": 1014.3713989257812
+  },
+  {
+    "update": 97,
+    "timestep": 1333248,
+    "mean_reward": 902.9401245117188,
+    "std_reward": 182.32827758789062,
+    "min_reward": 207.30055236816406,
+    "max_reward": 1020.3837280273438
+  },
+  {
+    "update": 98,
+    "timestep": 1339392,
+    "mean_reward": 852.64892578125,
+    "std_reward": 205.5141143798828,
+    "min_reward": 133.51824951171875,
+    "max_reward": 1025.849365234375
+  },
+  {
+    "update": 99,
+    "timestep": 1345536,
+    "mean_reward": 883.28271484375,
+    "std_reward": 218.4895782470703,
+    "min_reward": 47.89354705810547,
+    "max_reward": 1015.0170288085938
+  },
+  {
+    "update": 100,
+    "timestep": 1351680,
+    "mean_reward": 891.64697265625,
+    "std_reward": 204.71864318847656,
+    "min_reward": 245.12789916992188,
+    "max_reward": 1018.0618896484375
+  },
+  {
+    "update": 101,
+    "timestep": 1357824,
+    "mean_reward": 869.2962646484375,
+    "std_reward": 232.68780517578125,
+    "min_reward": 235.74493408203125,
+    "max_reward": 1001.1682739257812
+  },
+  {
+    "update": 102,
+    "timestep": 1363968,
+    "mean_reward": 884.4475708007812,
+    "std_reward": 199.06936645507812,
+    "min_reward": 77.8585433959961,
+    "max_reward": 1017.0645751953125
+  },
+  {
+    "update": 103,
+    "timestep": 1370112,
+    "mean_reward": 862.6824340820312,
+    "std_reward": 176.17111206054688,
+    "min_reward": 325.2506103515625,
+    "max_reward": 999.0105590820312
+  },
+  {
+    "update": 104,
+    "timestep": 1376256,
+    "mean_reward": 805.1300659179688,
+    "std_reward": 282.15997314453125,
+    "min_reward": 57.220436096191406,
+    "max_reward": 1020.4961547851562
+  },
+  {
+    "update": 105,
+    "timestep": 1382400,
+    "mean_reward": 901.2496948242188,
+    "std_reward": 167.98399353027344,
+    "min_reward": 306.3723449707031,
+    "max_reward": 1027.0775146484375
+  },
+  {
+    "update": 106,
+    "timestep": 1388544,
+    "mean_reward": 887.8310546875,
+    "std_reward": 212.86782836914062,
+    "min_reward": 175.89683532714844,
+    "max_reward": 1047.262939453125
+  },
+  {
+    "update": 107,
+    "timestep": 1394688,
+    "mean_reward": 863.6446533203125,
+    "std_reward": 240.53558349609375,
+    "min_reward": 122.78841400146484,
+    "max_reward": 1042.478271484375
+  },
+  {
+    "update": 108,
+    "timestep": 1400832,
+    "mean_reward": 881.90234375,
+    "std_reward": 263.2051086425781,
+    "min_reward": 25.547494888305664,
+    "max_reward": 1074.72705078125
+  },
+  {
+    "update": 109,
+    "timestep": 1406976,
+    "mean_reward": 896.150390625,
+    "std_reward": 164.5048065185547,
+    "min_reward": 279.63232421875,
+    "max_reward": 1020.606689453125
+  },
+  {
+    "update": 110,
+    "timestep": 1413120,
+    "mean_reward": 878.1111450195312,
+    "std_reward": 225.85597229003906,
+    "min_reward": 152.7462615966797,
+    "max_reward": 1098.2344970703125
+  },
+  {
+    "update": 111,
+    "timestep": 1419264,
+    "mean_reward": 940.671875,
+    "std_reward": 139.61390686035156,
+    "min_reward": 346.9617614746094,
+    "max_reward": 1047.9832763671875
+  },
+  {
+    "update": 112,
+    "timestep": 1425408,
+    "mean_reward": 851.43701171875,
+    "std_reward": 264.51751708984375,
+    "min_reward": 83.93511962890625,
+    "max_reward": 1078.9796142578125
+  },
+  {
+    "update": 113,
+    "timestep": 1431552,
+    "mean_reward": 877.3092651367188,
+    "std_reward": 243.77980041503906,
+    "min_reward": 228.24624633789062,
+    "max_reward": 1066.5450439453125
+  },
+  {
+    "update": 114,
+    "timestep": 1437696,
+    "mean_reward": 953.5115356445312,
+    "std_reward": 120.4913330078125,
+    "min_reward": 473.4969482421875,
+    "max_reward": 1051.32080078125
+  },
+  {
+    "update": 115,
+    "timestep": 1443840,
+    "mean_reward": 938.9166870117188,
+    "std_reward": 163.5596923828125,
+    "min_reward": 535.7750854492188,
+    "max_reward": 1061.0445556640625
+  },
+  {
+    "update": 116,
+    "timestep": 1449984,
+    "mean_reward": 954.8135986328125,
+    "std_reward": 196.57757568359375,
+    "min_reward": 289.4921569824219,
+    "max_reward": 1104.0665283203125
+  },
+  {
+    "update": 117,
+    "timestep": 1456128,
+    "mean_reward": 934.0999145507812,
+    "std_reward": 224.14987182617188,
+    "min_reward": 84.91101837158203,
+    "max_reward": 1123.3798828125
+  },
+  {
+    "update": 118,
+    "timestep": 1462272,
+    "mean_reward": 931.1026611328125,
+    "std_reward": 251.70216369628906,
+    "min_reward": 164.91226196289062,
+    "max_reward": 1124.38818359375
+  },
+  {
+    "update": 119,
+    "timestep": 1468416,
+    "mean_reward": 928.4136962890625,
+    "std_reward": 198.46507263183594,
+    "min_reward": 278.594970703125,
+    "max_reward": 1084.3148193359375
+  },
+  {
+    "update": 120,
+    "timestep": 1474560,
+    "mean_reward": 1012.0986328125,
+    "std_reward": 185.47010803222656,
+    "min_reward": 221.23086547851562,
+    "max_reward": 1127.3245849609375
+  },
+  {
+    "update": 121,
+    "timestep": 1480704,
+    "mean_reward": 960.1312255859375,
+    "std_reward": 210.01087951660156,
+    "min_reward": 296.78717041015625,
+    "max_reward": 1121.5106201171875
+  },
+  {
+    "update": 122,
+    "timestep": 1486848,
+    "mean_reward": 932.9091796875,
+    "std_reward": 223.75164794921875,
+    "min_reward": 156.90647888183594,
+    "max_reward": 1139.0733642578125
+  },
+  {
+    "update": 123,
+    "timestep": 1492992,
+    "mean_reward": 902.0608520507812,
+    "std_reward": 279.3248596191406,
+    "min_reward": 89.26972961425781,
+    "max_reward": 1097.2802734375
+  },
+  {
+    "update": 124,
+    "timestep": 1499136,
+    "mean_reward": 903.74755859375,
+    "std_reward": 230.20779418945312,
+    "min_reward": 236.4730682373047,
+    "max_reward": 1114.99169921875
+  },
+  {
+    "update": 125,
+    "timestep": 1505280,
+    "mean_reward": 945.044921875,
+    "std_reward": 189.0155487060547,
+    "min_reward": 520.3047485351562,
+    "max_reward": 1111.6201171875
+  },
+  {
+    "update": 126,
+    "timestep": 1511424,
+    "mean_reward": 934.8134765625,
+    "std_reward": 299.8934631347656,
+    "min_reward": 38.7754020690918,
+    "max_reward": 1135.7864990234375
+  },
+  {
+    "update": 127,
+    "timestep": 1517568,
+    "mean_reward": 963.0301513671875,
+    "std_reward": 204.2366180419922,
+    "min_reward": 259.6824035644531,
+    "max_reward": 1102.8272705078125
+  },
+  {
+    "update": 128,
+    "timestep": 1523712,
+    "mean_reward": 993.2515869140625,
+    "std_reward": 148.57957458496094,
+    "min_reward": 439.55938720703125,
+    "max_reward": 1132.4891357421875
+  },
+  {
+    "update": 129,
+    "timestep": 1529856,
+    "mean_reward": 977.1077270507812,
+    "std_reward": 173.53131103515625,
+    "min_reward": 383.6015625,
+    "max_reward": 1126.4066162109375
+  },
+  {
+    "update": 130,
+    "timestep": 1536000,
+    "mean_reward": 943.6578369140625,
+    "std_reward": 256.58392333984375,
+    "min_reward": 119.35289001464844,
+    "max_reward": 1122.68359375
+  },
+  {
+    "update": 131,
+    "timestep": 1542144,
+    "mean_reward": 948.7139892578125,
+    "std_reward": 187.498779296875,
+    "min_reward": 439.4018859863281,
+    "max_reward": 1116.798583984375
+  },
+  {
+    "update": 132,
+    "timestep": 1548288,
+    "mean_reward": 863.0558471679688,
+    "std_reward": 321.63482666015625,
+    "min_reward": 154.87319946289062,
+    "max_reward": 1115.4036865234375
+  },
+  {
+    "update": 133,
+    "timestep": 1554432,
+    "mean_reward": 993.1707763671875,
+    "std_reward": 152.88906860351562,
+    "min_reward": 386.3886413574219,
+    "max_reward": 1103.9990234375
+  },
+  {
+    "update": 134,
+    "timestep": 1560576,
+    "mean_reward": 993.9099731445312,
+    "std_reward": 147.2161102294922,
+    "min_reward": 445.1136779785156,
+    "max_reward": 1099.512939453125
+  },
+  {
+    "update": 135,
+    "timestep": 1566720,
+    "mean_reward": 907.2562255859375,
+    "std_reward": 282.2685852050781,
+    "min_reward": 264.1424255371094,
+    "max_reward": 1136.45263671875
+  },
+  {
+    "update": 136,
+    "timestep": 1572864,
+    "mean_reward": 995.1456298828125,
+    "std_reward": 169.47463989257812,
+    "min_reward": 550.1931762695312,
+    "max_reward": 1166.1644287109375
+  },
+  {
+    "update": 137,
+    "timestep": 1579008,
+    "mean_reward": 946.9757690429688,
+    "std_reward": 278.91650390625,
+    "min_reward": 173.20767211914062,
+    "max_reward": 1131.3499755859375
+  },
+  {
+    "update": 138,
+    "timestep": 1585152,
+    "mean_reward": 1047.514892578125,
+    "std_reward": 130.58251953125,
+    "min_reward": 500.061767578125,
+    "max_reward": 1148.3040771484375
+  },
+  {
+    "update": 139,
+    "timestep": 1591296,
+    "mean_reward": 999.9909057617188,
+    "std_reward": 246.61817932128906,
+    "min_reward": 293.0196838378906,
+    "max_reward": 1181.390869140625
+  },
+  {
+    "update": 140,
+    "timestep": 1597440,
+    "mean_reward": 991.6398315429688,
+    "std_reward": 182.29653930664062,
+    "min_reward": 456.82257080078125,
+    "max_reward": 1144.833984375
+  },
+  {
+    "update": 141,
+    "timestep": 1603584,
+    "mean_reward": 1029.5003662109375,
+    "std_reward": 183.56658935546875,
+    "min_reward": 588.5193481445312,
+    "max_reward": 1244.4677734375
+  },
+  {
+    "update": 142,
+    "timestep": 1609728,
+    "mean_reward": 935.8681640625,
+    "std_reward": 287.4918212890625,
+    "min_reward": 93.78608703613281,
+    "max_reward": 1191.4822998046875
+  },
+  {
+    "update": 143,
+    "timestep": 1615872,
+    "mean_reward": 989.45166015625,
+    "std_reward": 219.7576904296875,
+    "min_reward": 340.8968811035156,
+    "max_reward": 1148.55029296875
+  },
+  {
+    "update": 144,
+    "timestep": 1622016,
+    "mean_reward": 940.0084228515625,
+    "std_reward": 300.7657470703125,
+    "min_reward": 92.1910171508789,
+    "max_reward": 1204.6468505859375
+  },
+  {
+    "update": 145,
+    "timestep": 1628160,
+    "mean_reward": 1029.456298828125,
+    "std_reward": 244.16961669921875,
+    "min_reward": 233.27133178710938,
+    "max_reward": 1222.11669921875
+  },
+  {
+    "update": 146,
+    "timestep": 1634304,
+    "mean_reward": 1060.78564453125,
+    "std_reward": 142.88851928710938,
+    "min_reward": 471.8000793457031,
+    "max_reward": 1184.8875732421875
+  },
+  {
+    "update": 147,
+    "timestep": 1640448,
+    "mean_reward": 982.0712890625,
+    "std_reward": 241.38949584960938,
+    "min_reward": 275.0523376464844,
+    "max_reward": 1188.5816650390625
+  },
+  {
+    "update": 148,
+    "timestep": 1646592,
+    "mean_reward": 1064.232666015625,
+    "std_reward": 227.9368133544922,
+    "min_reward": 82.24466705322266,
+    "max_reward": 1172.0863037109375
+  },
+  {
+    "update": 149,
+    "timestep": 1652736,
+    "mean_reward": 961.6129760742188,
+    "std_reward": 285.335205078125,
+    "min_reward": 45.082637786865234,
+    "max_reward": 1159.703857421875
+  },
+  {
+    "update": 150,
+    "timestep": 1658880,
+    "mean_reward": 1032.987060546875,
+    "std_reward": 252.32730102539062,
+    "min_reward": 62.203311920166016,
+    "max_reward": 1184.139892578125
+  },
+  {
+    "update": 151,
+    "timestep": 1665024,
+    "mean_reward": 1011.0423583984375,
+    "std_reward": 221.268798828125,
+    "min_reward": 393.6088562011719,
+    "max_reward": 1171.0311279296875
+  },
+  {
+    "update": 152,
+    "timestep": 1671168,
+    "mean_reward": 947.0401611328125,
+    "std_reward": 358.856201171875,
+    "min_reward": 151.65895080566406,
+    "max_reward": 1228.126953125
+  },
+  {
+    "update": 153,
+    "timestep": 1677312,
+    "mean_reward": 942.6815185546875,
+    "std_reward": 270.4615478515625,
+    "min_reward": 241.40960693359375,
+    "max_reward": 1152.7794189453125
+  },
+  {
+    "update": 154,
+    "timestep": 1683456,
+    "mean_reward": 1018.7303466796875,
+    "std_reward": 249.4860076904297,
+    "min_reward": 133.01953125,
+    "max_reward": 1197.5247802734375
+  },
+  {
+    "update": 155,
+    "timestep": 1689600,
+    "mean_reward": 917.3026123046875,
+    "std_reward": 324.365234375,
+    "min_reward": 157.0791473388672,
+    "max_reward": 1186.26220703125
+  },
+  {
+    "update": 156,
+    "timestep": 1695744,
+    "mean_reward": 1062.014892578125,
+    "std_reward": 219.7539825439453,
+    "min_reward": 180.67259216308594,
+    "max_reward": 1202.8443603515625
+  },
+  {
+    "update": 157,
+    "timestep": 1701888,
+    "mean_reward": 952.3815307617188,
+    "std_reward": 263.375,
+    "min_reward": 266.6988830566406,
+    "max_reward": 1174.3431396484375
+  },
+  {
+    "update": 158,
+    "timestep": 1708032,
+    "mean_reward": 1071.474365234375,
+    "std_reward": 162.35693359375,
+    "min_reward": 662.4550170898438,
+    "max_reward": 1186.6220703125
+  },
+  {
+    "update": 159,
+    "timestep": 1714176,
+    "mean_reward": 950.1130981445312,
+    "std_reward": 334.8453369140625,
+    "min_reward": 96.71758270263672,
+    "max_reward": 1200.172119140625
+  },
+  {
+    "update": 160,
+    "timestep": 1720320,
+    "mean_reward": 945.1355590820312,
+    "std_reward": 297.1206970214844,
+    "min_reward": 342.467041015625,
+    "max_reward": 1263.45556640625
+  },
+  {
+    "update": 161,
+    "timestep": 1726464,
+    "mean_reward": 1077.916259765625,
+    "std_reward": 166.26727294921875,
+    "min_reward": 585.978515625,
+    "max_reward": 1215.2952880859375
+  },
+  {
+    "update": 162,
+    "timestep": 1732608,
+    "mean_reward": 970.8406982421875,
+    "std_reward": 340.158203125,
+    "min_reward": 68.23568725585938,
+    "max_reward": 1234.6065673828125
+  },
+  {
+    "update": 163,
+    "timestep": 1738752,
+    "mean_reward": 1112.3369140625,
+    "std_reward": 163.07662963867188,
+    "min_reward": 589.7391967773438,
+    "max_reward": 1209.13232421875
+  },
+  {
+    "update": 164,
+    "timestep": 1744896,
+    "mean_reward": 1005.5451049804688,
+    "std_reward": 243.52061462402344,
+    "min_reward": 454.611328125,
+    "max_reward": 1235.146240234375
+  },
+  {
+    "update": 165,
+    "timestep": 1751040,
+    "mean_reward": 933.3074951171875,
+    "std_reward": 373.27716064453125,
+    "min_reward": 153.9385528564453,
+    "max_reward": 1212.1597900390625
+  },
+  {
+    "update": 166,
+    "timestep": 1757184,
+    "mean_reward": 1084.361572265625,
+    "std_reward": 279.7467346191406,
+    "min_reward": 18.70615005493164,
+    "max_reward": 1286.973388671875
+  },
+  {
+    "update": 167,
+    "timestep": 1763328,
+    "mean_reward": 1131.323974609375,
+    "std_reward": 126.23160552978516,
+    "min_reward": 704.4638061523438,
+    "max_reward": 1251.3486328125
+  },
+  {
+    "update": 168,
+    "timestep": 1769472,
+    "mean_reward": 1019.87353515625,
+    "std_reward": 365.82342529296875,
+    "min_reward": 21.496475219726562,
+    "max_reward": 1278.28369140625
+  },
+  {
+    "update": 169,
+    "timestep": 1775616,
+    "mean_reward": 1078.1451416015625,
+    "std_reward": 222.16796875,
+    "min_reward": 471.4971923828125,
+    "max_reward": 1255.2769775390625
+  },
+  {
+    "update": 170,
+    "timestep": 1781760,
+    "mean_reward": 963.2301635742188,
+    "std_reward": 378.6646423339844,
+    "min_reward": 176.09014892578125,
+    "max_reward": 1252.3211669921875
+  },
+  {
+    "update": 171,
+    "timestep": 1787904,
+    "mean_reward": 1062.4560546875,
+    "std_reward": 325.3259582519531,
+    "min_reward": 221.51480102539062,
+    "max_reward": 1299.7203369140625
+  },
+  {
+    "update": 172,
+    "timestep": 1794048,
+    "mean_reward": 1148.9464111328125,
+    "std_reward": 133.48492431640625,
+    "min_reward": 734.1524047851562,
+    "max_reward": 1281.803955078125
+  },
+  {
+    "update": 173,
+    "timestep": 1800192,
+    "mean_reward": 1092.3773193359375,
+    "std_reward": 288.4229431152344,
+    "min_reward": 132.38079833984375,
+    "max_reward": 1281.8670654296875
+  },
+  {
+    "update": 174,
+    "timestep": 1806336,
+    "mean_reward": 976.2428588867188,
+    "std_reward": 351.7923278808594,
+    "min_reward": 279.28033447265625,
+    "max_reward": 1298.9141845703125
+  },
+  {
+    "update": 175,
+    "timestep": 1812480,
+    "mean_reward": 1031.8775634765625,
+    "std_reward": 342.235107421875,
+    "min_reward": 228.68885803222656,
+    "max_reward": 1283.8607177734375
+  },
+  {
+    "update": 176,
+    "timestep": 1818624,
+    "mean_reward": 1126.0982666015625,
+    "std_reward": 233.30885314941406,
+    "min_reward": 263.8996887207031,
+    "max_reward": 1274.755859375
+  },
+  {
+    "update": 177,
+    "timestep": 1824768,
+    "mean_reward": 1002.9998779296875,
+    "std_reward": 378.7003173828125,
+    "min_reward": 17.345638275146484,
+    "max_reward": 1337.528076171875
+  },
+  {
+    "update": 178,
+    "timestep": 1830912,
+    "mean_reward": 1068.178466796875,
+    "std_reward": 271.1146240234375,
+    "min_reward": 426.1837158203125,
+    "max_reward": 1338.0230712890625
+  },
+  {
+    "update": 179,
+    "timestep": 1837056,
+    "mean_reward": 1026.7100830078125,
+    "std_reward": 392.0511169433594,
+    "min_reward": 73.61228942871094,
+    "max_reward": 1294.9517822265625
+  },
+  {
+    "update": 180,
+    "timestep": 1843200,
+    "mean_reward": 1142.164306640625,
+    "std_reward": 188.11227416992188,
+    "min_reward": 597.9761962890625,
+    "max_reward": 1302.3526611328125
+  },
+  {
+    "update": 181,
+    "timestep": 1849344,
+    "mean_reward": 1084.182373046875,
+    "std_reward": 334.5849304199219,
+    "min_reward": 111.61302947998047,
+    "max_reward": 1366.3160400390625
+  },
+  {
+    "update": 182,
+    "timestep": 1855488,
+    "mean_reward": 1009.8206176757812,
+    "std_reward": 359.93402099609375,
+    "min_reward": 121.12554931640625,
+    "max_reward": 1277.6182861328125
+  },
+  {
+    "update": 183,
+    "timestep": 1861632,
+    "mean_reward": 1060.0799560546875,
+    "std_reward": 276.6656799316406,
+    "min_reward": 218.15245056152344,
+    "max_reward": 1285.0687255859375
+  },
+  {
+    "update": 184,
+    "timestep": 1867776,
+    "mean_reward": 1024.477294921875,
+    "std_reward": 383.9039611816406,
+    "min_reward": 142.2373046875,
+    "max_reward": 1330.328857421875
+  },
+  {
+    "update": 185,
+    "timestep": 1873920,
+    "mean_reward": 1094.856689453125,
+    "std_reward": 308.9699401855469,
+    "min_reward": 9.317310333251953,
+    "max_reward": 1324.0072021484375
+  },
+  {
+    "update": 186,
+    "timestep": 1880064,
+    "mean_reward": 1067.0732421875,
+    "std_reward": 351.64501953125,
+    "min_reward": 283.0037841796875,
+    "max_reward": 1311.947021484375
+  },
+  {
+    "update": 187,
+    "timestep": 1886208,
+    "mean_reward": 1085.193115234375,
+    "std_reward": 376.2217712402344,
+    "min_reward": 103.84510803222656,
+    "max_reward": 1344.3502197265625
+  },
+  {
+    "update": 188,
+    "timestep": 1892352,
+    "mean_reward": 1158.7208251953125,
+    "std_reward": 287.49627685546875,
+    "min_reward": 339.8252868652344,
+    "max_reward": 1387.5870361328125
+  },
+  {
+    "update": 189,
+    "timestep": 1898496,
+    "mean_reward": 1092.881103515625,
+    "std_reward": 374.5770568847656,
+    "min_reward": 18.490793228149414,
+    "max_reward": 1352.9752197265625
+  },
+  {
+    "update": 190,
+    "timestep": 1904640,
+    "mean_reward": 1087.09375,
+    "std_reward": 323.50628662109375,
+    "min_reward": 141.7401123046875,
+    "max_reward": 1318.324951171875
+  },
+  {
+    "update": 191,
+    "timestep": 1910784,
+    "mean_reward": 1105.146240234375,
+    "std_reward": 266.1712951660156,
+    "min_reward": 213.45086669921875,
+    "max_reward": 1339.8328857421875
+  },
+  {
+    "update": 192,
+    "timestep": 1916928,
+    "mean_reward": 1138.329345703125,
+    "std_reward": 253.44012451171875,
+    "min_reward": 532.9290161132812,
+    "max_reward": 1370.2320556640625
+  },
+  {
+    "update": 193,
+    "timestep": 1923072,
+    "mean_reward": 1236.1695556640625,
+    "std_reward": 212.67747497558594,
+    "min_reward": 364.748046875,
+    "max_reward": 1406.11572265625
+  },
+  {
+    "update": 194,
+    "timestep": 1929216,
+    "mean_reward": 1167.923828125,
+    "std_reward": 204.82582092285156,
+    "min_reward": 554.5934448242188,
+    "max_reward": 1379.40869140625
+  },
+  {
+    "update": 195,
+    "timestep": 1935360,
+    "mean_reward": 1141.8116455078125,
+    "std_reward": 282.83868408203125,
+    "min_reward": 434.8263244628906,
+    "max_reward": 1388.5064697265625
+  },
+  {
+    "update": 196,
+    "timestep": 1941504,
+    "mean_reward": 1139.4952392578125,
+    "std_reward": 331.0548095703125,
+    "min_reward": 118.56878662109375,
+    "max_reward": 1431.188720703125
+  },
+  {
+    "update": 197,
+    "timestep": 1947648,
+    "mean_reward": 1132.8778076171875,
+    "std_reward": 325.7423400878906,
+    "min_reward": 195.38720703125,
+    "max_reward": 1352.5926513671875
+  },
+  {
+    "update": 198,
+    "timestep": 1953792,
+    "mean_reward": 1029.108154296875,
+    "std_reward": 451.8876647949219,
+    "min_reward": 49.4024658203125,
+    "max_reward": 1392.7828369140625
+  },
+  {
+    "update": 199,
+    "timestep": 1959936,
+    "mean_reward": 965.8203125,
+    "std_reward": 415.9734802246094,
+    "min_reward": 234.79641723632812,
+    "max_reward": 1366.2503662109375
+  },
+  {
+    "update": 200,
+    "timestep": 1966080,
+    "mean_reward": 1155.8729248046875,
+    "std_reward": 251.0399932861328,
+    "min_reward": 420.35125732421875,
+    "max_reward": 1372.6378173828125
+  }
+]

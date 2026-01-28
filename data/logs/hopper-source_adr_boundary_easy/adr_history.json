@@ -1,0 +1,5626 @@
+[
+  {
+    "update": 1,
+    "timestep": 32768,
+    "mean_reward": 160.60137939453125,
+    "std_reward": 1.1277694702148438,
+    "min_reward": 157.54379272460938,
+    "max_reward": 162.71914672851562,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 2,
+    "timestep": 65536,
+    "mean_reward": 227.1815185546875,
+    "std_reward": 1.1081830263137817,
+    "min_reward": 225.19525146484375,
+    "max_reward": 229.60903930664062,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 3,
+    "timestep": 98304,
+    "mean_reward": 237.0275421142578,
+    "std_reward": 1.3203022480010986,
+    "min_reward": 234.56263732910156,
+    "max_reward": 239.40992736816406,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 4,
+    "timestep": 131072,
+    "mean_reward": 293.2011413574219,
+    "std_reward": 1.6492549180984497,
+    "min_reward": 291.3735656738281,
+    "max_reward": 296.8243103027344,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 5,
+    "timestep": 163840,
+    "mean_reward": 319.3353576660156,
+    "std_reward": 1.5856376886367798,
+    "min_reward": 316.5674133300781,
+    "max_reward": 321.7776794433594,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 6,
+    "timestep": 196608,
+    "mean_reward": 328.72186279296875,
+    "std_reward": 1.490612506866455,
+    "min_reward": 326.3622131347656,
+    "max_reward": 331.4564514160156,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 7,
+    "timestep": 229376,
+    "mean_reward": 353.6247253417969,
+    "std_reward": 1.3235154151916504,
+    "min_reward": 351.0055847167969,
+    "max_reward": 355.9451599121094,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 8,
+    "timestep": 262144,
+    "mean_reward": 365.83587646484375,
+    "std_reward": 1.3805991411209106,
+    "min_reward": 363.82806396484375,
+    "max_reward": 367.7203674316406,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 9,
+    "timestep": 294912,
+    "mean_reward": 383.7904357910156,
+    "std_reward": 1.964958906173706,
+    "min_reward": 380.2376708984375,
+    "max_reward": 388.15570068359375,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 10,
+    "timestep": 327680,
+    "mean_reward": 408.12664794921875,
+    "std_reward": 1.3424185514450073,
+    "min_reward": 406.3052673339844,
+    "max_reward": 410.9549255371094,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 11,
+    "timestep": 360448,
+    "mean_reward": 409.59033203125,
+    "std_reward": 2.212726593017578,
+    "min_reward": 405.5041198730469,
+    "max_reward": 413.4259948730469,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 12,
+    "timestep": 393216,
+    "mean_reward": 417.8616638183594,
+    "std_reward": 1.409043312072754,
+    "min_reward": 415.0157775878906,
+    "max_reward": 421.1703186035156,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 13,
+    "timestep": 425984,
+    "mean_reward": 420.530029296875,
+    "std_reward": 1.824405550956726,
+    "min_reward": 417.5016174316406,
+    "max_reward": 423.1072692871094,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 14,
+    "timestep": 458752,
+    "mean_reward": 426.0152282714844,
+    "std_reward": 1.510544776916504,
+    "min_reward": 422.85711669921875,
+    "max_reward": 428.47271728515625,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 15,
+    "timestep": 491520,
+    "mean_reward": 433.2470703125,
+    "std_reward": 1.71707284450531,
+    "min_reward": 430.9978332519531,
+    "max_reward": 436.5786437988281,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 16,
+    "timestep": 524288,
+    "mean_reward": 431.6859436035156,
+    "std_reward": 1.7922868728637695,
+    "min_reward": 428.22418212890625,
+    "max_reward": 434.31072998046875,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 17,
+    "timestep": 557056,
+    "mean_reward": 433.0711364746094,
+    "std_reward": 1.532204031944275,
+    "min_reward": 429.7926940917969,
+    "max_reward": 435.03765869140625,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 18,
+    "timestep": 589824,
+    "mean_reward": 441.6402893066406,
+    "std_reward": 1.9292848110198975,
+    "min_reward": 437.0889587402344,
+    "max_reward": 443.7857360839844,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 19,
+    "timestep": 622592,
+    "mean_reward": 461.8533630371094,
+    "std_reward": 1.2295212745666504,
+    "min_reward": 458.7194519042969,
+    "max_reward": 464.63885498046875,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 20,
+    "timestep": 655360,
+    "mean_reward": 492.62945556640625,
+    "std_reward": 1.4524567127227783,
+    "min_reward": 489.3570556640625,
+    "max_reward": 494.4534606933594,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 21,
+    "timestep": 688128,
+    "mean_reward": 535.6701049804688,
+    "std_reward": 1.963688850402832,
+    "min_reward": 531.2230834960938,
+    "max_reward": 538.9637451171875,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 22,
+    "timestep": 720896,
+    "mean_reward": 579.6343994140625,
+    "std_reward": 2.3984808921813965,
+    "min_reward": 574.8764038085938,
+    "max_reward": 583.8837280273438,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 23,
+    "timestep": 753664,
+    "mean_reward": 624.7037353515625,
+    "std_reward": 1.9924628734588623,
+    "min_reward": 620.71337890625,
+    "max_reward": 628.4136352539062,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 24,
+    "timestep": 786432,
+    "mean_reward": 710.5311279296875,
+    "std_reward": 1.9007269144058228,
+    "min_reward": 706.456787109375,
+    "max_reward": 714.153564453125,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 25,
+    "timestep": 819200,
+    "mean_reward": 705.0072021484375,
+    "std_reward": 2.2549006938934326,
+    "min_reward": 701.025146484375,
+    "max_reward": 711.1851806640625,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 26,
+    "timestep": 851968,
+    "mean_reward": 709.3487548828125,
+    "std_reward": 3.4941272735595703,
+    "min_reward": 703.8197021484375,
+    "max_reward": 717.041748046875,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 27,
+    "timestep": 884736,
+    "mean_reward": 724.714111328125,
+    "std_reward": 45.865230560302734,
+    "min_reward": 654.2232666015625,
+    "max_reward": 778.767333984375,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 28,
+    "timestep": 917504,
+    "mean_reward": 761.1498413085938,
+    "std_reward": 9.421064376831055,
+    "min_reward": 748.109619140625,
+    "max_reward": 780.0358276367188,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 29,
+    "timestep": 950272,
+    "mean_reward": 873.0555419921875,
+    "std_reward": 47.247066497802734,
+    "min_reward": 789.3114624023438,
+    "max_reward": 924.6565551757812,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 30,
+    "timestep": 983040,
+    "mean_reward": 676.9827270507812,
+    "std_reward": 138.2161407470703,
+    "min_reward": 561.7900390625,
+    "max_reward": 951.8721923828125,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 31,
+    "timestep": 1015808,
+    "mean_reward": 630.6301879882812,
+    "std_reward": 34.1813850402832,
+    "min_reward": 564.8492431640625,
+    "max_reward": 718.5059814453125,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 32,
+    "timestep": 1048576,
+    "mean_reward": 950.064453125,
+    "std_reward": 32.0181770324707,
+    "min_reward": 866.5195922851562,
+    "max_reward": 980.0446166992188,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 33,
+    "timestep": 1081344,
+    "mean_reward": 981.4693603515625,
+    "std_reward": 23.954193115234375,
+    "min_reward": 931.5873413085938,
+    "max_reward": 1015.5911254882812,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 34,
+    "timestep": 1114112,
+    "mean_reward": 994.2765502929688,
+    "std_reward": 7.689842224121094,
+    "min_reward": 984.239990234375,
+    "max_reward": 1010.7338256835938,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 35,
+    "timestep": 1146880,
+    "mean_reward": 971.7608642578125,
+    "std_reward": 7.034719944000244,
+    "min_reward": 960.4052124023438,
+    "max_reward": 984.6585693359375,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 36,
+    "timestep": 1179648,
+    "mean_reward": 1031.7459716796875,
+    "std_reward": 18.570951461791992,
+    "min_reward": 995.2726440429688,
+    "max_reward": 1068.3463134765625,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 37,
+    "timestep": 1212416,
+    "mean_reward": 1026.2139892578125,
+    "std_reward": 8.405696868896484,
+    "min_reward": 1009.38916015625,
+    "max_reward": 1043.580810546875,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 38,
+    "timestep": 1245184,
+    "mean_reward": 1022.6148681640625,
+    "std_reward": 26.730165481567383,
+    "min_reward": 994.4646606445312,
+    "max_reward": 1080.75732421875,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 39,
+    "timestep": 1277952,
+    "mean_reward": 999.8231201171875,
+    "std_reward": 4.448681831359863,
+    "min_reward": 992.6337890625,
+    "max_reward": 1006.1331176757812,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 40,
+    "timestep": 1310720,
+    "mean_reward": 1053.6304931640625,
+    "std_reward": 38.50969696044922,
+    "min_reward": 994.7576904296875,
+    "max_reward": 1118.8656005859375,
+    "threshold": 1218.0,
+    "status": "CONTRACT",
+    "diversity": 0.0,
+    "ranges": {
+      "thigh": [
+        1.0,
+        1.0
+      ],
+      "leg": [
+        1.0,
+        1.0
+      ],
+      "foot": [
+        1.0,
+        1.0
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 41,
+    "timestep": 1343488,
+    "mean_reward": 1272.088134765625,
+    "std_reward": 24.066505432128906,
+    "min_reward": 1214.0870361328125,
+    "max_reward": 1293.78955078125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.030000000000000027,
+    "ranges": {
+      "thigh": [
+        0.97,
+        1.03
+      ],
+      "leg": [
+        0.97,
+        1.03
+      ],
+      "foot": [
+        0.97,
+        1.03
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 42,
+    "timestep": 1376256,
+    "mean_reward": 1336.6365966796875,
+    "std_reward": 85.61441802978516,
+    "min_reward": 1263.0706787109375,
+    "max_reward": 1588.332275390625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.06000000000000005,
+    "ranges": {
+      "thigh": [
+        0.94,
+        1.06
+      ],
+      "leg": [
+        0.94,
+        1.06
+      ],
+      "foot": [
+        0.94,
+        1.06
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 43,
+    "timestep": 1409024,
+    "mean_reward": 1561.679443359375,
+    "std_reward": 71.98269653320312,
+    "min_reward": 1293.9503173828125,
+    "max_reward": 1715.01953125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.09000000000000008,
+    "ranges": {
+      "thigh": [
+        0.9099999999999999,
+        1.09
+      ],
+      "leg": [
+        0.9099999999999999,
+        1.09
+      ],
+      "foot": [
+        0.9099999999999999,
+        1.09
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 44,
+    "timestep": 1441792,
+    "mean_reward": 1547.1295166015625,
+    "std_reward": 58.79640197753906,
+    "min_reward": 1304.0438232421875,
+    "max_reward": 1596.4193115234375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.1200000000000001,
+    "ranges": {
+      "thigh": [
+        0.8799999999999999,
+        1.12
+      ],
+      "leg": [
+        0.8799999999999999,
+        1.12
+      ],
+      "foot": [
+        0.8799999999999999,
+        1.12
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 45,
+    "timestep": 1474560,
+    "mean_reward": 1551.0413818359375,
+    "std_reward": 30.756227493286133,
+    "min_reward": 1437.287841796875,
+    "max_reward": 1578.7796630859375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.15000000000000013,
+    "ranges": {
+      "thigh": [
+        0.8499999999999999,
+        1.1500000000000001
+      ],
+      "leg": [
+        0.8499999999999999,
+        1.1500000000000001
+      ],
+      "foot": [
+        0.8499999999999999,
+        1.1500000000000001
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 46,
+    "timestep": 1507328,
+    "mean_reward": 1561.7425537109375,
+    "std_reward": 28.035314559936523,
+    "min_reward": 1513.0015869140625,
+    "max_reward": 1631.8236083984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.18000000000000016,
+    "ranges": {
+      "thigh": [
+        0.8199999999999998,
+        1.1800000000000002
+      ],
+      "leg": [
+        0.8199999999999998,
+        1.1800000000000002
+      ],
+      "foot": [
+        0.8199999999999998,
+        1.1800000000000002
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 47,
+    "timestep": 1540096,
+    "mean_reward": 1501.992919921875,
+    "std_reward": 163.36837768554688,
+    "min_reward": 942.1734008789062,
+    "max_reward": 1607.0648193359375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.2100000000000002,
+    "ranges": {
+      "thigh": [
+        0.7899999999999998,
+        1.2100000000000002
+      ],
+      "leg": [
+        0.7899999999999998,
+        1.2100000000000002
+      ],
+      "foot": [
+        0.7899999999999998,
+        1.2100000000000002
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 48,
+    "timestep": 1572864,
+    "mean_reward": 1575.08544921875,
+    "std_reward": 43.95751190185547,
+    "min_reward": 1508.257568359375,
+    "max_reward": 1659.375732421875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.2400000000000002,
+    "ranges": {
+      "thigh": [
+        0.7599999999999998,
+        1.2400000000000002
+      ],
+      "leg": [
+        0.7599999999999998,
+        1.2400000000000002
+      ],
+      "foot": [
+        0.7599999999999998,
+        1.2400000000000002
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 49,
+    "timestep": 1605632,
+    "mean_reward": 1564.5970458984375,
+    "std_reward": 56.470340728759766,
+    "min_reward": 1465.7371826171875,
+    "max_reward": 1653.525146484375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.27000000000000024,
+    "ranges": {
+      "thigh": [
+        0.7299999999999998,
+        1.2700000000000002
+      ],
+      "leg": [
+        0.7299999999999998,
+        1.2700000000000002
+      ],
+      "foot": [
+        0.7299999999999998,
+        1.2700000000000002
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 50,
+    "timestep": 1638400,
+    "mean_reward": 1568.3087158203125,
+    "std_reward": 103.84478759765625,
+    "min_reward": 1160.244384765625,
+    "max_reward": 1701.691162109375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 51,
+    "timestep": 1671168,
+    "mean_reward": 1593.0447998046875,
+    "std_reward": 55.11174392700195,
+    "min_reward": 1477.116455078125,
+    "max_reward": 1673.50830078125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 52,
+    "timestep": 1703936,
+    "mean_reward": 1561.1865234375,
+    "std_reward": 63.49454116821289,
+    "min_reward": 1447.9923095703125,
+    "max_reward": 1666.36962890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 53,
+    "timestep": 1736704,
+    "mean_reward": 1589.8992919921875,
+    "std_reward": 42.9263801574707,
+    "min_reward": 1477.3504638671875,
+    "max_reward": 1668.31787109375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 54,
+    "timestep": 1769472,
+    "mean_reward": 1575.896484375,
+    "std_reward": 63.75386428833008,
+    "min_reward": 1492.05908203125,
+    "max_reward": 1679.3143310546875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 55,
+    "timestep": 1802240,
+    "mean_reward": 1579.32470703125,
+    "std_reward": 58.039546966552734,
+    "min_reward": 1465.4725341796875,
+    "max_reward": 1668.71142578125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 56,
+    "timestep": 1835008,
+    "mean_reward": 1613.346435546875,
+    "std_reward": 43.541954040527344,
+    "min_reward": 1541.906982421875,
+    "max_reward": 1712.2193603515625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 57,
+    "timestep": 1867776,
+    "mean_reward": 1620.7537841796875,
+    "std_reward": 45.75981140136719,
+    "min_reward": 1541.6072998046875,
+    "max_reward": 1711.1654052734375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 58,
+    "timestep": 1900544,
+    "mean_reward": 1634.364501953125,
+    "std_reward": 37.56391525268555,
+    "min_reward": 1531.660400390625,
+    "max_reward": 1690.2431640625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 59,
+    "timestep": 1933312,
+    "mean_reward": 1650.6207275390625,
+    "std_reward": 45.3617057800293,
+    "min_reward": 1568.6834716796875,
+    "max_reward": 1719.510498046875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 60,
+    "timestep": 1966080,
+    "mean_reward": 1638.498779296875,
+    "std_reward": 63.956398010253906,
+    "min_reward": 1501.7049560546875,
+    "max_reward": 1742.260498046875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 61,
+    "timestep": 1998848,
+    "mean_reward": 1658.7093505859375,
+    "std_reward": 53.610328674316406,
+    "min_reward": 1540.3695068359375,
+    "max_reward": 1738.896728515625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 62,
+    "timestep": 2031616,
+    "mean_reward": 1641.685791015625,
+    "std_reward": 67.26605224609375,
+    "min_reward": 1525.29541015625,
+    "max_reward": 1779.3411865234375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 63,
+    "timestep": 2064384,
+    "mean_reward": 1667.9827880859375,
+    "std_reward": 53.5891227722168,
+    "min_reward": 1574.3740234375,
+    "max_reward": 1745.78076171875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 64,
+    "timestep": 2097152,
+    "mean_reward": 1655.7496337890625,
+    "std_reward": 60.20596694946289,
+    "min_reward": 1559.7098388671875,
+    "max_reward": 1762.273681640625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 65,
+    "timestep": 2129920,
+    "mean_reward": 1680.4759521484375,
+    "std_reward": 49.004737854003906,
+    "min_reward": 1573.99560546875,
+    "max_reward": 1750.5797119140625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 66,
+    "timestep": 2162688,
+    "mean_reward": 1686.151611328125,
+    "std_reward": 56.55381393432617,
+    "min_reward": 1569.9263916015625,
+    "max_reward": 1769.24072265625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 67,
+    "timestep": 2195456,
+    "mean_reward": 1695.1744384765625,
+    "std_reward": 35.86977005004883,
+    "min_reward": 1625.636474609375,
+    "max_reward": 1753.2838134765625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 68,
+    "timestep": 2228224,
+    "mean_reward": 1699.792236328125,
+    "std_reward": 40.20261764526367,
+    "min_reward": 1626.775390625,
+    "max_reward": 1766.2064208984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 69,
+    "timestep": 2260992,
+    "mean_reward": 1704.8746337890625,
+    "std_reward": 39.01858901977539,
+    "min_reward": 1619.222412109375,
+    "max_reward": 1773.216064453125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 70,
+    "timestep": 2293760,
+    "mean_reward": 1684.328857421875,
+    "std_reward": 51.171791076660156,
+    "min_reward": 1560.164306640625,
+    "max_reward": 1768.771728515625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 71,
+    "timestep": 2326528,
+    "mean_reward": 1709.2734375,
+    "std_reward": 49.38432312011719,
+    "min_reward": 1543.1136474609375,
+    "max_reward": 1767.4954833984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 72,
+    "timestep": 2359296,
+    "mean_reward": 1705.580322265625,
+    "std_reward": 34.82611083984375,
+    "min_reward": 1637.3956298828125,
+    "max_reward": 1756.423828125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 73,
+    "timestep": 2392064,
+    "mean_reward": 1707.400634765625,
+    "std_reward": 31.634199142456055,
+    "min_reward": 1647.55224609375,
+    "max_reward": 1757.988037109375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 74,
+    "timestep": 2424832,
+    "mean_reward": 1679.5911865234375,
+    "std_reward": 62.069984436035156,
+    "min_reward": 1557.3785400390625,
+    "max_reward": 1759.3026123046875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 75,
+    "timestep": 2457600,
+    "mean_reward": 1724.1734619140625,
+    "std_reward": 51.261932373046875,
+    "min_reward": 1590.6768798828125,
+    "max_reward": 1791.891845703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 76,
+    "timestep": 2490368,
+    "mean_reward": 1723.9534912109375,
+    "std_reward": 77.18868255615234,
+    "min_reward": 1444.5833740234375,
+    "max_reward": 1811.8916015625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 77,
+    "timestep": 2523136,
+    "mean_reward": 1749.5592041015625,
+    "std_reward": 51.17793655395508,
+    "min_reward": 1643.78564453125,
+    "max_reward": 1814.8277587890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 78,
+    "timestep": 2555904,
+    "mean_reward": 1735.51953125,
+    "std_reward": 38.43867492675781,
+    "min_reward": 1664.7738037109375,
+    "max_reward": 1804.197021484375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 79,
+    "timestep": 2588672,
+    "mean_reward": 1718.9144287109375,
+    "std_reward": 38.09018325805664,
+    "min_reward": 1653.181640625,
+    "max_reward": 1797.8629150390625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 80,
+    "timestep": 2621440,
+    "mean_reward": 1696.340087890625,
+    "std_reward": 40.34897232055664,
+    "min_reward": 1612.6932373046875,
+    "max_reward": 1778.2005615234375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 81,
+    "timestep": 2654208,
+    "mean_reward": 1742.490234375,
+    "std_reward": 38.93862533569336,
+    "min_reward": 1644.384033203125,
+    "max_reward": 1802.270751953125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 82,
+    "timestep": 2686976,
+    "mean_reward": 1743.6390380859375,
+    "std_reward": 47.18115234375,
+    "min_reward": 1648.8446044921875,
+    "max_reward": 1804.5518798828125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 83,
+    "timestep": 2719744,
+    "mean_reward": 1712.328125,
+    "std_reward": 36.723384857177734,
+    "min_reward": 1642.8900146484375,
+    "max_reward": 1780.6124267578125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 84,
+    "timestep": 2752512,
+    "mean_reward": 1727.0062255859375,
+    "std_reward": 39.54759216308594,
+    "min_reward": 1671.6580810546875,
+    "max_reward": 1815.4501953125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 85,
+    "timestep": 2785280,
+    "mean_reward": 1727.4564208984375,
+    "std_reward": 56.5561637878418,
+    "min_reward": 1623.3056640625,
+    "max_reward": 1810.1041259765625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 86,
+    "timestep": 2818048,
+    "mean_reward": 1725.662109375,
+    "std_reward": 52.733707427978516,
+    "min_reward": 1659.9993896484375,
+    "max_reward": 1846.6429443359375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 87,
+    "timestep": 2850816,
+    "mean_reward": 1721.925537109375,
+    "std_reward": 50.424354553222656,
+    "min_reward": 1638.8272705078125,
+    "max_reward": 1820.285888671875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 88,
+    "timestep": 2883584,
+    "mean_reward": 1727.7132568359375,
+    "std_reward": 30.00375747680664,
+    "min_reward": 1681.459228515625,
+    "max_reward": 1778.414306640625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 89,
+    "timestep": 2916352,
+    "mean_reward": 1741.6767578125,
+    "std_reward": 46.95013427734375,
+    "min_reward": 1623.669189453125,
+    "max_reward": 1812.82421875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 90,
+    "timestep": 2949120,
+    "mean_reward": 1731.391845703125,
+    "std_reward": 51.78754806518555,
+    "min_reward": 1635.755615234375,
+    "max_reward": 1813.200439453125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 91,
+    "timestep": 2981888,
+    "mean_reward": 1733.514404296875,
+    "std_reward": 44.8526611328125,
+    "min_reward": 1621.329345703125,
+    "max_reward": 1796.8658447265625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 92,
+    "timestep": 3014656,
+    "mean_reward": 1739.665283203125,
+    "std_reward": 47.24977493286133,
+    "min_reward": 1680.4573974609375,
+    "max_reward": 1811.63330078125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 93,
+    "timestep": 3047424,
+    "mean_reward": 1750.077880859375,
+    "std_reward": 45.58500671386719,
+    "min_reward": 1660.398193359375,
+    "max_reward": 1825.0955810546875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 94,
+    "timestep": 3080192,
+    "mean_reward": 1751.6732177734375,
+    "std_reward": 35.281959533691406,
+    "min_reward": 1675.09326171875,
+    "max_reward": 1811.532470703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 95,
+    "timestep": 3112960,
+    "mean_reward": 1764.8037109375,
+    "std_reward": 40.64475631713867,
+    "min_reward": 1672.3724365234375,
+    "max_reward": 1826.476318359375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 96,
+    "timestep": 3145728,
+    "mean_reward": 1744.560546875,
+    "std_reward": 45.14237976074219,
+    "min_reward": 1644.9412841796875,
+    "max_reward": 1803.9686279296875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 97,
+    "timestep": 3178496,
+    "mean_reward": 1742.2376708984375,
+    "std_reward": 42.46845245361328,
+    "min_reward": 1678.9549560546875,
+    "max_reward": 1810.078369140625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 98,
+    "timestep": 3211264,
+    "mean_reward": 1748.8228759765625,
+    "std_reward": 43.321571350097656,
+    "min_reward": 1686.865966796875,
+    "max_reward": 1830.048095703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 99,
+    "timestep": 3244032,
+    "mean_reward": 1747.4537353515625,
+    "std_reward": 45.56120681762695,
+    "min_reward": 1672.052734375,
+    "max_reward": 1820.1964111328125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 100,
+    "timestep": 3276800,
+    "mean_reward": 1744.834228515625,
+    "std_reward": 42.915199279785156,
+    "min_reward": 1674.113525390625,
+    "max_reward": 1837.6416015625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 101,
+    "timestep": 3309568,
+    "mean_reward": 1736.841552734375,
+    "std_reward": 49.23447799682617,
+    "min_reward": 1637.0145263671875,
+    "max_reward": 1817.1629638671875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 102,
+    "timestep": 3342336,
+    "mean_reward": 1755.5872802734375,
+    "std_reward": 39.93902587890625,
+    "min_reward": 1694.7626953125,
+    "max_reward": 1821.7869873046875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 103,
+    "timestep": 3375104,
+    "mean_reward": 1739.9136962890625,
+    "std_reward": 29.730491638183594,
+    "min_reward": 1683.4833984375,
+    "max_reward": 1796.4324951171875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 104,
+    "timestep": 3407872,
+    "mean_reward": 1739.154541015625,
+    "std_reward": 37.74312210083008,
+    "min_reward": 1686.7030029296875,
+    "max_reward": 1794.493408203125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 105,
+    "timestep": 3440640,
+    "mean_reward": 1729.735107421875,
+    "std_reward": 37.88196563720703,
+    "min_reward": 1652.310791015625,
+    "max_reward": 1804.7735595703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 106,
+    "timestep": 3473408,
+    "mean_reward": 1710.6705322265625,
+    "std_reward": 44.45158767700195,
+    "min_reward": 1650.373779296875,
+    "max_reward": 1810.19580078125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 107,
+    "timestep": 3506176,
+    "mean_reward": 1728.2738037109375,
+    "std_reward": 79.43974304199219,
+    "min_reward": 1469.6729736328125,
+    "max_reward": 1811.7567138671875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 108,
+    "timestep": 3538944,
+    "mean_reward": 1753.453857421875,
+    "std_reward": 46.10541534423828,
+    "min_reward": 1678.5142822265625,
+    "max_reward": 1826.8551025390625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 109,
+    "timestep": 3571712,
+    "mean_reward": 1759.755126953125,
+    "std_reward": 50.63330078125,
+    "min_reward": 1662.87158203125,
+    "max_reward": 1828.3936767578125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 110,
+    "timestep": 3604480,
+    "mean_reward": 1754.749267578125,
+    "std_reward": 54.046390533447266,
+    "min_reward": 1619.4664306640625,
+    "max_reward": 1826.39013671875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 111,
+    "timestep": 3637248,
+    "mean_reward": 1718.3824462890625,
+    "std_reward": 48.19192886352539,
+    "min_reward": 1543.7340087890625,
+    "max_reward": 1794.0518798828125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 112,
+    "timestep": 3670016,
+    "mean_reward": 1758.3489990234375,
+    "std_reward": 50.86359786987305,
+    "min_reward": 1611.564208984375,
+    "max_reward": 1825.2662353515625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 113,
+    "timestep": 3702784,
+    "mean_reward": 1773.3138427734375,
+    "std_reward": 39.56802749633789,
+    "min_reward": 1694.61279296875,
+    "max_reward": 1835.928955078125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 114,
+    "timestep": 3735552,
+    "mean_reward": 1761.7523193359375,
+    "std_reward": 44.165809631347656,
+    "min_reward": 1699.0711669921875,
+    "max_reward": 1834.8236083984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 115,
+    "timestep": 3768320,
+    "mean_reward": 1760.9970703125,
+    "std_reward": 36.115867614746094,
+    "min_reward": 1694.7572021484375,
+    "max_reward": 1826.6319580078125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 116,
+    "timestep": 3801088,
+    "mean_reward": 1759.7919921875,
+    "std_reward": 47.86471939086914,
+    "min_reward": 1691.5142822265625,
+    "max_reward": 1841.841552734375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 117,
+    "timestep": 3833856,
+    "mean_reward": 1751.8958740234375,
+    "std_reward": 44.62511444091797,
+    "min_reward": 1690.530029296875,
+    "max_reward": 1858.231689453125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 118,
+    "timestep": 3866624,
+    "mean_reward": 1755.7242431640625,
+    "std_reward": 55.462074279785156,
+    "min_reward": 1656.6678466796875,
+    "max_reward": 1833.04541015625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 119,
+    "timestep": 3899392,
+    "mean_reward": 1756.546630859375,
+    "std_reward": 40.79548645019531,
+    "min_reward": 1692.6793212890625,
+    "max_reward": 1834.024658203125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 120,
+    "timestep": 3932160,
+    "mean_reward": 1743.2015380859375,
+    "std_reward": 40.645626068115234,
+    "min_reward": 1665.938232421875,
+    "max_reward": 1826.8704833984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 121,
+    "timestep": 3964928,
+    "mean_reward": 1753.261474609375,
+    "std_reward": 36.6595458984375,
+    "min_reward": 1678.1396484375,
+    "max_reward": 1804.783447265625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 122,
+    "timestep": 3997696,
+    "mean_reward": 1764.9697265625,
+    "std_reward": 43.52040100097656,
+    "min_reward": 1690.98779296875,
+    "max_reward": 1848.1513671875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 123,
+    "timestep": 4030464,
+    "mean_reward": 1768.4945068359375,
+    "std_reward": 40.86317443847656,
+    "min_reward": 1683.9498291015625,
+    "max_reward": 1833.962890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 124,
+    "timestep": 4063232,
+    "mean_reward": 1774.580322265625,
+    "std_reward": 42.38336944580078,
+    "min_reward": 1705.4410400390625,
+    "max_reward": 1849.3280029296875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 125,
+    "timestep": 4096000,
+    "mean_reward": 1754.6849365234375,
+    "std_reward": 40.899330139160156,
+    "min_reward": 1694.71484375,
+    "max_reward": 1829.2308349609375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 126,
+    "timestep": 4128768,
+    "mean_reward": 1742.786376953125,
+    "std_reward": 44.934871673583984,
+    "min_reward": 1689.0179443359375,
+    "max_reward": 1862.3966064453125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 127,
+    "timestep": 4161536,
+    "mean_reward": 1747.4853515625,
+    "std_reward": 40.420631408691406,
+    "min_reward": 1676.05712890625,
+    "max_reward": 1829.9688720703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 128,
+    "timestep": 4194304,
+    "mean_reward": 1760.4996337890625,
+    "std_reward": 35.38270568847656,
+    "min_reward": 1701.994140625,
+    "max_reward": 1818.5469970703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 129,
+    "timestep": 4227072,
+    "mean_reward": 1754.950439453125,
+    "std_reward": 63.5190544128418,
+    "min_reward": 1587.544677734375,
+    "max_reward": 1850.83203125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 130,
+    "timestep": 4259840,
+    "mean_reward": 1751.8629150390625,
+    "std_reward": 47.553531646728516,
+    "min_reward": 1652.1934814453125,
+    "max_reward": 1832.157958984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 131,
+    "timestep": 4292608,
+    "mean_reward": 1766.654296875,
+    "std_reward": 33.28814697265625,
+    "min_reward": 1688.2772216796875,
+    "max_reward": 1827.34375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 132,
+    "timestep": 4325376,
+    "mean_reward": 1755.9368896484375,
+    "std_reward": 51.4086799621582,
+    "min_reward": 1673.822265625,
+    "max_reward": 1846.671875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 133,
+    "timestep": 4358144,
+    "mean_reward": 1747.861328125,
+    "std_reward": 53.7947883605957,
+    "min_reward": 1583.4788818359375,
+    "max_reward": 1827.583984375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 134,
+    "timestep": 4390912,
+    "mean_reward": 1752.907958984375,
+    "std_reward": 45.56083297729492,
+    "min_reward": 1683.799072265625,
+    "max_reward": 1842.107177734375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 135,
+    "timestep": 4423680,
+    "mean_reward": 1776.212890625,
+    "std_reward": 39.79909133911133,
+    "min_reward": 1715.7281494140625,
+    "max_reward": 1839.2886962890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 136,
+    "timestep": 4456448,
+    "mean_reward": 1774.9642333984375,
+    "std_reward": 36.32078552246094,
+    "min_reward": 1705.1175537109375,
+    "max_reward": 1834.7110595703125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 137,
+    "timestep": 4489216,
+    "mean_reward": 1754.7691650390625,
+    "std_reward": 41.65293884277344,
+    "min_reward": 1636.6405029296875,
+    "max_reward": 1831.21435546875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 138,
+    "timestep": 4521984,
+    "mean_reward": 1761.571044921875,
+    "std_reward": 40.22715377807617,
+    "min_reward": 1703.0777587890625,
+    "max_reward": 1830.3277587890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 139,
+    "timestep": 4554752,
+    "mean_reward": 1766.366455078125,
+    "std_reward": 39.841400146484375,
+    "min_reward": 1683.893798828125,
+    "max_reward": 1831.668701171875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 140,
+    "timestep": 4587520,
+    "mean_reward": 1778.323486328125,
+    "std_reward": 53.448341369628906,
+    "min_reward": 1694.0816650390625,
+    "max_reward": 1873.6824951171875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 141,
+    "timestep": 4620288,
+    "mean_reward": 1753.7425537109375,
+    "std_reward": 41.14181900024414,
+    "min_reward": 1700.835693359375,
+    "max_reward": 1844.291748046875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 142,
+    "timestep": 4653056,
+    "mean_reward": 1759.4700927734375,
+    "std_reward": 41.96131896972656,
+    "min_reward": 1692.11865234375,
+    "max_reward": 1860.1630859375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 143,
+    "timestep": 4685824,
+    "mean_reward": 1774.7640380859375,
+    "std_reward": 41.65913772583008,
+    "min_reward": 1706.525634765625,
+    "max_reward": 1850.5068359375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 144,
+    "timestep": 4718592,
+    "mean_reward": 1754.741943359375,
+    "std_reward": 52.342735290527344,
+    "min_reward": 1683.18408203125,
+    "max_reward": 1841.4527587890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 145,
+    "timestep": 4751360,
+    "mean_reward": 1763.739013671875,
+    "std_reward": 38.509368896484375,
+    "min_reward": 1691.9683837890625,
+    "max_reward": 1831.3399658203125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 146,
+    "timestep": 4784128,
+    "mean_reward": 1744.9853515625,
+    "std_reward": 51.13478088378906,
+    "min_reward": 1674.048583984375,
+    "max_reward": 1852.2637939453125,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 147,
+    "timestep": 4816896,
+    "mean_reward": 1788.5621337890625,
+    "std_reward": 46.859466552734375,
+    "min_reward": 1712.6365966796875,
+    "max_reward": 1865.8665771484375,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 148,
+    "timestep": 4849664,
+    "mean_reward": 1765.4603271484375,
+    "std_reward": 43.16204071044922,
+    "min_reward": 1702.7174072265625,
+    "max_reward": 1848.0828857421875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 149,
+    "timestep": 4882432,
+    "mean_reward": 1787.3060302734375,
+    "std_reward": 55.563232421875,
+    "min_reward": 1703.9591064453125,
+    "max_reward": 1881.951904296875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 150,
+    "timestep": 4915200,
+    "mean_reward": 1773.9771728515625,
+    "std_reward": 41.62470245361328,
+    "min_reward": 1691.53857421875,
+    "max_reward": 1851.2105712890625,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 151,
+    "timestep": 4947968,
+    "mean_reward": 1789.6566162109375,
+    "std_reward": 45.02045440673828,
+    "min_reward": 1721.8341064453125,
+    "max_reward": 1852.0701904296875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  {
+    "update": 152,
+    "timestep": 4980736,
+    "mean_reward": 1800.2447509765625,
+    "std_reward": 48.158058166503906,
+    "min_reward": 1703.5545654296875,
+    "max_reward": 1864.8768310546875,
+    "threshold": 1218.0,
+    "status": "EXPAND",
+    "diversity": 0.30000000000000004,
+    "ranges": {
+      "thigh": [
+        0.7,
+        1.3
+      ],
+      "leg": [
+        0.7,
+        1.3
+      ],
+      "foot": [
+        0.7,
+        1.3
+      ],
+      "friction": [
+        1.0,
+        1.0
+      ],
+      "gravity": [
+        -9.81,
+        -9.81
+      ],
+      "force_magnitude": [
+        0.0,
+        0.0
+      ]
+    }
+  }
+]
